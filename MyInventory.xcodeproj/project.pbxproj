@@ -9,21 +9,33 @@
 /* Begin PBXBuildFile section */
 		982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798082B21EB4C0049D69F /* AppDelegate.swift */; };
 		9827980B2B21EB4C0049D69F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827980A2B21EB4C0049D69F /* SceneDelegate.swift */; };
-		9827980D2B21EB4C0049D69F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827980C2B21EB4C0049D69F /* ViewController.swift */; };
-		982798102B21EB4C0049D69F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9827980E2B21EB4C0049D69F /* Main.storyboard */; };
 		982798122B21EB4E0049D69F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 982798112B21EB4E0049D69F /* Assets.xcassets */; };
 		982798152B21EB4E0049D69F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 982798132B21EB4E0049D69F /* LaunchScreen.storyboard */; };
+		9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827981C2B21EBBE0049D69F /* InventoryModel.swift */; };
+		982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798212B21EDC90049D69F /* InventoryListViewController.swift */; };
+		982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798242B238C170049D69F /* CreateNewInventoryViewController.swift */; };
+		982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798262B238CBB0049D69F /* InventoryDetailViewController.swift */; };
+		9827982A2B24F4020049D69F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798292B24F4020049D69F /* DatabaseManager.swift */; };
+		9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */; };
+		982798312B279D120049D69F /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798302B279D120049D69F /* InventoryViewModel.swift */; };
+		986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		982798052B21EB4C0049D69F /* MyInventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyInventory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		982798082B21EB4C0049D69F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9827980A2B21EB4C0049D69F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9827980C2B21EB4C0049D69F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		9827980F2B21EB4C0049D69F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		982798112B21EB4E0049D69F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		982798142B21EB4E0049D69F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		982798162B21EB4E0049D69F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9827981C2B21EBBE0049D69F /* InventoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModel.swift; sourceTree = "<group>"; };
+		982798212B21EDC90049D69F /* InventoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryListViewController.swift; sourceTree = "<group>"; };
+		982798242B238C170049D69F /* CreateNewInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewInventoryViewController.swift; sourceTree = "<group>"; };
+		982798262B238CBB0049D69F /* InventoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryDetailViewController.swift; sourceTree = "<group>"; };
+		982798292B24F4020049D69F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModelSwiftData.swift; sourceTree = "<group>"; };
+		982798302B279D120049D69F /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
+		986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +68,69 @@
 		982798072B21EB4C0049D69F /* MyInventory */ = {
 			isa = PBXGroup;
 			children = (
+				982798282B24F2FF0049D69F /* Data */,
+				9827981E2B21EBF10049D69F /* Domain */,
+				982798232B233B4D0049D69F /* ViewControllers */,
 				982798082B21EB4C0049D69F /* AppDelegate.swift */,
 				9827980A2B21EB4C0049D69F /* SceneDelegate.swift */,
-				9827980C2B21EB4C0049D69F /* ViewController.swift */,
-				9827980E2B21EB4C0049D69F /* Main.storyboard */,
 				982798112B21EB4E0049D69F /* Assets.xcassets */,
 				982798132B21EB4E0049D69F /* LaunchScreen.storyboard */,
 				982798162B21EB4E0049D69F /* Info.plist */,
 			);
 			path = MyInventory;
+			sourceTree = "<group>";
+		};
+		9827981E2B21EBF10049D69F /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				9827982F2B279CF90049D69F /* ViewModel */,
+				9827982B2B2799380049D69F /* Model */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		982798232B233B4D0049D69F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				982798212B21EDC90049D69F /* InventoryListViewController.swift */,
+				982798242B238C170049D69F /* CreateNewInventoryViewController.swift */,
+				982798262B238CBB0049D69F /* InventoryDetailViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		982798282B24F2FF0049D69F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				982798292B24F4020049D69F /* DatabaseManager.swift */,
+				986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */,
+				9827982C2B279BC90049D69F /* Model */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9827982B2B2799380049D69F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9827981C2B21EBBE0049D69F /* InventoryModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9827982C2B279BC90049D69F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9827982F2B279CF90049D69F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				982798302B279D120049D69F /* InventoryViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +193,6 @@
 			files = (
 				982798152B21EB4E0049D69F /* LaunchScreen.storyboard in Resources */,
 				982798122B21EB4E0049D69F /* Assets.xcassets in Resources */,
-				982798102B21EB4C0049D69F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +203,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9827980D2B21EB4C0049D69F /* ViewController.swift in Sources */,
+				982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */,
+				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
+				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
+				986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */,
+				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
+				9827982A2B24F4020049D69F /* DatabaseManager.swift in Sources */,
+				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,
+				9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */,
 				9827980B2B21EB4C0049D69F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +219,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		9827980E2B21EB4C0049D69F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9827980F2B21EB4C0049D69F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		982798132B21EB4E0049D69F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -291,9 +355,9 @@
 				INFOPLIST_FILE = MyInventory/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -318,9 +382,9 @@
 				INFOPLIST_FILE = MyInventory/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
