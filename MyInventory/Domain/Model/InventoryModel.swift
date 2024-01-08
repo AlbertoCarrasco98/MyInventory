@@ -2,7 +2,7 @@ import Foundation
 
 struct InventoryModel {
     let title: String
-    let elements: [Element]
+    var elements: [Element]
 
     struct Element {
         let title: String

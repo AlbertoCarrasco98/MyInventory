@@ -90,7 +90,7 @@ class InventoryListViewController: UIViewController {
         addInventoryButton.addTarget(self, action: #selector(addInventoryButtonTapped), for: .touchUpInside)
         addInventoryButton.setTitle("Crea un nuevo inventario", for: .normal)
         addInventoryButton.titleLabel?.textAlignment = .center
-        addInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 12)
+        addInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         addInventoryButton.setTitleColor(.black, for: .normal)
     }
 
@@ -122,7 +122,7 @@ extension InventoryListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedInventory = viewModel.inventoryList[indexPath.row]
-        let inventoryDetailVC = InventoryDetailViewController(inventario: selectedInventory, viewModel: viewModel)
+        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory, viewModel: viewModel)
         self.navigationController?.pushViewController(inventoryDetailVC, animated: true)
         inventoryDetailVC.title = selectedInventory.title
     }

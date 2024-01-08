@@ -9,8 +9,8 @@ import SwiftData
 class InventoryModelSwiftData {
     @Attribute(.unique)  // Hace que no pueda haber mas de un inventario con el mismo title
     let title: String
-    @Relationship(deleteRule: .cascade)  // Cuando elimine un inventario tambien se eliminaran todos sus elementos de la bsase de datos
-    let elements: [ElementSwiftData]
+    @Relationship(deleteRule: .cascade)  // Cuando elimine un inventario tambien se eliminaran todos sus elementos de la base de datos
+    var elements: [ElementSwiftData]
 
     init(title: String, elements: [ElementSwiftData]) {
         self.title = title
@@ -22,13 +22,9 @@ class InventoryModelSwiftData {
         let title: String
         let date: Date
 
-        init(title: String, date: Date) {
+        init(title: String, date: Date = Date()) {
             self.title = title
             self.date = date
         }
     }
-}
-
-extension InventoryModelSwiftData: Equatable {
-
 }

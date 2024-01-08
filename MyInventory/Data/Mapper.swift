@@ -7,6 +7,13 @@ class Mapper {
                                        elements: map(elements: inventory.elements))
     }
 
+    static func map(element: InventoryModel.Element) -> InventoryModelSwiftData.ElementSwiftData {
+        let elementSwiftData = InventoryModelSwiftData.ElementSwiftData(title: element.title,
+                                                                        date: element.creationDate)
+        return elementSwiftData
+    }
+
+
     static func map(elements: [InventoryModel.Element]) -> [InventoryModelSwiftData.ElementSwiftData] {
         var elementsSwiftData: [InventoryModelSwiftData.ElementSwiftData] = []
         for element in elements {
@@ -25,12 +32,12 @@ class Mapper {
     }
 
     static func map(elements: [InventoryModelSwiftData.ElementSwiftData]) -> [InventoryModel.Element] {
-        var elements: [InventoryModel.Element] = []
+        var mappedElements: [InventoryModel.Element] = []
         for element in elements {
             let elementInventoryModel = InventoryModel.Element(title: element.title)
-            elements.append(elementInventoryModel)
+            mappedElements.append(elementInventoryModel)
         }
-        return elements
+        return mappedElements
     }
 
 //    static func map(element: InventoryModel.Element) -> InventoryModelSwiftData.ElementSwiftData {

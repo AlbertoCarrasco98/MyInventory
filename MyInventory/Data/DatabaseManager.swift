@@ -28,10 +28,14 @@ class DatabaseManager {
         }
     }
 
-    func saveElement(element: [InventoryModel.Element]) {
-        let elementSwiftData = Mapper.map(elements: element)
-        context.insert(elementSwiftData)
+    func createNewElement(elementTitle: String, for inventory: InventoryModel) -> InventoryModel? {
+        guard let inventory = try? getInventory(withTitle: inventory.title) else { return nil }
+        let element = InventoryModelSwiftData.ElementSwiftData(title: elementTitle)
+        inventory.elements.append(element)
+        let updatedInventory = inventory
+        context.insert(updatedInventory)
         try? context.save()
+        return Mapper.map(inventory: updatedInventory)
     }
 
     func saveInventory(inventory: InventoryModel) {   // Guarda los inventaios en base de datos
@@ -56,6 +60,7 @@ class DatabaseManager {
             print("No se ha podido borrar el inventario")
         }
     }
+
 
     func getInventory(withTitle title: String) throws -> InventoryModelSwiftData? {
         do {

@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-class InventoryDetailViewController: UIViewController {
+class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: - Properties
 
@@ -11,11 +11,11 @@ class InventoryDetailViewController: UIViewController {
 
     let viewModel: InventoryViewModel
 
-    var inventario: InventoryModel
+    var inventory: InventoryModel
     var cancellables: Set<AnyCancellable> = []
 
-    init(inventario: InventoryModel, viewModel: InventoryViewModel) {
-        self.inventario = inventario
+    init(inventory: InventoryModel, viewModel: InventoryViewModel) {
+        self.inventory = inventory
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -28,18 +28,18 @@ class InventoryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        listenViewModel()
     }
 
-//    func listenViewModel() {
-//        viewModel.inventoryDeletedSignal.sink { completion in
-//            // manejo del posible error
-//            // No hacemos nada
-//        } receiveValue: { _ in
-//            // recargo la pantalla porque se ha borrado un inventario
-//            
-//        }.store(in: &cancellables)
-//    }
-
+    func listenViewModel() {
+        viewModel.newElementSignal.sink { _ in
+            // No hacemos nada
+        } receiveValue: { [weak self] updatedInventory in
+            self?.inventory = updatedInventory
+            self?.tableview.reloadData()
+            self?.textField.text = ""
+        }.store(in: &cancellables)
+    }
 
     // MARK: - Setup UI
     func setupUI() {
@@ -66,6 +66,7 @@ class InventoryDetailViewController: UIViewController {
 
     private func configureTextField() {
         mainStackView.addArrangedSubview(textField)
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             textField.heightAnchor.constraint(equalToConstant: 35)
@@ -78,17 +79,17 @@ class InventoryDetailViewController: UIViewController {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text, !text.isEmpty {
-            let newElement = InventoryModel.Element(title: text)
-            
-        }
+            viewModel.createNewElement(elementTitle: text, for: inventory)
+            }
+        textField.resignFirstResponder()
+        return true
     }
 
     @objc func rightBarButtonItemTapped() {
-        viewModel.removeInventory(inventory: self.inventario) // Que inventario quiero borrar??
+        viewModel.removeInventory(inventory: self.inventory) // Que inventario quiero borrar??
         self.navigationController?.popViewController(animated: true)
     }
 
-    // MARK: - Configure TableView
     private func configureTableView() {
         mainStackView.addArrangedSubview(tableview)
         tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
@@ -100,14 +101,14 @@ class InventoryDetailViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension InventoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return inventario.elements.count
+        return inventory.elements.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cellTest = UITableViewCell(style: .default, reuseIdentifier: "cellTest")
-        let elements = inventario.elements[indexPath.row]
-        cellTest.textLabel?.text = elements.title
+        let element = inventory.elements[indexPath.row]
+        cellTest.textLabel?.text = element.title
         return cellTest
     }
 }
@@ -118,4 +119,3 @@ extension InventoryDetailViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-

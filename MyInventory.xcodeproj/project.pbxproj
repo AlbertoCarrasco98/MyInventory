@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980AABC92B4B180F005526C5 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980AABC82B4B180F005526C5 /* CustomError.swift */; };
 		982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798082B21EB4C0049D69F /* AppDelegate.swift */; };
 		9827980B2B21EB4C0049D69F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827980A2B21EB4C0049D69F /* SceneDelegate.swift */; };
 		982798122B21EB4E0049D69F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 982798112B21EB4E0049D69F /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		980AABC82B4B180F005526C5 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		982798052B21EB4C0049D69F /* MyInventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyInventory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		982798082B21EB4C0049D69F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9827980A2B21EB4C0049D69F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				9827982F2B279CF90049D69F /* ViewModel */,
 				9827982B2B2799380049D69F /* Model */,
+				980AABC82B4B180F005526C5 /* CustomError.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			files = (
 				982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */,
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
+				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */,
