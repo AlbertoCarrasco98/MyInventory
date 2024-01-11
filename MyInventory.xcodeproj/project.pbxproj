@@ -87,7 +87,6 @@
 			children = (
 				9827982F2B279CF90049D69F /* ViewModel */,
 				9827982B2B2799380049D69F /* Model */,
-				980AABC82B4B180F005526C5 /* CustomError.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -116,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				9827981C2B21EBBE0049D69F /* InventoryModel.swift */,
+				980AABC82B4B180F005526C5 /* CustomError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

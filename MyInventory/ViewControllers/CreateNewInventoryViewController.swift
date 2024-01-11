@@ -5,11 +5,10 @@ class CreateNewInventoryViewController: UIViewController {
 
     // MARK: - Properties
 
-    let mainStackView = UIStackView()
-    let textField = UITextField()
-
-    let viewModel: InventoryViewModel
-    var cancellables: Set<AnyCancellable> = []
+    private let mainStackView = UIStackView()
+    private let textField = UITextField()
+    private let viewModel: InventoryViewModel
+    private var cancellables: Set<AnyCancellable> = []
 
     init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
@@ -24,10 +23,7 @@ class CreateNewInventoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Nuevo inventario"
-        view.backgroundColor = .white
         setupUI()
-        listenViewModel()
     }
 
     func listenViewModel() {
@@ -41,14 +37,16 @@ class CreateNewInventoryViewController: UIViewController {
     // MARK: - Setup UI
 
     func setupUI() {
+        self.title = "Nuevo inventario"
+        view.backgroundColor = .white
         configureNavigationBar()
         configureTextField()
+        listenViewModel()
     }
 
     // MARK: - Navigation Bar Configuration
 
     func configureNavigationBar() {
-//        configureCustomBackButton()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Crear", style: .done, target: self, action: #selector(createInventoryAction))
     }
 

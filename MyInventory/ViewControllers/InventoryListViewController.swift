@@ -7,8 +7,7 @@ class InventoryListViewController: UIViewController {
     private let mainStackView = UIStackView()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let addInventoryButton = UIButton()
-
-    let viewModel: InventoryViewModel
+    private let viewModel: InventoryViewModel
 
     var cancellables: Set<AnyCancellable> = []
 
@@ -26,15 +25,7 @@ class InventoryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        listenViewModel()
-        viewModel.loadData()
     }
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        viewModel.loadData()
-//        collectionView.reloadData()
-//    }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
@@ -49,7 +40,6 @@ class InventoryListViewController: UIViewController {
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
-
     }
 
     func setupUI() {
@@ -58,9 +48,10 @@ class InventoryListViewController: UIViewController {
         configureMainStackView()
         configureCollectionView()
         configureAddInventoryButton()
+        listenViewModel()
+        viewModel.loadData()
         navigationItem.backButtonTitle = "Atrás"
     }
-
 
     func configureMainStackView() {
         view.addSubview(mainStackView)
@@ -116,7 +107,6 @@ extension InventoryListViewController: UICollectionViewDataSource {
         cell.backgroundColor = .systemGray3
         let inventory = viewModel.inventoryList[indexPath.row]
         cell.label.text = inventory.title
-//        print(cell.label.text)
         return cell
     }
 
@@ -135,10 +125,12 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
         let height: CGFloat = 100
         return CGSize(width: widht, height: height)
     }
-
 }
 
 // MARK: - UICollectionViewCell
+
+// Deberia tener la customCell en un archivo a parte??
+
 class CustomCollectionViewCell: UICollectionViewCell {
     let label: UILabel = {
         let label = UILabel()

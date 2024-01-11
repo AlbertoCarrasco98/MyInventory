@@ -15,19 +15,16 @@ class InventoryViewModel: ObservableObject {
     let inventoryDeletedSignal: PassthroughSubject<Void, Error> = PassthroughSubject() // Que hace esta señal?? (Renombrar)
 
     let newElementSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
+    let elementDeletedSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
 
     init(databaseManager: DatabaseManager) {
         self.databaseManager = databaseManager
     }
 
+    // MARK: - Functions
+
     func loadData() {
         inventoryList = databaseManager.getInventoryList()
-    }
-
-    func createNewElement(elementTitle: String, for inventory: InventoryModel) {
-        guard let updatedInventory = databaseManager.createNewElement(elementTitle: elementTitle, for: inventory) else { return }
-        loadData()
-        newElementSignal.send(updatedInventory)
     }
 
     func createNewInventory(title: String, elements: [String]) {
@@ -46,6 +43,20 @@ class InventoryViewModel: ObservableObject {
         databaseManager.removeInventory(inventory: inventory)
         loadData()
         inventoryDeletedSignal.send()
+    }
+
+    func deleteElement(fromInventoryWithTitle inventoryTitle: String, elementTitle: String) {
+        databaseManager.deleteElement(fromInventoryWithTitle: inventoryTitle, elementTitle: elementTitle)
+        inventoryList = databaseManager.getInventoryList()
+        if let updatedInventory = inventoryList.first(where: { $0.title == inventoryTitle }) {
+            elementDeletedSignal.send(updatedInventory)
+        }
+    }
+
+    func createNewElement(elementTitle: String, for inventory: InventoryModel) {
+        guard let updatedInventory = databaseManager.createNewElement(elementTitle: elementTitle, for: inventory) else { return }
+        loadData()
+        newElementSignal.send(updatedInventory)
     }
 }
 

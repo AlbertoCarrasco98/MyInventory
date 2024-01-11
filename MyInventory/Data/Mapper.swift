@@ -1,4 +1,4 @@
-// En esta clase tengo que crear funcions que "mapeen" el modelo de inventario de Domain con el modelo de inventario de SwiftData y viceversa
+// En esta clase tengo que crear funciones que "mapeen" el modelo de inventario de Domain con el modelo de inventario de SwiftData y viceversa
 
 class Mapper {
 
@@ -6,13 +6,6 @@ class Mapper {
         return InventoryModelSwiftData(title: inventory.title,
                                        elements: map(elements: inventory.elements))
     }
-
-    static func map(element: InventoryModel.Element) -> InventoryModelSwiftData.ElementSwiftData {
-        let elementSwiftData = InventoryModelSwiftData.ElementSwiftData(title: element.title,
-                                                                        date: element.creationDate)
-        return elementSwiftData
-    }
-
 
     static func map(elements: [InventoryModel.Element]) -> [InventoryModelSwiftData.ElementSwiftData] {
         var elementsSwiftData: [InventoryModelSwiftData.ElementSwiftData] = []
@@ -24,11 +17,16 @@ class Mapper {
         return elementsSwiftData
     }
 
+    static func map(element: InventoryModel.Element) -> InventoryModelSwiftData.ElementSwiftData {
+        let elementSwiftData = InventoryModelSwiftData.ElementSwiftData(title: element.title,
+                                                                        date: element.creationDate)
+        return elementSwiftData
+    }
+
     static func map(inventory: InventoryModelSwiftData) -> InventoryModel {
         
         return InventoryModel(title: inventory.title,
                               elements: map(elements: inventory.elements))
-
     }
 
     static func map(elements: [InventoryModelSwiftData.ElementSwiftData]) -> [InventoryModel.Element] {
@@ -39,9 +37,4 @@ class Mapper {
         }
         return mappedElements
     }
-
-//    static func map(element: InventoryModel.Element) -> InventoryModelSwiftData.ElementSwiftData {
-//        return InventoryModelSwiftData.ElementSwiftData(title: element.title,
-//                                                        date: element.creationDate)
-//    }
 }

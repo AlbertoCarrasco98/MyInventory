@@ -8,8 +8,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     private let mainStackView = UIStackView()
     private let tableview = UITableView()
     private let textField = UITextField()
-
-    let viewModel: InventoryViewModel
+    private let viewModel: InventoryViewModel
 
     var inventory: InventoryModel
     var cancellables: Set<AnyCancellable> = []
@@ -25,10 +24,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        listenViewModel()
     }
 
     func listenViewModel() {
@@ -39,14 +38,23 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             self?.tableview.reloadData()
             self?.textField.text = ""
         }.store(in: &cancellables)
+
+        viewModel.elementDeletedSignal.sink { _ in
+            // No hacemos nada
+        } receiveValue: { [weak self] updatedInventory in
+            self?.inventory = updatedInventory
+            self?.tableview.reloadData()
+        }.store(in: &cancellables)
     }
 
     // MARK: - Setup UI
+
     func setupUI() {
         view.backgroundColor = .white
         configureMainStackView()
         configureTableView()
         configureTextField()
+        listenViewModel()
         navigationController?.isNavigationBarHidden = false
         navigationItem.backButtonTitle = "Atrás"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(rightBarButtonItemTapped))
@@ -62,6 +70,13 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 24),
             view.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 40)
         ])
+    }
+
+    private func configureTableView() {
+        mainStackView.addArrangedSubview(tableview)
+        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
+        tableview.dataSource = self
+        tableview.delegate = self
     }
 
     private func configureTextField() {
@@ -89,16 +104,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         viewModel.removeInventory(inventory: self.inventory) // Que inventario quiero borrar??
         self.navigationController?.popViewController(animated: true)
     }
-
-    private func configureTableView() {
-        mainStackView.addArrangedSubview(tableview)
-        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
-        tableview.dataSource = self
-        tableview.delegate = self
-    }
 }
 
 // MARK: - UITableViewDataSource
+
 extension InventoryDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inventory.elements.count
@@ -111,9 +120,21 @@ extension InventoryDetailViewController: UITableViewDataSource {
         cellTest.textLabel?.text = element.title
         return cellTest
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { [weak self] (action, view, completionHandler) in
+            let elementTitle = self?.inventory.elements[indexPath.row].title
+            self?.viewModel.deleteElement(fromInventoryWithTitle: self?.inventory.title ?? "", elementTitle: elementTitle ?? "")
+            completionHandler(true)
+        }
+        deleteAction.backgroundColor = .red
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
+    }
 }
 
 // MARK: - UITableViewDelegate
+
 extension InventoryDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
