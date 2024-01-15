@@ -1,9 +1,6 @@
 import SwiftData
 import Foundation
 
-class RealmDatabaseManager {
-
-}
 class DatabaseManager {
 
     private let container: ModelContainer
@@ -112,7 +109,7 @@ class DatabaseManager {
 
 
 
-    func getElementsFromInventory(elementTitle: String) throws -> InventoryModelSwiftData.ElementSwiftData? {
+    private func getElementsFromInventory(elementTitle: String) throws -> InventoryModelSwiftData.ElementSwiftData? {
         do {
             let predicate = #Predicate<InventoryModelSwiftData.ElementSwiftData> { model in
                 model.title == elementTitle
@@ -128,127 +125,3 @@ class DatabaseManager {
         return nil
     }
 }
-
-// MARK: - Coche
-//
-// Domain
-//struct Coche {
-//    let color: String
-//    let combustible: String
-//    let matricula: Int
-//    let ruedas: [Rueda]
-//}
-//
-//struct Rueda {
-//    let isAleation: Bool
-//}
-//
-// Data
-//import SwiftData
-//@Model
-//struct CocheData {
-//    let color: String
-//    let combustible: String
-//    @Attribute(.unique)
-//    let matricula: Int
-//    let ruedas: [RuedaData]
-//
-//    init(color: String, combustible: String, matricula: Int, ruedas: [RuedaData]) {
-//        self.color = color
-//        self.combustible = combustible
-//        self.matricula = matricula
-//        self.ruedas = ruedas
-//    }
-//}
-//
-//@Model
-//struct RuedaData {
-//    let isAleation: Bool
-//
-//    init(isAleation: Bool) {
-//        self.isAleation = isAleation
-//    }
-//}
-//
-// Mapper
-//struct CocheMapper {
-//
-//    static func map(cocheData: CocheData) -> Coche {
-//        return Coche(color: cocheData.color,
-//                     combustible: cocheData.combustible,
-//                     matricula: cocheData.matricula,
-//                     ruedas: map(ruedasData: cocheData.ruedas))
-//    }
-//
-//    static func map(coche: Coche) -> CocheData {
-//        return CocheData(color: coche.color,
-//                         combustible: coche.combustible,
-//                         matricula: coche.matricula,
-//                         ruedas: map(ruedas: coche.ruedas))
-//    }
-//
-//    static func map(ruedas: [Rueda]) -> [RuedaData] {
-//        //        var ruedasData: [RuedaData] = []
-//        //        for rueda in ruedas {
-//        //            let ruedaData = RuedaData(isAleation: rueda.isAleation)
-//        //            ruedasData.append(ruedaData)
-//        //        }
-//        //        return ruedasData
-//
-//        //        var ruedasData: [RuedaData] = []
-//        //        ruedas.forEach { rueda in
-//        //            let ruedaData = RuedaData(isAleation: rueda.isAleation)
-//        //            ruedasData.append(ruedaData)
-//        //        }
-//
-//        ruedas.map { RuedaData(isAleation: $0.isAleation) }
-//
-//    }
-//
-//    static func map(ruedasData: [RuedaData]) -> [Rueda] {
-//        var ruedas: [Rueda] = []
-//        for ruedaData in ruedasData {
-//            let rueda = Rueda(isAleation: ruedaData.isAleation)
-//            ruedas.append(rueda)
-//        }
-//        return ruedas
-//    }
-//}
-//
-//class CocheDatabaseManager {
-//
-//    let container: ModelContainer
-//    let context: ModelContext
-//
-//    init() {
-//        self.container = try! ModelContainer(for: CocheData.self, RuedaData.self)
-//        self.context = ModelContext(container)
-//    }
-//
-//    func getCocheList() -> [Coche] {
-//        let fetchDescriptor = FetchDescriptor<CocheData>()
-//        do {
-//            let result = try context.fetch(fetchDescriptor)
-//            var cocheList: [Coche] = []
-//            for cocheData in result {
-//                let coche = CocheMapper.map(cocheData: cocheData)
-//                cocheList.append(coche)
-//            }
-//            return cocheList
-//
-//        } catch {
-//            return []
-//        }
-//    }
-//
-//    func saveCoche(coche: Coche) {
-//        //        1. Convertir "Coche" al tipo de la base de datos "CocheData"
-//        let cocheData = CocheMapper.map(coche: coche)
-//
-//        //        2. Insertar el objeto en el ModelContext
-//        context.insert(cocheData)
-//
-//        //        3. Guardar el ModelContext
-//        try? context.save()
-//    }
-//}
