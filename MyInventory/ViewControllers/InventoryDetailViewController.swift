@@ -31,7 +31,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     func listenViewModel() {
-        viewModel.newElementSignal.sink { _ in
+        viewModel.inventoryDidChangeSignal.sink { _ in
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory
@@ -39,7 +39,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             self?.textField.text = ""
         }.store(in: &cancellables)
 
-        viewModel.elementDeletedSignal.sink { _ in
+        viewModel.inventoryDidChangeSignal.sink { _ in
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory

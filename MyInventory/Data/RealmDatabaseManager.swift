@@ -1,14 +1,15 @@
 import RealmSwift
 
-class RealmDatabaseManager {
+class RealmDatabaseManager: DatabaseManagerProtocol {
 
     private var realm: Realm {
         return try! Realm()
     }
 
-    func createInventory(_ inventory: Object) {
+    func createInventory(_ inventory: InventoryModel) {
+        let inventoryRealm = RealmMapper.map(inventory: inventory)
         try? realm.write({
-            realm.add(inventory)
+            realm.add(inventoryRealm)
         })
     }
 
@@ -28,20 +29,18 @@ class RealmDatabaseManager {
     }
 
         // Leer todos los inventarios
-    func getInventoryList() -> Results<InventoryModelRealm> {
-        realm.objects(InventoryModelRealm.self)
+    func getInventoryList() -> [InventoryModel] {
+        let realmInventoryList = realm.objects(InventoryModelRealm.self)
+        return RealmMapper.map(realmInventoryList)
     }
 
         // Leer un inventario por su titulo
-    func getInventoryByTitle(title: String) -> InventoryModelRealm? {
-        realm.objects(InventoryModelRealm.self).where { $0.title == title }.first
-    }
-
-        // Actualizar el titulo de un inventario
-    func updateInventoryTitle(inventory: InventoryModelRealm, newTitle: String) {
-        try? realm.write({
-            inventory.title = newTitle
-        })
+    func getInventoryByTitle(title: String) -> InventoryModel? {
+        let inventoryRealm = realm.objects(InventoryModelRealm.self).where { $0.title == title }.first
+        guard let inventoryRealm else {
+            return nil
+        }
+        return RealmMapper.map(inventory: inventoryRealm)
     }
 
     func deleteInventory(withTitle title: String) {

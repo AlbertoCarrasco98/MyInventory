@@ -28,11 +28,7 @@ class RealmMapper {
 
         let elementsRealm = List<InventoryModelRealm.ElementRealm>()
         elementsRealm.append(objectsIn: map(elements: inventory.elements))
-
         let inventoryRealm = InventoryModelRealm(title: inventory.title, elements: elementsRealm)
-
-        
-
         return inventoryRealm
     }
 

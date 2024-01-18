@@ -98,18 +98,6 @@ class SwiftDataDatabaseManager {
         }
     }
 
-//    func removeElementFromInventory(element: InventoryModel.Element) {
-//        do {
-//            guard let elementToDelete = try getElementsFromInventory(elementTitle: element.title) else { return }
-//            context.delete(elementToDelete)
-//            try context.save()
-//        } catch {
-//            print("No se ha podido borrar el elemento del inventario")
-//        }
-//    }
-
-
-
     private func getElementsFromInventory(elementTitle: String) throws -> InventoryModelSwiftData.ElementSwiftData? {
         do {
             let predicate = #Predicate<InventoryModelSwiftData.ElementSwiftData> { model in
@@ -126,3 +114,26 @@ class SwiftDataDatabaseManager {
         return nil
     }
 }
+
+extension SwiftDataDatabaseManager: DatabaseManagerProtocol {
+    func createInventory(_ inventory: InventoryModel) {
+
+    }
+    
+    func addElementToInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
+        nil
+    }
+    
+    func getInventoryByTitle(title: String) -> InventoryModel? {
+        nil
+    }
+    
+    func deleteInventory(withTitle title: String) {
+
+    }
+    
+    func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
+        nil
+    }
+}
+
