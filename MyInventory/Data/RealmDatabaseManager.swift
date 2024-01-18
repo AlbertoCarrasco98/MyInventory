@@ -12,24 +12,29 @@ class RealmDatabaseManager {
         })
     }
 
-    func addElementToInventory(inventoryTitle: String, elementTitle: String) {
+    func addElementToInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
         if let inventory = realm.objects(InventoryModelRealm.self).filter("title == %@", inventoryTitle).first {
             let newElement = InventoryModelRealm.ElementRealm()
             newElement.title = elementTitle
             try? realm.write({
                 inventory.elements.append(newElement)
             })
+
+            let updatedInventory = RealmMapper.map(inventory: inventory)
+            return updatedInventory
+        } else {
+            return nil
         }
     }
 
         // Leer todos los inventarios
     func getInventoryList() -> Results<InventoryModelRealm> {
-        return realm.objects(InventoryModelRealm.self)
+        realm.objects(InventoryModelRealm.self)
     }
 
         // Leer un inventario por su titulo
     func getInventoryByTitle(title: String) -> InventoryModelRealm? {
-        return realm.objects(InventoryModelRealm.self).filter("title == %@", title).first
+        realm.objects(InventoryModelRealm.self).where { $0.title == title }.first
     }
 
         // Actualizar el titulo de un inventario
@@ -50,7 +55,7 @@ class RealmDatabaseManager {
         }
     }
 
-    func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) {
+    func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
         if let inventory = realm.objects(InventoryModelRealm.self).filter("title == %@", inventoryTitle).first {
             for (index, element) in inventory.elements.enumerated() {
                 if element.title == elementTitle {
@@ -61,6 +66,10 @@ class RealmDatabaseManager {
                     break
                 }
             }
+            let updatedInventory = RealmMapper.map(inventory: inventory)
+            return updatedInventory
+        } else {
+            return nil
         }
     }
 }

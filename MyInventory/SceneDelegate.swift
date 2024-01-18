@@ -11,7 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        let databaseManager = DatabaseManager()
+        let databaseManager = RealmDatabaseManager()
         let viewModel = InventoryViewModel(databaseManager: databaseManager)
         let inventoryListVC = InventoryListViewController(viewModel: viewModel)
 //        let inventoryDetailVC = InventoryDetailViewController()

@@ -57,7 +57,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         listenViewModel()
         navigationController?.isNavigationBarHidden = false
         navigationItem.backButtonTitle = "Atrás"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(rightBarButtonItemTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+                                                            target: self,
+                                                            action: #selector(rightBarButtonItemTapped))
     }
 
     private func configureMainStackView() {
