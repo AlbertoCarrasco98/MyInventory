@@ -21,7 +21,7 @@
 		982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798212B21EDC90049D69F /* InventoryListViewController.swift */; };
 		982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798242B238C170049D69F /* CreateNewInventoryViewController.swift */; };
 		982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798262B238CBB0049D69F /* InventoryDetailViewController.swift */; };
-		9827982A2B24F4020049D69F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798292B24F4020049D69F /* DatabaseManager.swift */; };
+		9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */; };
 		9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */; };
 		982798312B279D120049D69F /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798302B279D120049D69F /* InventoryViewModel.swift */; };
 		986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */; };
@@ -42,7 +42,7 @@
 		982798212B21EDC90049D69F /* InventoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryListViewController.swift; sourceTree = "<group>"; };
 		982798242B238C170049D69F /* CreateNewInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewInventoryViewController.swift; sourceTree = "<group>"; };
 		982798262B238CBB0049D69F /* InventoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryDetailViewController.swift; sourceTree = "<group>"; };
-		982798292B24F4020049D69F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataDatabaseManager.swift; sourceTree = "<group>"; };
 		9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModelSwiftData.swift; sourceTree = "<group>"; };
 		982798302B279D120049D69F /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
 		986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		982798282B24F2FF0049D69F /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				982798292B24F4020049D69F /* DatabaseManager.swift */,
+				982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */,
 				980AABD12B500220005526C5 /* RealmDatabaseManager.swift */,
 				986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */,
 				980AABD52B55A8B6005526C5 /* RealmMapper.swift */,
@@ -234,7 +234,7 @@
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
-				9827982A2B24F4020049D69F /* DatabaseManager.swift in Sources */,
+				9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */,
 				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,
 				9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */,
 				980AABD22B500220005526C5 /* RealmDatabaseManager.swift in Sources */,
