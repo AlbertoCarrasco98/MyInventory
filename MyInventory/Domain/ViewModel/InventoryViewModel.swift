@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 import Combine
 
 class InventoryViewModel: ObservableObject {
@@ -24,11 +24,15 @@ class InventoryViewModel: ObservableObject {
         inventoryList = databaseManager.getInventoryList()
     }
 
-    func createNewInventory(title: String, elements: [String]) {
+    func createNewInventory(title: String, elements: [String]) -> Result<Void, CustomError> {
+        guard !inventoryList.contains(where: { $0.title == title }) else {
+            return .failure(CustomError.failure("Ya existe un inventario con ese título"))
+        }
         let newInventory = InventoryModel(title: title, elements: elements)
         databaseManager.createInventory(newInventory)
         loadData()
         newInventorySignal.send()
+        return .success(())
     }
 
     func removeInventory(_ inventory: InventoryModel) {

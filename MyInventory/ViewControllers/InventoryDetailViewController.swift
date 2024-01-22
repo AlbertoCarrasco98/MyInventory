@@ -57,9 +57,11 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         listenViewModel()
         navigationController?.isNavigationBarHidden = false
         navigationItem.backButtonTitle = "Atrás"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+        let trashButton = UIBarButtonItem(barButtonSystemItem: .trash,
                                                             target: self,
                                                             action: #selector(rightBarButtonItemTapped))
+        navigationItem.rightBarButtonItem = trashButton
+        trashButton.tintColor = .red
     }
 
     private func configureMainStackView() {
@@ -103,7 +105,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func rightBarButtonItemTapped() {
-        viewModel.removeInventory(inventory: self.inventory) // Que inventario quiero borrar??
+        viewModel.removeInventory(self.inventory) // Que inventario quiero borrar??
         self.navigationController?.popViewController(animated: true)
     }
 }

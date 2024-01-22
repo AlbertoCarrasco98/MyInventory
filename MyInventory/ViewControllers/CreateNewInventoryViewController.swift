@@ -55,11 +55,24 @@ class CreateNewInventoryViewController: UIViewController {
     }
 
     @objc func createInventoryAction() {
-        let inventoryTitle = textField.text ?? ""
+        let inventoryTitle = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if !inventoryTitle.isEmpty {
-            viewModel.createNewInventory(title: inventoryTitle, elements: [])
-        } else {
-            print("Error al crear el inventario")
+            let result = viewModel.createNewInventory(title: inventoryTitle, elements: [])
+            switch result {
+                case .success:
+                    print("Inventario creado con exito")
+                case .failure:
+                    showAlert(messaje: "Ya existe un inventario con ese título")
+            }
+        }
+    }
+
+    func showAlert(messaje: String) {
+        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: messaje, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        if let currentViewController = UIApplication.shared.keyWindow?.rootViewController {
+            currentViewController.present(alertController, animated: true, completion: nil)
         }
     }
 
