@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-class CreateNewInventoryViewController: UIViewController {
+class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: - Properties
 
@@ -26,7 +26,7 @@ class CreateNewInventoryViewController: UIViewController {
         setupUI()
     }
 
-    func listenViewModel() {
+    private func listenViewModel() {
         viewModel.newInventorySignal.sink { _ in
             // No hacemos nada
         } receiveValue: { _ in
@@ -36,7 +36,7 @@ class CreateNewInventoryViewController: UIViewController {
 
     // MARK: - Setup UI
 
-    func setupUI() {
+    private func setupUI() {
         self.title = "Nuevo inventario"
         view.backgroundColor = .white
         configureNavigationBar()
@@ -44,18 +44,9 @@ class CreateNewInventoryViewController: UIViewController {
         listenViewModel()
     }
 
-    // MARK: - Navigation Bar Configuration
-
-    func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Crear", style: .done, target: self, action: #selector(createInventoryAction))
-    }
-
-    @objc func customBackAction() {
-        self.navigationController?.popViewController(animated: true)
-    }
-
-    @objc func createInventoryAction() {
+    private func processInventoryCreation() {
         let inventoryTitle = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
         if !inventoryTitle.isEmpty {
             let result = viewModel.createNewInventory(title: inventoryTitle, elements: [])
             switch result {
@@ -67,7 +58,25 @@ class CreateNewInventoryViewController: UIViewController {
         }
     }
 
-    func showAlert(messaje: String) {
+    private func configureNavigationBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Crear", style: .done, target: self, action: #selector(createInventoryAction))
+    }
+
+    @objc func customBackAction() {
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    @objc func createInventoryAction() {
+        processInventoryCreation()
+    }
+
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        processInventoryCreation()
+        textField.resignFirstResponder()
+        return true
+    }
+
+    private func showAlert(messaje: String) {
         let alertController = UIAlertController(title: "No se pudo crear el inventario", message: messaje, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
@@ -78,9 +87,10 @@ class CreateNewInventoryViewController: UIViewController {
 
     // MARK: - TextField Configuration
 
-    func configureTextField() {
+    private func configureTextField() {
         view.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.delegate = self
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
