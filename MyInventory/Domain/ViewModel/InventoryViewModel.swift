@@ -4,6 +4,7 @@ import Combine
 class InventoryViewModel: ObservableObject {
 
     var inventoryList: [InventoryModel] = []
+    var filteredInventories: [InventoryModel] = []
     var databaseManager: DatabaseManagerProtocol
 
     init(databaseManager: DatabaseManagerProtocol) {
@@ -22,6 +23,7 @@ class InventoryViewModel: ObservableObject {
 
     func loadData() {
         inventoryList = databaseManager.getInventoryList()
+        filteredInventories = inventoryList
     }
 
     func createNewInventory(title: String, elements: [String]) -> Result<Void, CustomError> {

@@ -8,8 +8,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     private let mainStackView = UIStackView()
     private let tableview = UITableView()
     private let textField = UITextField()
-    private let viewModel: InventoryViewModel
 
+    private let viewModel: InventoryViewModel
     var inventory: InventoryModel
     var cancellables: Set<AnyCancellable> = []
 

@@ -84,7 +84,7 @@
 			children = (
 				982798282B24F2FF0049D69F /* Data */,
 				9827981E2B21EBF10049D69F /* Domain */,
-				982798232B233B4D0049D69F /* ViewControllers */,
+				98FEA4EF2B5FB22B008293EA /* Presentation */,
 				982798082B21EB4C0049D69F /* AppDelegate.swift */,
 				9827980A2B21EB4C0049D69F /* SceneDelegate.swift */,
 				982798112B21EB4E0049D69F /* Assets.xcassets */,
@@ -150,6 +150,22 @@
 				982798302B279D120049D69F /* InventoryViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		98FEA4EF2B5FB22B008293EA /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				98FEA4F02B5FB253008293EA /* Views */,
+				982798232B233B4D0049D69F /* ViewControllers */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		98FEA4F02B5FB253008293EA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
