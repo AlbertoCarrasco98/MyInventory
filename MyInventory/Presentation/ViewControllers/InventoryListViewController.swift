@@ -15,8 +15,19 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let addInventoryButton = UIButton()
     private let textField = UITextField()
-
-    private var filteredInventories: [InventoryModel] = []
+    private var searchText: String? {
+        textField.text
+    }
+    private var filteredInventories: [InventoryModel] {
+        if let text = searchText, !text.isEmpty {
+            let filter = viewModel.inventoryList.filter { inventory in
+                inventory.title.lowercased().contains(text.lowercased())
+            }
+            return filter
+        } else {
+            return viewModel.inventoryList
+        }
+    }
 
     var cancellables: Set<AnyCancellable> = []
 
@@ -34,7 +45,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        filteredInventories = viewModel.inventoryList
     }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
@@ -69,6 +79,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         configureCollectionView()
         configureTextField()
         configureAddInventoryButton()
+
         listenViewModel()
         viewModel.loadData()
         navigationItem.backButtonTitle = "Atrás"
@@ -153,25 +164,8 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        filterInventories(text: searchText)
-    }
-
-    private func filterInventories(text: String) {
-        if text.isEmpty {
-            filteredInventories = viewModel.inventoryList
-        } else {
-            filteredInventories = viewModel.inventoryList.filter {
-                $0.title.lowercased().hasPrefix(text.lowercased())
-            }
-        }
-        reloadCollectionView()
-    }
-
-    private func reloadCollectionView() {
-        DispatchQueue.main.async {
-            [ weak self ] in self?.collectionView.reloadData()
-        }
+//        let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        collectionView.reloadData()
     }
 }
 
@@ -183,12 +177,11 @@ extension InventoryListViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         if section == 0 {
-            let favoriteInventories = viewModel.inventoryList.filter { $0.isFavorite }
+            let favoriteInventories = filteredInventories.filter { $0.isFavorite }
             return favoriteInventories.count
         } else if section == 1 {
-            let nonFavoritesInventories = viewModel.inventoryList.filter { !$0.isFavorite }
+            let nonFavoritesInventories = filteredInventories.filter { !$0.isFavorite }
             return nonFavoritesInventories.count
         } else {
             return 0
@@ -196,9 +189,9 @@ extension InventoryListViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell",
-                                                        for: indexPath) as? CustomCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell",
+                                                            for: indexPath) as? CustomCollectionViewCell 
+        else {
             return UICollectionViewCell()
         }
 
@@ -206,9 +199,9 @@ extension InventoryListViewController: UICollectionViewDataSource {
 
         switch indexPath.section {
             case 0:
-               filteredInventory = viewModel.inventoryList.filter { $0.isFavorite }
+                filteredInventory = filteredInventories.filter { $0.isFavorite }
             case 1:
-               filteredInventory = viewModel.inventoryList.filter { !$0.isFavorite }
+                filteredInventory = filteredInventories.filter { !$0.isFavorite }
             default:
                 filteredInventory = []
         }
@@ -220,22 +213,22 @@ extension InventoryListViewController: UICollectionViewDataSource {
         let inventory = filteredInventory[indexPath.row]
 
         cell.backgroundColor = .systemGray3
-//        let inventory = viewModel.inventoryList[indexPath.row]
+        //        let inventory = viewModel.inventoryList[indexPath.row]
         cell.label.text = inventory.title
-        
+
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
         guard let section = InventoryListSection(rawValue: indexPath.section) else { return }
         var selectedInventory: InventoryModel
 
         switch section {
             case .favorites:
-                selectedInventory = viewModel.inventoryList.filter { $0.isFavorite }[indexPath.row]
+                selectedInventory = filteredInventories.filter { $0.isFavorite }[indexPath.row]
             case .nonFavorites:
-                selectedInventory = viewModel.inventoryList.filter { !$0.isFavorite }[indexPath.row]
+                selectedInventory = filteredInventories.filter { !$0.isFavorite }[indexPath.row]
         }
         let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
                                                               viewModel: viewModel)
@@ -251,20 +244,20 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SectionHeader
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SectionHeader
             if indexPath.section == 0 {
                 sectionHeader.label.text = "Favoritos"
 
             } else if indexPath.section == 1 {
                 sectionHeader.label.text = "No Favoritos"
             }
-             return sectionHeader
+            return sectionHeader
         } else { //No footer in this case but can add option for that
-             return UICollectionReusableView()
+            return UICollectionReusableView()
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, 
+    func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 40)
@@ -313,24 +306,24 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
 
 class SectionHeader: UICollectionReusableView {
-     var label: UILabel = {
-         let label: UILabel = UILabel()
-         label.textColor = .black
-         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-         label.sizeToFit()
-         return label
-     }()
+    var label: UILabel = {
+        let label: UILabel = UILabel()
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.sizeToFit()
+        return label
+    }()
 
-     override init(frame: CGRect) {
-         super.init(frame: frame)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-         addSubview(label)
+        addSubview(label)
 
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-         label.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-         label.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-         label.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        label.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        label.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {
