@@ -24,9 +24,10 @@ class Mapper {
     }
 
     static func map(inventory: InventoryModelSwiftData) -> InventoryModel {
-        
+        fatalError("Deprecated")
         return InventoryModel(title: inventory.title,
-                              elements: map(elements: inventory.elements))
+                              elements: map(elements: inventory.elements),
+                              isFavorite: true)
     }
 
     static func map(elements: [InventoryModelSwiftData.ElementSwiftData]) -> [InventoryModel.Element] {

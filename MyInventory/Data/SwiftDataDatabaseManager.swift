@@ -15,6 +15,7 @@ class SwiftDataDatabaseManager {
     // MARK: - Functions
 
     func getInventoryList() -> [InventoryModel] {   // Dame los inventarios de base de datos
+        fatalError(" NO")
         let fetchDescriptor = FetchDescriptor<InventoryModelSwiftData>()
         do {
             let result = try context.fetch(fetchDescriptor)
@@ -23,7 +24,7 @@ class SwiftDataDatabaseManager {
                     InventoryModel.Element(title: element.title)
                 }
                 return InventoryModel(title: inventory.title,
-                                      elements: mappedElements)
+                                      elements: [])
             }
             return mappedInventoryModel
         } catch {
@@ -115,25 +116,31 @@ class SwiftDataDatabaseManager {
     }
 }
 
-extension SwiftDataDatabaseManager: DatabaseManagerProtocol {
-    func createInventory(_ inventory: InventoryModel) {
-
-    }
-    
-    func addElementToInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
-        nil
-    }
-    
-    func getInventoryByTitle(title: String) -> InventoryModel? {
-        nil
-    }
-    
-    func deleteInventory(withTitle title: String) {
-
-    }
-    
-    func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
-        nil
-    }
-}
+//extension SwiftDataDatabaseManager: DatabaseManagerProtocol {
+//    func setFavorite(_ isFavorite: Bool, inventoryTitle: String) -> InventoryModel? {
+//        nil
+//    }
+//    
+//    func createInventory(_ inventory: InventoryModel) {
+//
+//    }
+//    
+//    func addElementToInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
+//        nil
+//    }
+//    
+//    func getInventoryByTitle(title: String) -> InventoryModel? {
+//        nil
+//    }
+//    
+//    func deleteInventory(withTitle title: String) {
+//
+//    }
+//    
+//    func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
+//        nil
+//    }
+//
+//    
+//}
 

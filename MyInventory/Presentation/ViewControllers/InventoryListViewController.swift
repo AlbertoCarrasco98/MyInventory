@@ -1,6 +1,11 @@
 import UIKit
 import Combine
 
+enum InventoryListSection: Int, CaseIterable {
+    case favorites
+    case nonFavorites
+}
+
 class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     private let viewModel: InventoryViewModel
@@ -10,6 +15,8 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let addInventoryButton = UIButton()
     private let textField = UITextField()
+
+    private var filteredInventories: [InventoryModel] = []
 
     var cancellables: Set<AnyCancellable> = []
 
@@ -27,13 +34,15 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        viewModel.filteredInventories = viewModel.inventoryList
+        filteredInventories = viewModel.inventoryList
     }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
         viewModel.newInventorySignal.sink { _ in
+
         } receiveValue: { _ in
+
             self.collectionView.reloadData()
         }.store(in: &cancellables)
 
@@ -42,6 +51,13 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
+
+        viewModel.inventoryDidChangeSignal.sink { _ in
+
+        } receiveValue: { _ in
+            self.collectionView.reloadData()
+        }.store(in: &cancellables)
+
     }
 
     // MARK: - SetupUI
@@ -57,6 +73,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         viewModel.loadData()
         navigationItem.backButtonTitle = "Atrás"
     }
+
 
     // MARK: - ConfigureMainStackView
 
@@ -93,6 +110,9 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCollectionViewCell")
+        self.collectionView.register(SectionHeader.self,
+                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                     withReuseIdentifier: "header")
     }
 
     // MARK: - ConfigureAddInventoryButton
@@ -134,14 +154,14 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
         let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        filterInvetories(text: searchText)
+        filterInventories(text: searchText)
     }
 
-    private func filterInvetories(text: String) {
+    private func filterInventories(text: String) {
         if text.isEmpty {
-            viewModel.filteredInventories = viewModel.inventoryList
+            filteredInventories = viewModel.inventoryList
         } else {
-            viewModel.filteredInventories = viewModel.inventoryList.filter {
+            filteredInventories = viewModel.inventoryList.filter {
                 $0.title.lowercased().hasPrefix(text.lowercased())
             }
         }
@@ -158,25 +178,67 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 // MARK: - UICollectionViewDataSource
 extension InventoryListViewController: UICollectionViewDataSource {
 
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        InventoryListSection.allCases.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.filteredInventories.count
+
+        if section == 0 {
+            let favoriteInventories = viewModel.inventoryList.filter { $0.isFavorite }
+            return favoriteInventories.count
+        } else if section == 1 {
+            let nonFavoritesInventories = viewModel.inventoryList.filter { !$0.isFavorite }
+            return nonFavoritesInventories.count
+        } else {
+            return 0
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell",
-                                                            for: indexPath) as? CustomCollectionViewCell else {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell",
+                                                        for: indexPath) as? CustomCollectionViewCell else {
             return UICollectionViewCell()
         }
+
+        let filteredInventory: [InventoryModel]
+
+        switch indexPath.section {
+            case 0:
+               filteredInventory = viewModel.inventoryList.filter { $0.isFavorite }
+            case 1:
+               filteredInventory = viewModel.inventoryList.filter { !$0.isFavorite }
+            default:
+                filteredInventory = []
+        }
+
+        guard indexPath.row < filteredInventory.count else {
+            return cell
+        }
+
+        let inventory = filteredInventory[indexPath.row]
+
         cell.backgroundColor = .systemGray3
-        let inventory = viewModel.filteredInventories[indexPath.row]
+//        let inventory = viewModel.inventoryList[indexPath.row]
         cell.label.text = inventory.title
+        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedInventory = viewModel.filteredInventories[indexPath.row]
-        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory, viewModel: viewModel)
+        
+        guard let section = InventoryListSection(rawValue: indexPath.section) else { return }
+        var selectedInventory: InventoryModel
+
+        switch section {
+            case .favorites:
+                selectedInventory = viewModel.inventoryList.filter { $0.isFavorite }[indexPath.row]
+            case .nonFavorites:
+                selectedInventory = viewModel.inventoryList.filter { !$0.isFavorite }[indexPath.row]
+        }
+        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
+                                                              viewModel: viewModel)
         self.navigationController?.pushViewController(inventoryDetailVC, animated: true)
         inventoryDetailVC.title = selectedInventory.title
     }
@@ -185,7 +247,32 @@ extension InventoryListViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension InventoryListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SectionHeader
+            if indexPath.section == 0 {
+                sectionHeader.label.text = "Favoritos"
+
+            } else if indexPath.section == 1 {
+                sectionHeader.label.text = "No Favoritos"
+            }
+             return sectionHeader
+        } else { //No footer in this case but can add option for that
+             return UICollectionReusableView()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, 
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 40)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let widht = collectionView.bounds.width / 3 - 7
         let height: CGFloat = 100
         return CGSize(width: widht, height: height)
@@ -221,5 +308,32 @@ class CustomCollectionViewCell: UICollectionViewCell {
             trailingAnchor.constraint(equalTo: label.trailingAnchor),
             bottomAnchor.constraint(equalTo: label.bottomAnchor)
         ])
+    }
+}
+
+
+class SectionHeader: UICollectionReusableView {
+     var label: UILabel = {
+         let label: UILabel = UILabel()
+         label.textColor = .black
+         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+         label.sizeToFit()
+         return label
+     }()
+
+     override init(frame: CGRect) {
+         super.init(frame: frame)
+
+         addSubview(label)
+
+         label.translatesAutoresizingMaskIntoConstraints = false
+         label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+         label.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+         label.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+         label.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

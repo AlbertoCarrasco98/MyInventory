@@ -7,4 +7,5 @@ protocol DatabaseManagerProtocol {
     func getInventoryByTitle(title: String) -> InventoryModel?
     func deleteInventory(withTitle title: String)
     func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel?
+    func setFavorite(_ inventory: InventoryModel)
 }

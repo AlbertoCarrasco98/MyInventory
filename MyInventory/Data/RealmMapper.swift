@@ -15,7 +15,9 @@ class RealmMapper {
                 elementList.append(elementModel)
             }
 
-            let inventoryModel = InventoryModel(title: realmInventory.title, elements: elementList)
+            let inventoryModel = InventoryModel(title: realmInventory.title,
+                                                elements: elementList,
+                                                isFavorite: realmInventory.isFavorite)
             inventoryList.append(inventoryModel)
         }
         return inventoryList
@@ -26,22 +28,28 @@ class RealmMapper {
 
 //        inventoryRealm.title = inventory.title
 
-        let elementsRealm = List<InventoryModelRealm.ElementRealm>()
+        let elementsRealm = List<ElementRealm>()
         elementsRealm.append(objectsIn: map(elements: inventory.elements))
-        let inventoryRealm = InventoryModelRealm(title: inventory.title, elements: elementsRealm)
+//        let inventoryRealm = InventoryModelRealm(title: inventory.title, elements: elementsRealm)
+        let inventoryRealm = InventoryModelRealm()
+        inventoryRealm.title = inventory.title
+        inventoryRealm.elements = elementsRealm
+
         return inventoryRealm
     }
 
 //    Mapear un InventoryModel.Element (element individual) a un InventoryModelRealm.ElementRealm
-    static func map(element: InventoryModel.Element) -> InventoryModelRealm.ElementRealm {
-        let ElementRealm = InventoryModelRealm.ElementRealm(title: element.title)
-        return ElementRealm //Sobra
+    static func map(element: InventoryModel.Element) -> ElementRealm {
+        let elementRealm = ElementRealm()
+        elementRealm.title = element.title
+        return elementRealm
     }
 
 //    Mapear un [InventoryModel.Element] (un array de muchos Element individuales) a un [InventoryModelRealm.ElementRealm]
-    static func map(elements: [InventoryModel.Element]) -> [InventoryModelRealm.ElementRealm] {
+    static func map(elements: [InventoryModel.Element]) -> [ElementRealm] {
         elements.map { element in
-            let elementRealm = InventoryModelRealm.ElementRealm(title: element.title)
+            let elementRealm = ElementRealm()
+            elementRealm.title = element.title
             return elementRealm
         }
     }
@@ -51,18 +59,19 @@ class RealmMapper {
         let elementsModel = map(elements: inventory.elements)
 
         let inventoryModel = InventoryModel(title: inventory.title,
-                                            elements: elementsModel)
+                                            elements: elementsModel,
+                                            isFavorite: inventory.isFavorite)
         return inventoryModel
     }
 
 //    Mapear un InventoryModelRealm.ElementRealm (elementRealm individual) a un InventoryModel.Element
-    static func map(element: InventoryModelRealm.ElementRealm) -> InventoryModel.Element {
+    static func map(element: ElementRealm) -> InventoryModel.Element {
         let elementModel = InventoryModel.Element(title: element.title)
         return elementModel
     }
 
 //    Mapear un [InventoryModelRealm.ElementRealm] (un array de muchos ElementRealm individuales) a un [InventoryModel.Element]
-    static func map(elements: List<InventoryModelRealm.ElementRealm>) -> [InventoryModel.Element] {
+    static func map(elements: List<ElementRealm>) -> [InventoryModel.Element] {
         var mappedElements: [InventoryModel.Element] = []
         for element in elements {
             let elementInventoryModel = InventoryModel.Element(title: element.title)

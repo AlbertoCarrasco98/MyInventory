@@ -2,11 +2,8 @@ import RealmSwift
 
 class RealmDatabaseManager: DatabaseManagerProtocol {
 
-    private var realm: Realm {
-        return try! Realm()
-    }
-
     func createInventory(_ inventory: InventoryModel) {
+        let realm = try! Realm()
         let inventoryRealm = RealmMapper.map(inventory: inventory)
         try? realm.write({
             realm.add(inventoryRealm)
@@ -14,8 +11,9 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
     }
 
     func addElementToInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
+        let realm = try! Realm()
         if let inventory = realm.objects(InventoryModelRealm.self).filter("title == %@", inventoryTitle).first {
-            let newElement = InventoryModelRealm.ElementRealm()
+            let newElement = ElementRealm()
             newElement.title = elementTitle
             try? realm.write({
                 inventory.elements.append(newElement)
@@ -28,14 +26,17 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
         }
     }
 
-        // Leer todos los inventarios
+    // Leer todos los inventarios
     func getInventoryList() -> [InventoryModel] {
+        let realm = try! Realm()
         let realmInventoryList = realm.objects(InventoryModelRealm.self)
-        return RealmMapper.map(realmInventoryList)
+        let mappedInventoryList = RealmMapper.map(realmInventoryList)
+        return mappedInventoryList
     }
 
-        // Leer un inventario por su titulo
+    // Leer un inventario por su titulo
     func getInventoryByTitle(title: String) -> InventoryModel? {
+        let realm = try! Realm()
         let inventoryRealm = realm.objects(InventoryModelRealm.self).where { $0.title == title }.first
         guard let inventoryRealm else {
             return nil
@@ -44,6 +45,7 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
     }
 
     func deleteInventory(withTitle title: String) {
+        let realm = try! Realm()
         let inventoriesToDelete = realm.objects(InventoryModelRealm.self).filter("title == %@", title) // Esta ultima parte sirve para comparar el titulo de los inventarios con el titulo del parametro
 
         if let inventoryToDelete = inventoriesToDelete.first {
@@ -55,6 +57,7 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
     }
 
     func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
+        let realm = try! Realm()
         if let inventory = realm.objects(InventoryModelRealm.self).filter("title == %@", inventoryTitle).first {
             for (index, element) in inventory.elements.enumerated() {
                 if element.title == elementTitle {
@@ -71,4 +74,39 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
             return nil
         }
     }
+
+    func setFavorite(_ inventory: InventoryModel) {
+        let realm = try! Realm()
+        let elements = List<ElementRealm>()
+        elements.append(objectsIn: RealmMapper.map(elements: inventory.elements))
+        let updatedInventory = InventoryModelRealm(title: inventory.title,
+                                                   elements: elements,
+                                                   isFavorite: inventory.isFavorite)
+        do {
+            try realm.write {
+                realm.add(updatedInventory, update: .modified)
+            }
+        } catch {
+            print("Error al cmabiar la propiedad favorito del inventario")
+        }
+    }
 }
+
+//    func updateInventory(_ inventory: InventoryModel) {
+//        let realm = try! Realm()
+//
+//        let elements = List<ElementRealm>()
+//        elements.append(objectsIn: RealmMapper.map(elements: inventory.elements))
+//        let updatedInventory = InventoryModelRealm(title: inventory.title,
+//                                                   elements: elements,
+//                                                   isFavorite: inventory.isFavorite)
+//
+//        do {
+//            try realm.write {
+//                realm.add(updatedInventory, update: .modified)
+//            }
+//        } catch {
+//            print("Me cago en tu puta madre envuelta en papel glass")
+//        }
+//    }
+

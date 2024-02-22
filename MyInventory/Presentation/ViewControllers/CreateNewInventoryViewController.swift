@@ -24,7 +24,6 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        viewModel.filteredInventories = viewModel.inventoryList
     }
 
     private func listenViewModel() {

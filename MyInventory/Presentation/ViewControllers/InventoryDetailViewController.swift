@@ -35,15 +35,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory
+            self?.configureNavigationBar()
             self?.tableview.reloadData()
             self?.textField.text = ""
-        }.store(in: &cancellables)
-
-        viewModel.inventoryDidChangeSignal.sink { _ in
-            // No hacemos nada
-        } receiveValue: { [weak self] updatedInventory in
-            self?.inventory = updatedInventory
-            self?.tableview.reloadData()
         }.store(in: &cancellables)
     }
 
@@ -57,11 +51,18 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         listenViewModel()
         navigationController?.isNavigationBarHidden = false
         navigationItem.backButtonTitle = "Atrás"
-        let trashButton = UIBarButtonItem(barButtonSystemItem: .trash,
-                                                            target: self,
-                                                            action: #selector(rightBarButtonItemTapped))
-        navigationItem.rightBarButtonItem = trashButton
-        trashButton.tintColor = .red
+        configureNavigationBar()
+        configureTrashButton()
+    }
+
+    private func configureNavigationBar() {
+        let imageName = inventory.isFavorite ? "star.fill" : "star"
+        let favoriteImage = UIImage(systemName: imageName)
+        let favoriteButton = UIBarButtonItem(image: favoriteImage,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(favoriteAction))
+        navigationItem.rightBarButtonItems = [favoriteButton]
     }
 
     private func configureMainStackView() {
@@ -104,9 +105,32 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    @objc func rightBarButtonItemTapped() {
-        viewModel.removeInventory(self.inventory) // Que inventario quiero borrar??
-        self.navigationController?.popViewController(animated: true)
+    func configureTrashButton() {
+        let trashButton = UIButton()
+        trashButton.addTarget(self, action: #selector(removeInventory), for: .touchUpInside)
+        trashButton.tintColor = .red
+        let image = UIImage(systemName: "trash")
+        trashButton.setImage(image, for: .normal)
+        trashButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            trashButton.heightAnchor.constraint(equalToConstant: 30),
+            trashButton.widthAnchor.constraint(equalToConstant: 40)
+        ])
+
+        let hStack = UIStackView(arrangedSubviews: [UIView(), trashButton])
+        mainStackView.addArrangedSubview(hStack)
+    }
+
+    @objc func removeInventory() {
+        viewModel.removeInventory(inventory) // Que inventario quiero borrar??
+        navigationController?.popViewController(animated: true)
+    }
+
+    @objc func favoriteAction() {
+        let setFavoriteValue = !inventory.isFavorite
+//        viewModel.setFavorite(setFavoriteValue,
+//                              inventoryTitle: inventory.title)
+        viewModel.setFavorite(setFavoriteValue, toInventory: inventory)
     }
 }
 
