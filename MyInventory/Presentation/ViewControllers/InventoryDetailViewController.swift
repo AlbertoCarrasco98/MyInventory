@@ -8,8 +8,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     private let mainStackView = UIStackView()
     private let tableview = UITableView()
     private let textField = UITextField()
+    private let hStack = UIStackView()
 
     private let viewModel: InventoryViewModel
+
     var inventory: InventoryModel
     var cancellables: Set<AnyCancellable> = []
 
@@ -66,6 +68,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func configureMainStackView() {
+        let spacer = UIView()
+        spacer.heightAnchor.constraint(equalToConstant: 10).isActive = true
         view.addSubview(mainStackView)
         mainStackView.axis = .vertical
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -75,17 +79,23 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 24),
             view.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 40)
         ])
+        mainStackView.addArrangedSubview(textField)
+        mainStackView.addArrangedSubview(spacer)
+        mainStackView.addArrangedSubview(tableview)
+        mainStackView.addArrangedSubview(hStack)
     }
 
     private func configureTableView() {
-        mainStackView.addArrangedSubview(tableview)
         tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableview.dataSource = self
         tableview.delegate = self
+        tableview.layer.borderWidth = 1
+        tableview.layer.borderColor = UIColor.gray.cgColor
+        tableview.layer.cornerRadius = 10
+        tableview.layer.masksToBounds = true
     }
 
     private func configureTextField() {
-        mainStackView.addArrangedSubview(textField)
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -107,7 +117,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     func configureTrashButton() {
         let trashButton = UIButton()
-        trashButton.addTarget(self, action: #selector(removeInventory), for: .touchUpInside)
+        trashButton.addTarget(self, action: #selector(actionRemoveInventory), for: .touchUpInside)
         trashButton.tintColor = .red
         let image = UIImage(systemName: "trash")
         trashButton.setImage(image, for: .normal)
@@ -116,20 +126,39 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             trashButton.heightAnchor.constraint(equalToConstant: 30),
             trashButton.widthAnchor.constraint(equalToConstant: 40)
         ])
-
-        let hStack = UIStackView(arrangedSubviews: [UIView(), trashButton])
-        mainStackView.addArrangedSubview(hStack)
+        hStack.addArrangedSubview(UIView())
+        hStack.addArrangedSubview(trashButton)
     }
 
-    @objc func removeInventory() {
-        viewModel.removeInventory(inventory) // Que inventario quiero borrar??
-        navigationController?.popViewController(animated: true)
+    @objc func actionRemoveInventory() {
+        let alert = UIAlertController(title: "",
+                                      message: "El inventario se eliminará permanentemente y no podrás recuperarlo",
+                                      preferredStyle: .actionSheet)
+
+        let cancelAlert = UIAlertAction(title: "Cancelar",
+                                        style: .cancel,
+                                        handler: nil)
+        
+        let alertAction = UIAlertAction(title: "Eliminar",
+                                        style: .destructive) { [weak self] _ in
+            self?.removeInventory()
+            self?.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(alertAction)
+        alert.addAction(cancelAlert)
+
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            rootViewController.present(alert, animated: true)
+        }
+    }
+
+    func removeInventory() {
+        viewModel.removeInventory(inventory)
     }
 
     @objc func favoriteAction() {
         let setFavoriteValue = !inventory.isFavorite
-//        viewModel.setFavorite(setFavoriteValue,
-//                              inventoryTitle: inventory.title)
         viewModel.setFavorite(setFavoriteValue, toInventory: inventory)
     }
 }

@@ -73,18 +73,30 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // MARK: - SetupUI
 
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
         self.title = "Inventarios"
+        setupNavigationBar()
         configureMainStackView()
         configureCollectionView()
         configureTextField()
         configureAddInventoryButton()
-
         listenViewModel()
         viewModel.loadData()
         navigationItem.backButtonTitle = "Atrás"
     }
 
+    private func setupNavigationBar() {
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "trash.fill"),
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = addButton
+    }
+
+    @objc func addButtonTapped() {
+        let trashVC = TrashViewController()
+        self.navigationController?.pushViewController(trashVC, animated: true)
+    }
 
     // MARK: - ConfigureMainStackView
 
@@ -114,13 +126,14 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // MARK: - ConfigureCollectionView
 
     private func configureCollectionView() {
-        //        mainStackView.addArrangedSubview(collectionView)
+        collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
         collectionView.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor).isActive = true
         let layout = UICollectionViewFlowLayout()
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCollectionViewCell")
+        collectionView.register(CustomCollectionViewCell.self,
+                                forCellWithReuseIdentifier: "CustomCollectionViewCell")
         self.collectionView.register(SectionHeader.self,
                                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                      withReuseIdentifier: "header")
@@ -130,13 +143,12 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     private func configureAddInventoryButton() {
         addInventoryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        //        addInventoryButton.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -32).isActive = true
         addInventoryButton.addTarget(self, action: #selector(addInventoryButtonTapped), for: .touchUpInside)
         addInventoryButton.setTitle("Crea un nuevo inventario", for: .normal)
         addInventoryButton.titleLabel?.textAlignment = .center
         addInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         addInventoryButton.setTitleColor(.black, for: .normal)
-        addInventoryButton.layer.borderColor = UIColor.lightGray.cgColor
+        addInventoryButton.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         addInventoryButton.layer.borderWidth = 2
         addInventoryButton.layer.cornerRadius = 10
     }
@@ -158,9 +170,13 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         textField.delegate = self
         textField.placeholder = "Busca un inventario"
         textField.font = .italicSystemFont(ofSize: 18)
-        textField.layer.borderColor = UIColor.gray.cgColor
-        textField.borderStyle = .roundedRect
         textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 15
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 2.5
+        textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftViewMode = .always
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -190,7 +206,7 @@ extension InventoryListViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell",
-                                                            for: indexPath) as? CustomCollectionViewCell 
+                                                            for: indexPath) as? CustomCollectionViewCell
         else {
             return UICollectionViewCell()
         }
@@ -211,11 +227,13 @@ extension InventoryListViewController: UICollectionViewDataSource {
         }
 
         let inventory = filteredInventory[indexPath.row]
-
-        cell.backgroundColor = .systemGray3
-        //        let inventory = viewModel.inventoryList[indexPath.row]
         cell.label.text = inventory.title
+        cell.layer.cornerRadius = 18
+        cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                       segun la forma del layer
+        cell.backgroundColor = UIColor(red: 255/255, green: 187/255, blue: 150/255, alpha: 0.8)
 
+        cell.layer.borderColor = UIColor.lightGray.cgColor
+        cell.layer.borderWidth = 2.5
         return cell
     }
 
@@ -252,7 +270,7 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
                 sectionHeader.label.text = "No Favoritos"
             }
             return sectionHeader
-        } else { //No footer in this case but can add option for that
+        } else {
             return UICollectionReusableView()
         }
     }
@@ -260,14 +278,14 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 40)
-    }
+        CGSize(width: collectionView.frame.width, height: 40)
+    } // Tamaño de la label de cada seccion
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widht = collectionView.bounds.width / 3 - 7
-        let height: CGFloat = 100
+        let widht = collectionView.bounds.width
+        let height: CGFloat = 45
         return CGSize(width: widht, height: height)
     }
 }
