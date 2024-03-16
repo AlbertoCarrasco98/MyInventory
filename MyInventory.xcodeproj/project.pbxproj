@@ -99,7 +99,6 @@
 		9827981E2B21EBF10049D69F /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				980AABD72B593A0E005526C5 /* DatabaseManagerProtocol.swift */,
 				9827982F2B279CF90049D69F /* ViewModel */,
 				9827982B2B2799380049D69F /* Model */,
 			);
@@ -124,6 +123,7 @@
 				980AABD12B500220005526C5 /* RealmDatabaseManager.swift */,
 				986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */,
 				980AABD52B55A8B6005526C5 /* RealmMapper.swift */,
+				980AABD72B593A0E005526C5 /* DatabaseManagerProtocol.swift */,
 				9827982C2B279BC90049D69F /* Model */,
 			);
 			path = Data;

@@ -11,16 +11,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        let swiftDataDatabaseManager = SwiftDataDatabaseManager()
         let realmDatabaseManager = RealmDatabaseManager()
+        let swiftDataDatabaseManager = SwiftDataDatabaseManager()
         let viewModel = InventoryViewModel(databaseManager: realmDatabaseManager)
         let inventoryListVC = InventoryListViewController(viewModel: viewModel)
+//        let inventoryDetailVC = InventoryDetailViewController()
         let navigationController = UINavigationController(rootViewController: inventoryListVC)
         window.rootViewController = navigationController
 
         self.window = window
         window.makeKeyAndVisible()
-    }
+
+        
+            }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
