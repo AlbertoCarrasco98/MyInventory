@@ -64,7 +64,13 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
                                              style: .plain,
                                              target: self,
                                              action: #selector(favoriteAction))
-        navigationItem.rightBarButtonItems = [favoriteButton]
+        let trashImage = UIImage(systemName: "trash")
+        let trashButton = UIBarButtonItem(image: trashImage,
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(actionRemoveInventory))
+        trashButton.tintColor = .red
+        navigationItem.rightBarButtonItems = [trashButton, favoriteButton]
     }
 
     private func configureMainStackView() {
@@ -110,24 +116,27 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text, !text.isEmpty {
             viewModel.createNewElement(elementTitle: text, for: inventory)
-            }
+        }
         textField.resignFirstResponder()
         return true
     }
 
     func configureTrashButton() {
-        let trashButton = UIButton()
-        trashButton.addTarget(self, action: #selector(actionRemoveInventory), for: .touchUpInside)
-        trashButton.tintColor = .red
-        let image = UIImage(systemName: "trash")
-        trashButton.setImage(image, for: .normal)
-        trashButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            trashButton.heightAnchor.constraint(equalToConstant: 30),
-            trashButton.widthAnchor.constraint(equalToConstant: 40)
-        ])
-        hStack.addArrangedSubview(UIView())
-        hStack.addArrangedSubview(trashButton)
+        //        let trashButton = UIButton()
+        //        trashButton.addTarget(self,
+        //                              action: #selector(actionRemoveInventory),
+        //                              for: .touchUpInside)
+        //        trashButton.tintColor = .red
+        //        let image = UIImage(systemName: "trash")
+        //        trashButton.setImage(image, for: .normal)
+        //        trashButton.translatesAutoresizingMaskIntoConstraints = false
+        //        NSLayoutConstraint.activate([
+        //            trashButton.heightAnchor.constraint(equalToConstant: 30),
+        //            trashButton.widthAnchor.constraint(equalToConstant: 40)
+        //        ])
+
+        //        hStack.addArrangedSubview(UIView())
+        //        hStack.addArrangedSubview(trashButton)
     }
 
     @objc func actionRemoveInventory() {
@@ -135,22 +144,23 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
                                       message: "El inventario se eliminará permanentemente y no podrás recuperarlo",
                                       preferredStyle: .actionSheet)
 
-        let cancelAlert = UIAlertAction(title: "Cancelar",
+        let cancelAlertAction = UIAlertAction(title: "Cancelar",
                                         style: .cancel,
                                         handler: nil)
-        
-        let alertAction = UIAlertAction(title: "Eliminar",
+
+        let deleteAlertAction = UIAlertAction(title: "Eliminar",
                                         style: .destructive) { [weak self] _ in
             self?.removeInventory()
             self?.navigationController?.popViewController(animated: true)
         }
-        alert.addAction(alertAction)
-        alert.addAction(cancelAlert)
+        alert.addAction(deleteAlertAction)
+        alert.addAction(cancelAlertAction)
 
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            rootViewController.present(alert, animated: true)
-        }
+        present(alert, animated: true)
+//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//           let rootViewController = windowScene.windows.first?.rootViewController {
+//            rootViewController.present(alert, animated: true)
+//        }
     }
 
     func removeInventory() {

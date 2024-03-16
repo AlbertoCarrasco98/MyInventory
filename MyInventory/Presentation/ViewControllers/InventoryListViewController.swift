@@ -29,7 +29,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    var cancellables: Set<AnyCancellable> = []
+    private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Initialization
     init(viewModel: InventoryViewModel) {
