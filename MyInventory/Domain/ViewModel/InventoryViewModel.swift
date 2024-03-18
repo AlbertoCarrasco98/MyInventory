@@ -12,15 +12,11 @@ class InventoryViewModel: ObservableObject {
 
     // MARK: - Signals
     // Sirven para avisar que hay cambios en el inventario, por lo que la vista se actualiza
-
-    let inventoryArrayUpdated: PassthroughSubject<Void, Error> = PassthroughSubject()
-
+    let inventoryListUpdatedSignal: PassthroughSubject<Void, Error> = PassthroughSubject()
     let inventoryUpdatedSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
 
-//    let updatedInventorySignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
-
     // MARK: - Functions
-
+    
     func loadData() {
         inventoryList = databaseManager.getInventoryList()
     }
@@ -32,14 +28,14 @@ class InventoryViewModel: ObservableObject {
         let newInventory = InventoryModel(title: title, elements: elements)
         databaseManager.save(newInventory)
         loadData()
-        inventoryArrayUpdated.send()
+        inventoryListUpdatedSignal.send()
         return .success(())
     }
 
     func removeInventory(_ inventory: InventoryModel) {
         databaseManager.deleteInventory(withTitle: inventory.title)
         loadData()
-        inventoryArrayUpdated.send()
+        inventoryListUpdatedSignal.send()
     }
 
     func borrarUnElementoDeUnInventario(title: String, inventory: InventoryModel) {
@@ -82,9 +78,10 @@ class InventoryViewModel: ObservableObject {
     func updateIsDeleted(in inventory: InventoryModel) {
         let updatedInventory = InventoryModel(title: inventory.title,
                                               elements: inventory.elements,
-                                              isFavorite: inventory.isFavorite,
+                                              isFavorite: false,
                                               isDeleted: !inventory.isDeleted)
         databaseManager.save(updatedInventory)
+        loadData()
         inventoryUpdatedSignal.send(updatedInventory)
     }
 }

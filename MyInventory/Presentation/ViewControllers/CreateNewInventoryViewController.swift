@@ -27,7 +27,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func listenViewModel() {
-        viewModel.inventoryArrayUpdated.sink { _ in
+        viewModel.inventoryListUpdatedSignal.sink { _ in
         } receiveValue: { _ in
             self.navigationController?.popViewController(animated: true)
         }.store(in: &cancellables)

@@ -69,7 +69,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     private func configureMainStackView() {
         let spacer = UIView()
+        let spacer2 = UIView()
         spacer.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer2.heightAnchor.constraint(equalToConstant: 10).isActive = true
         view.addSubview(mainStackView)
         mainStackView.axis = .vertical
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +84,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         mainStackView.addArrangedSubview(textField)
         mainStackView.addArrangedSubview(spacer)
         mainStackView.addArrangedSubview(tableview)
+        mainStackView.addArrangedSubview(spacer2)
         mainStackView.addArrangedSubview(hStack)
     }
 
@@ -133,7 +136,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     @objc func actionRemoveInventory() {
         let alert = UIAlertController(title: "",
-                                      message: "El inventario se eliminará permanentemente y no podrás recuperarlo",
+                                      message: "El inventario se moverá a la papelera",
                                       preferredStyle: .actionSheet)
 
         let cancelAlert = UIAlertAction(title: "Cancelar",
@@ -155,7 +158,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     func removeInventory() {
-        viewModel.removeInventory(inventory)
+//        viewModel.removeInventory(inventory)
+        viewModel.updateIsDeleted(in: inventory)
     }
 
     @objc func favoriteAction() {

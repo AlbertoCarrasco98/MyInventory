@@ -20,13 +20,17 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
     private var filteredInventories: [InventoryModel] {
         if let text = searchText, !text.isEmpty {
-            let filter = viewModel.inventoryList.filter { inventory in
-                inventory.title.lowercased().contains(text.lowercased())
-            }
-            return filter
+            return viewModel.inventoryList.filter { $0.title.lowercased().contains(text.lowercased()) && !$0.isDeleted }
         } else {
-            return viewModel.inventoryList
+            return viewModel.inventoryList.filter { !$0.isDeleted }
         }
+//            let filter = viewModel.inventoryList.filter { inventory in
+//                inventory.title.lowercased().contains(text.lowercased()) && !inventory.isDeleted }
+//
+//            return filter
+//        } else {
+//            return viewModel.inventoryList.filter { !$0.isFavorite }
+//        }
     }
 
     var cancellables: Set<AnyCancellable> = []
@@ -49,7 +53,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
-        viewModel.inventoryArrayUpdated.sink { _ in
+        viewModel.inventoryListUpdatedSignal.sink { _ in
             // No hacemos nada
         } receiveValue: { _ in
             self.collectionView.reloadData()
@@ -85,7 +89,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func addButtonTapped() {
-        let trashVC = TrashViewController()
+        let trashVC = TrashViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(trashVC, animated: true)
     }
 
@@ -203,7 +207,6 @@ extension InventoryListViewController: UICollectionViewDataSource {
         }
 
         let filteredInventory: [InventoryModel]
-
         switch indexPath.section {
             case 0:
                 filteredInventory = filteredInventories.filter { $0.isFavorite }
@@ -212,7 +215,6 @@ extension InventoryListViewController: UICollectionViewDataSource {
             default:
                 filteredInventory = []
         }
-
         guard indexPath.row < filteredInventory.count else {
             return cell
         }

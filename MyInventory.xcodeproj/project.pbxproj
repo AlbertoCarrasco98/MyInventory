@@ -27,6 +27,7 @@
 		982798312B279D120049D69F /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798302B279D120049D69F /* InventoryViewModel.swift */; };
 		98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */; };
 		986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */; };
+		9875BA0F2BA87E3300611D88 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */; };
 		987DFB7C2BA6048900F9DD9C /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */; };
 		987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		982798302B279D120049D69F /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
 		98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
 		986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataMapper.swift; sourceTree = "<group>"; };
+		9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
 		987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */,
+				9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */,
 				987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */,
 			);
 			path = Views;
@@ -259,6 +262,7 @@
 				980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */,
 				987DFB7C2BA6048900F9DD9C /* UICollectionViewCell.swift in Sources */,
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
+				9875BA0F2BA87E3300611D88 /* UITableViewCell.swift in Sources */,
 				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,

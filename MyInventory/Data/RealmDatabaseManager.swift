@@ -17,6 +17,7 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
         else {
             return nil
         }
+        //Crear variable y retornala
         return RealmMapper.map(inventory: inventoryRealm)
     }
 
