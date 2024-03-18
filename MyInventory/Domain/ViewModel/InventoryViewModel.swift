@@ -13,12 +13,11 @@ class InventoryViewModel: ObservableObject {
     // MARK: - Signals
     // Sirven para avisar que hay cambios en el inventario, por lo que la vista se actualiza
 
-    let newInventorySignal: PassthroughSubject<Void, Error> = PassthroughSubject()
-    let inventoryDetailSignal: PassthroughSubject<Void, Error> = PassthroughSubject()
-    let inventoryDeletedSignal: PassthroughSubject<Void, Error> = PassthroughSubject()
-    let inventoryDidChangeSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
+    let inventoryArrayUpdated: PassthroughSubject<Void, Error> = PassthroughSubject()
 
-    let updatedInventorySignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
+    let inventoryUpdatedSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
+
+//    let updatedInventorySignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
 
     // MARK: - Functions
 
@@ -33,14 +32,14 @@ class InventoryViewModel: ObservableObject {
         let newInventory = InventoryModel(title: title, elements: elements)
         databaseManager.save(newInventory)
         loadData()
-        newInventorySignal.send()
+        inventoryArrayUpdated.send()
         return .success(())
     }
 
     func removeInventory(_ inventory: InventoryModel) {
         databaseManager.deleteInventory(withTitle: inventory.title)
         loadData()
-        inventoryDeletedSignal.send()
+        inventoryArrayUpdated.send()
     }
 
     func borrarUnElementoDeUnInventario(title: String, inventory: InventoryModel) {
@@ -52,7 +51,8 @@ class InventoryViewModel: ObservableObject {
                 databaseManager.save(mutableInventory)
             }
         }
-        inventoryDidChangeSignal.send(mutableInventory)
+        loadData()
+        inventoryUpdatedSignal.send(mutableInventory)
     }
 
     func newElement(from inventory: InventoryModel, elementTitle: String) {
@@ -63,7 +63,8 @@ class InventoryViewModel: ObservableObject {
                                               isDeleted: inventory.isDeleted)
         updatedInventory.elements.append(element)
         databaseManager.save(updatedInventory)
-        inventoryDidChangeSignal.send(updatedInventory)
+        loadData()
+        inventoryUpdatedSignal.send(updatedInventory)
     }
 
     func updateIsFavorite(in inventory: InventoryModel) {
@@ -75,7 +76,7 @@ class InventoryViewModel: ObservableObject {
                                               isDeleted: mutableInventory.isDeleted)
         databaseManager.save(updatedInventory)
         loadData()
-        inventoryDidChangeSignal.send(updatedInventory)
+        inventoryUpdatedSignal.send(updatedInventory)
     }
 
     func updateIsDeleted(in inventory: InventoryModel) {
@@ -84,6 +85,6 @@ class InventoryViewModel: ObservableObject {
                                               isFavorite: inventory.isFavorite,
                                               isDeleted: !inventory.isDeleted)
         databaseManager.save(updatedInventory)
-        inventoryDidChangeSignal.send(updatedInventory)
+        inventoryUpdatedSignal.send(updatedInventory)
     }
 }

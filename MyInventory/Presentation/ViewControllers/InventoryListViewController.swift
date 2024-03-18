@@ -49,19 +49,13 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
-        viewModel.newInventorySignal.sink { _ in
-        } receiveValue: { _ in
-            self.collectionView.reloadData()
-        }.store(in: &cancellables)
-
-        viewModel.inventoryDeletedSignal.sink { _ in
+        viewModel.inventoryArrayUpdated.sink { _ in
             // No hacemos nada
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
 
-        viewModel.inventoryDidChangeSignal.sink { _ in
-
+        viewModel.inventoryUpdatedSignal.sink { _ in
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)

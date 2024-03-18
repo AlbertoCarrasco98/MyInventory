@@ -33,7 +33,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     func listenViewModel() {
-        viewModel.inventoryDidChangeSignal.sink { _ in
+        viewModel.inventoryUpdatedSignal.sink { _ in
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory
