@@ -65,7 +65,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
-
     }
 
     // MARK: - SetupUI
@@ -227,7 +226,7 @@ extension InventoryListViewController: UICollectionViewDataSource {
         let inventory = filteredInventory[indexPath.row]
         cell.label.text = inventory.title
         cell.layer.cornerRadius = 18
-        cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                       segun la forma del layer
+        cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
         cell.backgroundColor = UIColor(red: 255/255, green: 187/255, blue: 150/255, alpha: 0.8)
 
         cell.layer.borderColor = UIColor.lightGray.cgColor

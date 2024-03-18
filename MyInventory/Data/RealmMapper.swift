@@ -3,7 +3,6 @@ import RealmSwift
 class RealmMapper {
 
 //    Mapear un array de [InventoryModelRealm] a un array de [InventoryModel]
-
     static func map(_ realmInventoryList: Results<InventoryModelRealm>) -> [InventoryModel] {
         var inventoryList: [InventoryModel] = []
 
@@ -14,7 +13,6 @@ class RealmMapper {
                 let elementModel = InventoryModel.Element(title: realmElement.title)
                 elementList.append(elementModel)
             }
-
             let inventoryModel = InventoryModel(title: realmInventory.title,
                                                 elements: elementList,
                                                 isFavorite: realmInventory.isFavorite,
@@ -26,17 +24,12 @@ class RealmMapper {
 
 //    Mapear un InventoryModel a un InventoryModelRealm
     static func map(inventory: InventoryModel) -> InventoryModelRealm {
-
-//        inventoryRealm.title = inventory.title
-
         let elementsRealm = List<ElementRealm>()
         elementsRealm.append(objectsIn: map(elements: inventory.elements))
-//        let inventoryRealm = InventoryModelRealm(title: inventory.title, elements: elementsRealm)
         let inventoryRealm = InventoryModelRealm()
         inventoryRealm.title = inventory.title
         inventoryRealm.elements = elementsRealm
         inventoryRealm.isDeleted = inventory.isDeleted
-
         return inventoryRealm
     }
 

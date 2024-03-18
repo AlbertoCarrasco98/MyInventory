@@ -159,8 +159,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func favoriteAction() {
-//        let setFavoriteValue = !inventory.isFavorite
-//        viewModel.setFavorite(setFavoriteValue, toInventory: inventory)
         viewModel.updateIsFavorite(in: inventory)
     }
 }
@@ -191,8 +189,6 @@ extension InventoryDetailViewController: UITableViewDataSource {
             } else {
                 print("No se ha seleccionado ningun inventario")
             }
-//            self?.viewModel.deleteElement(fromInventoryWithTitle: self?.inventory.title ?? "", elementTitle: elementTitle ?? "")
-//            self?.viewModel.borrarUnElementoDeUnInventario(title: elementTitle, inventory: self?.inventory)
             completionHandler(true)
         }
         deleteAction.backgroundColor = .red

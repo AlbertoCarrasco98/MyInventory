@@ -87,38 +87,3 @@ class InventoryViewModel: ObservableObject {
         inventoryDidChangeSignal.send(updatedInventory)
     }
 }
-
-
-// --------------------------------------------------------------
-//func createNewElement(elementTitle: String, for inventory: InventoryModel) {
-//        guard let updatedInventory = databaseManager.addElementToInventory(inventoryTitle: inventory.title,
-//                                                                           elementTitle: elementTitle)
-//        else { return }
-//        loadData()
-//        inventoryDidChangeSignal.send(updatedInventory)
-//    }
-// --------------------------------------------------------------
-//func deleteElement(fromInventoryWithTitle inventoryTitle: String, elementTitle: String) {
-//        guard let updatedInventory = databaseManager.deleteElementFromInventory(inventoryTitle: inventoryTitle,
-//                                                                                elementTitle: elementTitle)
-//        else { return }
-//        loadData()
-//        inventoryDidChangeSignal.send(updatedInventory)
-//    }
-// --------------------------------------------------------------
-//    func setFavorite(_ favorite: Bool, toInventory inventory: InventoryModel) {
-//        var inventoryUpdated = inventory
-//        inventoryUpdated.isFavorite = favorite
-//        databaseManager.setFavorite(inventoryUpdated)
-//        loadData()
-//        inventoryDidChangeSignal.send(inventoryUpdated)
-//    }
-// --------------------------------------------------------------
-//func setDeleted(_ isDeleted: Bool, toInventory inventory: InventoryModel) {
-//        var inventoryUpdated = inventory
-//        inventoryUpdated.isDeleted = isDeleted
-//        databaseManager.setDeleted(inventoryUpdated)
-//        loadData()
-//        inventoryDidChangeSignal.send(inventoryUpdated)
-//    }
-// --------------------------------------------------------------
