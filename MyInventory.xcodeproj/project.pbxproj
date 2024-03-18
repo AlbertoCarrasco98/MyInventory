@@ -26,7 +26,9 @@
 		9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */; };
 		982798312B279D120049D69F /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798302B279D120049D69F /* InventoryViewModel.swift */; };
 		98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */; };
-		986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */; };
+		986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */; };
+		987DFB7C2BA6048900F9DD9C /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */; };
+		987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,7 +51,9 @@
 		9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModelSwiftData.swift; sourceTree = "<group>"; };
 		982798302B279D120049D69F /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
 		98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
-		986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
+		986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataMapper.swift; sourceTree = "<group>"; };
+		987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
+		987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,11 +123,11 @@
 		982798282B24F2FF0049D69F /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */,
-				980AABD12B500220005526C5 /* RealmDatabaseManager.swift */,
-				986BB0FB2B2A0D0D007DAB02 /* Mapper.swift */,
-				980AABD52B55A8B6005526C5 /* RealmMapper.swift */,
 				980AABD72B593A0E005526C5 /* DatabaseManagerProtocol.swift */,
+				980AABD12B500220005526C5 /* RealmDatabaseManager.swift */,
+				980AABD52B55A8B6005526C5 /* RealmMapper.swift */,
+				982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */,
+				986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */,
 				9827982C2B279BC90049D69F /* Model */,
 			);
 			path = Data;
@@ -141,8 +145,8 @@
 		9827982C2B279BC90049D69F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */,
 				980AABD32B5005C5005526C5 /* InventoryModelRealm.swift */,
+				9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +171,8 @@
 		98FEA4F02B5FB253008293EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */,
+				987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -251,16 +257,18 @@
 				980AABD62B55A8B6005526C5 /* RealmMapper.swift in Sources */,
 				982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */,
 				980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */,
+				987DFB7C2BA6048900F9DD9C /* UICollectionViewCell.swift in Sources */,
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
 				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
-				986BB0FC2B2A0D0D007DAB02 /* Mapper.swift in Sources */,
+				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
 				9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */,
 				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,
 				9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */,
+				987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */,
 				980AABD22B500220005526C5 /* RealmDatabaseManager.swift in Sources */,
 				9827980B2B21EB4C0049D69F /* SceneDelegate.swift in Sources */,
 				980AABD42B5005C5005526C5 /* InventoryModelRealm.swift in Sources */,

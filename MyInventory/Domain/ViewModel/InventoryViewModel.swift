@@ -11,12 +11,14 @@ class InventoryViewModel: ObservableObject {
     }
 
     // MARK: - Signals
-    // Sirve para avisar que hay cambios en el inventario, por lo que la vista se actualiza
-    // Sirve para avisar de que se ha creado un nuevo inventario
+    // Sirven para avisar que hay cambios en el inventario, por lo que la vista se actualiza
+
     let newInventorySignal: PassthroughSubject<Void, Error> = PassthroughSubject()
     let inventoryDetailSignal: PassthroughSubject<Void, Error> = PassthroughSubject()
     let inventoryDeletedSignal: PassthroughSubject<Void, Error> = PassthroughSubject()
     let inventoryDidChangeSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
+
+    let updatedInventorySignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
 
     // MARK: - Functions
 
@@ -29,7 +31,7 @@ class InventoryViewModel: ObservableObject {
             return .failure(CustomError.failure("Ya existe un inventario con ese título"))
         }
         let newInventory = InventoryModel(title: title, elements: elements)
-        databaseManager.createInventory(newInventory)
+        databaseManager.save(newInventory)
         loadData()
         newInventorySignal.send()
         return .success(())
@@ -41,36 +43,82 @@ class InventoryViewModel: ObservableObject {
         inventoryDeletedSignal.send()
     }
 
-    func deleteElement(fromInventoryWithTitle inventoryTitle: String, elementTitle: String) {
-        guard let updatedInventory = databaseManager.deleteElementFromInventory(inventoryTitle: inventoryTitle,
-                                                                                elementTitle: elementTitle)
-        else { return }
+    func borrarUnElementoDeUnInventario(title: String, inventory: InventoryModel) {
+        var mutableInventory = inventory
+
+        for (index, element) in mutableInventory.elements.enumerated() {
+            if element.title == title {
+                mutableInventory.elements.remove(at: index)
+                databaseManager.save(mutableInventory)
+            }
+        }
+        inventoryDidChangeSignal.send(mutableInventory)
+    }
+
+    func newElement(from inventory: InventoryModel, elementTitle: String) {
+        let element = InventoryModel.Element(title: elementTitle)
+        var updatedInventory = InventoryModel(title: inventory.title,
+                                              elements: inventory.elements,
+                                              isFavorite: inventory.isFavorite,
+                                              isDeleted: inventory.isDeleted)
+        updatedInventory.elements.append(element)
+        databaseManager.save(updatedInventory)
+        inventoryDidChangeSignal.send(updatedInventory)
+    }
+
+    func updateIsFavorite(in inventory: InventoryModel) {
+        var mutableInventory = inventory
+        mutableInventory.isFavorite.toggle()
+        let updatedInventory = InventoryModel(title: mutableInventory.title,
+                                              elements: mutableInventory.elements,
+                                              isFavorite: mutableInventory.isFavorite,
+                                              isDeleted: mutableInventory.isDeleted)
+        databaseManager.save(updatedInventory)
         loadData()
         inventoryDidChangeSignal.send(updatedInventory)
     }
 
-    func createNewElement(elementTitle: String, for inventory: InventoryModel) {
-        guard let updatedInventory = databaseManager.addElementToInventory(inventoryTitle: inventory.title,
-                                                                           elementTitle: elementTitle)
-        else { return }
-        loadData()
+    func updateIsDeleted(in inventory: InventoryModel) {
+        let updatedInventory = InventoryModel(title: inventory.title,
+                                              elements: inventory.elements,
+                                              isFavorite: inventory.isFavorite,
+                                              isDeleted: !inventory.isDeleted)
+        databaseManager.save(updatedInventory)
         inventoryDidChangeSignal.send(updatedInventory)
     }
+}
 
-//    func setFavorite(_ isFavorite: Bool, inventoryTitle: String) {
-//        guard let updatedInventory = databaseManager.setFavorite(isFavorite,
-//                                                                 inventoryTitle: inventoryTitle)
+
+// --------------------------------------------------------------
+//func createNewElement(elementTitle: String, for inventory: InventoryModel) {
+//        guard let updatedInventory = databaseManager.addElementToInventory(inventoryTitle: inventory.title,
+//                                                                           elementTitle: elementTitle)
 //        else { return }
 //        loadData()
 //        inventoryDidChangeSignal.send(updatedInventory)
 //    }
-
-    func setFavorite(_ favorite: Bool, toInventory inventory: InventoryModel) {
-        var inventoryUpdated = inventory
-        inventoryUpdated.isFavorite = favorite
-        databaseManager.setFavorite(inventoryUpdated)
-        loadData()
-        inventoryDidChangeSignal.send(inventoryUpdated)
-    }
-}
-
+// --------------------------------------------------------------
+//func deleteElement(fromInventoryWithTitle inventoryTitle: String, elementTitle: String) {
+//        guard let updatedInventory = databaseManager.deleteElementFromInventory(inventoryTitle: inventoryTitle,
+//                                                                                elementTitle: elementTitle)
+//        else { return }
+//        loadData()
+//        inventoryDidChangeSignal.send(updatedInventory)
+//    }
+// --------------------------------------------------------------
+//    func setFavorite(_ favorite: Bool, toInventory inventory: InventoryModel) {
+//        var inventoryUpdated = inventory
+//        inventoryUpdated.isFavorite = favorite
+//        databaseManager.setFavorite(inventoryUpdated)
+//        loadData()
+//        inventoryDidChangeSignal.send(inventoryUpdated)
+//    }
+// --------------------------------------------------------------
+//func setDeleted(_ isDeleted: Bool, toInventory inventory: InventoryModel) {
+//        var inventoryUpdated = inventory
+//        inventoryUpdated.isDeleted = isDeleted
+//        databaseManager.setDeleted(inventoryUpdated)
+//        loadData()
+//        inventoryDidChangeSignal.send(inventoryUpdated)
+//    }
+// --------------------------------------------------------------

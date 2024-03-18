@@ -50,9 +50,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
         viewModel.newInventorySignal.sink { _ in
-
         } receiveValue: { _ in
-
             self.collectionView.reloadData()
         }.store(in: &cancellables)
 
@@ -75,13 +73,13 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     private func setupUI() {
         view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
         self.title = "Inventarios"
+        viewModel.loadData()
+        listenViewModel()
         setupNavigationBar()
         configureMainStackView()
         configureCollectionView()
         configureTextField()
         configureAddInventoryButton()
-        listenViewModel()
-        viewModel.loadData()
         navigationItem.backButtonTitle = "Atrás"
     }
 
@@ -287,64 +285,5 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
         let widht = collectionView.bounds.width
         let height: CGFloat = 45
         return CGSize(width: widht, height: height)
-    }
-}
-
-// MARK: - UICollectionViewCell
-
-// Deberia tener la customCell en un archivo a parte??
-
-class CustomCollectionViewCell: UICollectionViewCell {
-    let label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        return label
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) no ha sido implementado")
-    }
-
-    func setupViews() {
-        addSubview(label)
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor),
-            label.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            bottomAnchor.constraint(equalTo: label.bottomAnchor)
-        ])
-    }
-}
-
-
-class SectionHeader: UICollectionReusableView {
-    var label: UILabel = {
-        let label: UILabel = UILabel()
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        label.sizeToFit()
-        return label
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        addSubview(label)
-
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        label.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        label.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

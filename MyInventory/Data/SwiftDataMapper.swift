@@ -1,6 +1,6 @@
 // En esta clase tengo que crear funciones que "mapeen" el modelo de inventario de Domain con el modelo de inventario de SwiftData y viceversa
 
-class Mapper {
+class SwiftDataMapper {
 
     static func map(inventory: InventoryModel) -> InventoryModelSwiftData {
         return InventoryModelSwiftData(title: inventory.title,
@@ -27,7 +27,8 @@ class Mapper {
         fatalError("Deprecated")
         return InventoryModel(title: inventory.title,
                               elements: map(elements: inventory.elements),
-                              isFavorite: true)
+                              isFavorite: true,
+                              isDeleted: inventory.isDeleted)
     }
 
     static func map(elements: [InventoryModelSwiftData.ElementSwiftData]) -> [InventoryModel.Element] {

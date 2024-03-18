@@ -17,7 +17,8 @@ class RealmMapper {
 
             let inventoryModel = InventoryModel(title: realmInventory.title,
                                                 elements: elementList,
-                                                isFavorite: realmInventory.isFavorite)
+                                                isFavorite: realmInventory.isFavorite,
+                                                isDeleted: realmInventory.isDeleted)
             inventoryList.append(inventoryModel)
         }
         return inventoryList
@@ -34,6 +35,7 @@ class RealmMapper {
         let inventoryRealm = InventoryModelRealm()
         inventoryRealm.title = inventory.title
         inventoryRealm.elements = elementsRealm
+        inventoryRealm.isDeleted = inventory.isDeleted
 
         return inventoryRealm
     }
@@ -60,7 +62,8 @@ class RealmMapper {
 
         let inventoryModel = InventoryModel(title: inventory.title,
                                             elements: elementsModel,
-                                            isFavorite: inventory.isFavorite)
+                                            isFavorite: inventory.isFavorite,
+                                            isDeleted: inventory.isDeleted)
         return inventoryModel
     }
 

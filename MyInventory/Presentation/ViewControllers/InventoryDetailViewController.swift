@@ -109,7 +109,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text, !text.isEmpty {
-            viewModel.createNewElement(elementTitle: text, for: inventory)
+//            viewModel.createNewElement(elementTitle: text, for: inventory)
+            viewModel.newElement(from: inventory, elementTitle: text)
             }
         textField.resignFirstResponder()
         return true
@@ -158,8 +159,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func favoriteAction() {
-        let setFavoriteValue = !inventory.isFavorite
-        viewModel.setFavorite(setFavoriteValue, toInventory: inventory)
+//        let setFavoriteValue = !inventory.isFavorite
+//        viewModel.setFavorite(setFavoriteValue, toInventory: inventory)
+        viewModel.updateIsFavorite(in: inventory)
     }
 }
 
@@ -180,8 +182,17 @@ extension InventoryDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { [weak self] (action, view, completionHandler) in
-            let elementTitle = self?.inventory.elements[indexPath.row].title
-            self?.viewModel.deleteElement(fromInventoryWithTitle: self?.inventory.title ?? "", elementTitle: elementTitle ?? "")
+            guard let elementTitle = self?.inventory.elements[indexPath.row].title else {
+                completionHandler(false)
+                return
+            }
+            if let inventory = self?.inventory {
+                self?.viewModel.borrarUnElementoDeUnInventario(title: elementTitle, inventory: inventory)
+            } else {
+                print("No se ha seleccionado ningun inventario")
+            }
+//            self?.viewModel.deleteElement(fromInventoryWithTitle: self?.inventory.title ?? "", elementTitle: elementTitle ?? "")
+//            self?.viewModel.borrarUnElementoDeUnInventario(title: elementTitle, inventory: self?.inventory)
             completionHandler(true)
         }
         deleteAction.backgroundColor = .red

@@ -54,11 +54,11 @@ class SwiftDataDatabaseManager {
         let updatedInventory = inventory
         context.insert(updatedInventory)
         try? context.save()
-        return Mapper.map(inventory: updatedInventory)
+        return SwiftDataMapper.map(inventory: updatedInventory)
     }
 
     func saveInventory(inventory: InventoryModel) {   // Guarda los inventaios en base de datos
-        let inventoryModelSwiftData = Mapper.map(inventory: inventory)
+        let inventoryModelSwiftData = SwiftDataMapper.map(inventory: inventory)
         context.insert(inventoryModelSwiftData)
         try? context.save()
     }
