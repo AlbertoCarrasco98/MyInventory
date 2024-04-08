@@ -10,20 +10,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
+
         let window = UIWindow(windowScene: windowScene)
         let realmDatabaseManager = RealmDatabaseManager()
         let swiftDataDatabaseManager = SwiftDataDatabaseManager()
+
         let viewModel = InventoryViewModel(databaseManager: realmDatabaseManager)
+
         let inventoryListVC = InventoryListViewController(viewModel: viewModel)
-//        let inventoryDetailVC = InventoryDetailViewController()
-        let navigationController = UINavigationController(rootViewController: inventoryListVC)
-        window.rootViewController = navigationController
+        let trashVC = TrashViewController(viewModel: viewModel)
+
+        let tabBarController = UITabBarController()
+
+        let inventoriesImage = UIImage(systemName: "note.text")
+        let trashImage = UIImage(systemName: "trash.circle")
+
+        inventoryListVC.tabBarItem = UITabBarItem(title: "Inventarios", image: inventoriesImage, tag: 0)
+        trashVC.tabBarItem = UITabBarItem(title: "Papelera", image: trashImage, tag: 1)
+
+        let navigationControllerInventorList = UINavigationController(rootViewController: inventoryListVC)
+        let navigationControllerTrash = UINavigationController(rootViewController: trashVC)
+
+        tabBarController.viewControllers = [navigationControllerInventorList,
+                                            navigationControllerTrash]
+
+        window.rootViewController = tabBarController
 
         self.window = window
         window.makeKeyAndVisible()
-
-        
-            }
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

@@ -5,6 +5,8 @@ class TrashViewController: UIViewController {
 
     private let mainStackView = UIStackView()
     private let tableView = UITableView()
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    
 
     private let viewModel: InventoryViewModel
 
@@ -30,17 +32,18 @@ class TrashViewController: UIViewController {
     func listenViewModel() {
         viewModel.inventoryUpdatedSignal.sink { _ in
         } receiveValue: { updatedInventory in
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }.store(in: &cancellables)
 
         viewModel.inventoryListUpdatedSignal.sink { _ in
         } receiveValue: { _ in
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }.store(in: &cancellables)
     }
 
     private func setupUI() {
         listenViewModel()
+//        view.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
         view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
         self.title = "Papelera"
         view.addSubview(mainStackView)
@@ -48,8 +51,9 @@ class TrashViewController: UIViewController {
     }
 
     private func configureMainStackView() {
-        mainStackView.addArrangedSubview(tableView)
-        configureTableView()
+//        mainStackView.addArrangedSubview(tableView)
+//        configureTableView()
+        configureCollectionView()
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
@@ -64,11 +68,74 @@ class TrashViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.layer.borderWidth = 1
+        tableView.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
     }
+
+    private func configureCollectionView() {
+        mainStackView.addArrangedSubview(collectionView)
+        collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+        let layout = UICollectionViewFlowLayout()
+        collectionView.register(CustomCollectionViewCell.self,
+                                forCellWithReuseIdentifier: "CustomCollectionViewCell")
+        collectionView.setCollectionViewLayout(layout, animated: false)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
 }
+
+extension TrashViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        deletedInventories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell",
+                                                            for: indexPath) as? CustomCollectionViewCell
+        else {
+            return UICollectionViewCell()
+        }
+
+        let inventory = deletedInventories[indexPath.row]
+        cell.label.text = inventory.title
+        cell.layer.cornerRadius = 18
+        cell.layer.masksToBounds = true
+        cell.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
+        cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        cell.layer.borderWidth = 2.5
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedInventory = deletedInventories[indexPath.row]
+        let inventoryDetailVCFromTrash = InventoryDetailViewController(inventory: selectedInventory,
+                                                                       viewModel: viewModel)
+        inventoryDetailVCFromTrash.title = selectedInventory.title
+        self.navigationController?.pushViewController(inventoryDetailVCFromTrash,
+                                                      animated: true)
+    }
+}
+
+extension TrashViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let widht = collectionView.bounds.width / 2 - 10
+        let height: CGFloat = 60
+        return CGSize(width: widht, height: height)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // MARK: - UITableViewDataSource
 
@@ -86,6 +153,7 @@ extension TrashViewController: UITableViewDataSource {
                                                  for: indexPath)
         let inventory = deletedInventories[indexPath.row]
         cell.textLabel?.text = inventory.title
+        cell.backgroundColor = UIColor(red: 1.0, green: 0.75, blue: 0.75, alpha: 1.0)
         return cell
     }
 
@@ -121,6 +189,12 @@ extension TrashViewController: UITableViewDataSource {
 extension TrashViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let selectedInventory = deletedInventories[indexPath.row]
+        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
+                                                              viewModel: viewModel)
+        navigationController?.pushViewController(inventoryDetailVC,
+                                                 animated: true)
+        inventoryDetailVC.title = selectedInventory.title
     }
 }
 

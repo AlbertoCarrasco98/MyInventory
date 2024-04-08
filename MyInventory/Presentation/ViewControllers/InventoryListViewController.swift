@@ -24,13 +24,13 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } else {
             return viewModel.inventoryList.filter { !$0.isDeleted }
         }
-//            let filter = viewModel.inventoryList.filter { inventory in
-//                inventory.title.lowercased().contains(text.lowercased()) && !inventory.isDeleted }
-//
-//            return filter
-//        } else {
-//            return viewModel.inventoryList.filter { !$0.isFavorite }
-//        }
+        //            let filter = viewModel.inventoryList.filter { inventory in
+        //                inventory.title.lowercased().contains(text.lowercased()) && !inventory.isDeleted }
+        //
+        //            return filter
+        //        } else {
+        //            return viewModel.inventoryList.filter { !$0.isFavorite }
+        //        }
     }
 
     var cancellables: Set<AnyCancellable> = []
@@ -81,7 +81,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func setupNavigationBar() {
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "trash.fill"),
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "gear"),
                                         style: .plain,
                                         target: self,
                                         action: #selector(addButtonTapped))
@@ -89,8 +89,8 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func addButtonTapped() {
-        let trashVC = TrashViewController(viewModel: viewModel)
-        self.navigationController?.pushViewController(trashVC, animated: true)
+        let settingsVC = SettingsViewController()
+        self.navigationController?.pushViewController(settingsVC, animated: true)
     }
 
     // MARK: - ConfigureMainStackView
@@ -114,7 +114,8 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 24),
-            view.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 24)
+            //            view.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 24)
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
     }
 
@@ -122,7 +123,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     private func configureCollectionView() {
         collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
-        collectionView.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor).isActive = true
+//        collectionView.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor).isActive = true
         let layout = UICollectionViewFlowLayout()
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.dataSource = self
@@ -151,6 +152,15 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     @objc func addInventoryButtonTapped() {
         let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(createNewInventoryVC, animated: true)
+        UIView.animate(withDuration: 0, animations: {
+            // Cambiar el tamaño del botón
+            self.addInventoryButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }) { _ in
+            // Restaurar el tamaño original del botón después de la animación
+            UIView.animate(withDuration: 0) {
+                self.addInventoryButton.transform = CGAffineTransform.identity
+            }
+        }
     }
 
     // MARK: - ConfigureTextField
@@ -175,7 +185,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
-//        let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        //        let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         collectionView.reloadData()
     }
 }
@@ -224,8 +234,7 @@ extension InventoryListViewController: UICollectionViewDataSource {
         cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
         cell.backgroundColor = UIColor(red: 255/255, green: 187/255, blue: 150/255, alpha: 0.8)
-
-        cell.layer.borderColor = UIColor.lightGray.cgColor
+        cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         cell.layer.borderWidth = 2.5
         return cell
     }
@@ -243,7 +252,8 @@ extension InventoryListViewController: UICollectionViewDataSource {
         }
         let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
                                                               viewModel: viewModel)
-        self.navigationController?.pushViewController(inventoryDetailVC, animated: true)
+        self.navigationController?.pushViewController(inventoryDetailVC,
+                                                      animated: true)
         inventoryDetailVC.title = selectedInventory.title
     }
 }
