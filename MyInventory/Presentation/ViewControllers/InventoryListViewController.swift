@@ -78,6 +78,9 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         configureTextField()
         configureAddInventoryButton()
         navigationItem.backButtonTitle = "Atrás"
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        mainStackView.addGestureRecognizer(tapGesture)
     }
 
     private func setupNavigationBar() {
@@ -91,6 +94,14 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     @objc func addButtonTapped() {
         let settingsVC = SettingsViewController()
         self.navigationController?.pushViewController(settingsVC, animated: true)
+    }
+
+    @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+//        let location = sender.location(in: collectionView)
+//        if collectionView.bounds.contains(location) {
+//            return
+//        }
+        view.endEditing(true)
     }
 
     // MARK: - ConfigureMainStackView
@@ -188,6 +199,12 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         //        let searchText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         collectionView.reloadData()
     }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
 }
 
 // MARK: - UICollectionViewDataSource
