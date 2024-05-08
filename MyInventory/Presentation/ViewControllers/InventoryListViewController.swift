@@ -9,8 +9,10 @@ enum InventoryListSection: Int, CaseIterable {
 class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     private let viewModel: InventoryViewModel
+    private let appearanceViewModel: AppearanceViewModel
 
     // MARK: - Properties
+
     private let mainStackView = UIStackView()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let addInventoryButton = UIButton()
@@ -33,11 +35,12 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         //        }
     }
 
-    var cancellables: Set<AnyCancellable> = []
+    var cancellables: [AnyCancellable] = []
 
     // MARK: - Initialization
-    init(viewModel: InventoryViewModel) {
+    init(viewModel: InventoryViewModel, appearanceViewModel: AppearanceViewModel) {
         self.viewModel = viewModel
+        self.appearanceViewModel = appearanceViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -49,7 +52,17 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        listenAppearanceViewModel()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        view.backgroundColor = appearanceManager.selectedWallpaper
+//    }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
@@ -63,12 +76,33 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
+
+        appearanceViewModel.wallpaperSignalNew.sink { _ in
+        } receiveValue: { _ in
+            self.view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
+        }.store(in: &cancellables)
+    }
+
+    func listenAppearanceViewModel() {
+//        appearanceViewModel.wallpaperSignal.sink { _ in
+//            print("Appearance finished")
+//        } receiveValue: { _ in
+//            self.view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
+//        }.store(in: &cancellables)
+//
+//        appearanceViewModel.wallpaperSignalNew.sink { _ in
+//            self.view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
+//        }.store(in: &cancellables)
+
     }
 
     // MARK: - SetupUI
 
     private func setupUI() {
-        view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+//        view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
+
+//        listenAppearanceViewModel()
+
         self.title = "Inventarios"
         viewModel.loadData()
         listenViewModel()
@@ -84,7 +118,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func setupNavigationBar() {
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "gear"),
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "trash"),
                                         style: .plain,
                                         target: self,
                                         action: #selector(addButtonTapped))
@@ -92,8 +126,8 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func addButtonTapped() {
-        let settingsVC = SettingsViewController()
-        self.navigationController?.pushViewController(settingsVC, animated: true)
+//        Navegar a la papelera
+        appearanceViewModel.updatedBackgroundColor(.blue)
     }
 
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {

@@ -14,6 +14,7 @@
 		980AABD42B5005C5005526C5 /* InventoryModelRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980AABD32B5005C5005526C5 /* InventoryModelRealm.swift */; };
 		980AABD62B55A8B6005526C5 /* RealmMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980AABD52B55A8B6005526C5 /* RealmMapper.swift */; };
 		980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980AABD72B593A0E005526C5 /* DatabaseManagerProtocol.swift */; };
+		981916EF2BDB860D003B9121 /* AppearanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981916EE2BDB860D003B9121 /* AppearanceViewController.swift */; };
 		982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798082B21EB4C0049D69F /* AppDelegate.swift */; };
 		9827980B2B21EB4C0049D69F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827980A2B21EB4C0049D69F /* SceneDelegate.swift */; };
 		982798122B21EB4E0049D69F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 982798112B21EB4E0049D69F /* Assets.xcassets */; };
@@ -26,10 +27,14 @@
 		9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */; };
 		982798312B279D120049D69F /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798302B279D120049D69F /* InventoryViewModel.swift */; };
 		98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */; };
+		9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */; };
+		9848D4EB2BE0EE4200BD21C0 /* AppearanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */; };
+		9848D4ED2BE3B16C00BD21C0 /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */; };
+		986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986646022BE9584C0031803C /* WallpaperViewController.swift */; };
 		986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */; };
 		9875BA0F2BA87E3300611D88 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */; };
 		9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA102BAADA9200611D88 /* SettingsViewController.swift */; };
-		987DFB7C2BA6048900F9DD9C /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */; };
+		987DFB7C2BA6048900F9DD9C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */; };
 		987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +44,7 @@
 		980AABD32B5005C5005526C5 /* InventoryModelRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModelRealm.swift; sourceTree = "<group>"; };
 		980AABD52B55A8B6005526C5 /* RealmMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMapper.swift; sourceTree = "<group>"; };
 		980AABD72B593A0E005526C5 /* DatabaseManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManagerProtocol.swift; sourceTree = "<group>"; };
+		981916EE2BDB860D003B9121 /* AppearanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceViewController.swift; sourceTree = "<group>"; };
 		982798052B21EB4C0049D69F /* MyInventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyInventory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		982798082B21EB4C0049D69F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9827980A2B21EB4C0049D69F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,10 +59,14 @@
 		9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModelSwiftData.swift; sourceTree = "<group>"; };
 		982798302B279D120049D69F /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
 		98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
+		9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModel.swift; sourceTree = "<group>"; };
+		9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceViewModel.swift; sourceTree = "<group>"; };
+		9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
+		986646022BE9584C0031803C /* WallpaperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperViewController.swift; sourceTree = "<group>"; };
 		986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataMapper.swift; sourceTree = "<group>"; };
 		9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		9875BA102BAADA9200611D88 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
+		987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,6 +83,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		981916F02BDB8618003B9121 /* SettingsVC */ = {
+			isa = PBXGroup;
+			children = (
+				9875BA102BAADA9200611D88 /* SettingsViewController.swift */,
+				981916EE2BDB860D003B9121 /* AppearanceViewController.swift */,
+				986646022BE9584C0031803C /* WallpaperViewController.swift */,
+			);
+			path = SettingsVC;
+			sourceTree = "<group>";
+		};
 		982797FC2B21EB4C0049D69F = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +140,7 @@
 				982798242B238C170049D69F /* CreateNewInventoryViewController.swift */,
 				982798262B238CBB0049D69F /* InventoryDetailViewController.swift */,
 				98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */,
-				9875BA102BAADA9200611D88 /* SettingsViewController.swift */,
+				981916F02BDB8618003B9121 /* SettingsVC */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -143,6 +163,7 @@
 			children = (
 				9827981C2B21EBBE0049D69F /* InventoryModel.swift */,
 				980AABC82B4B180F005526C5 /* CustomError.swift */,
+				9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				982798302B279D120049D69F /* InventoryViewModel.swift */,
+				9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -167,6 +189,7 @@
 		98FEA4EF2B5FB22B008293EA /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */,
 				98FEA4F02B5FB253008293EA /* Views */,
 				982798232B233B4D0049D69F /* ViewControllers */,
 			);
@@ -176,7 +199,7 @@
 		98FEA4F02B5FB253008293EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				987DFB7B2BA6048900F9DD9C /* UICollectionViewCell.swift */,
+				987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */,
 				9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */,
 				987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */,
 			);
@@ -264,15 +287,20 @@
 				982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */,
 				980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */,
 				9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */,
-				987DFB7C2BA6048900F9DD9C /* UICollectionViewCell.swift in Sources */,
+				981916EF2BDB860D003B9121 /* AppearanceViewController.swift in Sources */,
+				987DFB7C2BA6048900F9DD9C /* CustomCollectionViewCell.swift in Sources */,
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
+				9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */,
+				9848D4EB2BE0EE4200BD21C0 /* AppearanceViewModel.swift in Sources */,
 				9875BA0F2BA87E3300611D88 /* UITableViewCell.swift in Sources */,
 				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
+				9848D4ED2BE3B16C00BD21C0 /* AppearanceManager.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
+				986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */,
 				9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */,
 				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,
 				9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */,

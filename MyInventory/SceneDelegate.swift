@@ -3,7 +3,12 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let appearanceViewModel = AppearanceViewModel
+//    let appearanceViewModel = AppearanceViewModel(appearance: AppearanceModel(isDarkModeEnabled: false,
+//                                                                             boxCornerRadius: 0,
+//                                                                             backgroundColor: .init(red: 255,
+//                                                                                                    green: 255,
+//                                                                                                    blue: 255)))
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -19,20 +24,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let inventoryListVC = InventoryListViewController(viewModel: viewModel)
         let trashVC = TrashViewController(viewModel: viewModel)
+        let settingVC = SettingsViewController()
 
         let tabBarController = UITabBarController()
 
         let inventoriesImage = UIImage(systemName: "note.text")
         let trashImage = UIImage(systemName: "trash.circle")
+        let settingImage = UIImage(systemName: "gear")
+
 
         inventoryListVC.tabBarItem = UITabBarItem(title: "Inventarios", image: inventoriesImage, tag: 0)
         trashVC.tabBarItem = UITabBarItem(title: "Papelera", image: trashImage, tag: 1)
+        settingVC.tabBarItem = UITabBarItem(title: "Ajustes", image: settingImage, tag: 2)
 
-        let navigationControllerInventorList = UINavigationController(rootViewController: inventoryListVC)
-        let navigationControllerTrash = UINavigationController(rootViewController: trashVC)
+        let inventoryListNavigationController = UINavigationController(rootViewController: inventoryListVC)
+        let trashNavigationController = UINavigationController(rootViewController: trashVC)
+        let settingsNavigationController = UINavigationController(rootViewController: settingVC)
 
-        tabBarController.viewControllers = [navigationControllerInventorList,
-                                            navigationControllerTrash]
+        tabBarController.viewControllers = [inventoryListNavigationController,
+                                            trashNavigationController,
+                                            settingsNavigationController]
 
         window.rootViewController = tabBarController
 
@@ -70,5 +81,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-
-

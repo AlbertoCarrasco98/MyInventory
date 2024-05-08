@@ -3,4 +3,275 @@
    uuid = "B301FEBE-EA68-4CB0-8168-119B4EB96346"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D50A896-16DE-40E4-89A8-928BB67D8FCA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "listenAppearanceViewModel()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E9A92A37-88E8-4E26-80B8-754D41AF3AD9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E9A92A37-88E8-4E26-80B8-754D41AF3AD9 - ccd3e3f57bd8bd2d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInventory.InventoryListViewController.viewWillAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "108">
+               </Location>
+               <Location
+                  uuid = "E9A92A37-88E8-4E26-80B8-754D41AF3AD9 - ccd3e3f57bd8bd2d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInventory.InventoryListViewController.viewWillAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "39">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "715BC1B8-030C-409B-82EB-D86884D6C2EF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "listenViewModel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "715BC1B8-030C-409B-82EB-D86884D6C2EF - 5b969bf6e45714ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (()) -&gt; () in MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "715BC1B8-030C-409B-82EB-D86884D6C2EF - 5b969bf6e45714ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (()) -&gt; () in MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "17B52B08-4569-4C6E-AB22-723BEF7EB7B7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "listenViewModel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "17B52B08-4569-4C6E-AB22-723BEF7EB7B7 - c668236862decaf9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (MyInventory.InventoryModel) -&gt; () in MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "96">
+               </Location>
+               <Location
+                  uuid = "17B52B08-4569-4C6E-AB22-723BEF7EB7B7 - c668236862decaf9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (MyInventory.InventoryModel) -&gt; () in MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "69">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9112C7DA-C04D-41CB-9245-BA0CEC863DDD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "listenAppearanceViewModel()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "893A5734-F1F6-48B4-B87F-63DB2971B81E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "listenViewModel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "893A5734-F1F6-48B4-B87F-63DB2971B81E - 1d16aaf6c18ff2af"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInventory.InventoryListViewController.listenAppearanceViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "893A5734-F1F6-48B4-B87F-63DB2971B81E - 42653b865f9d44d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "938">
+               </Location>
+               <Location
+                  uuid = "893A5734-F1F6-48B4-B87F-63DB2971B81E - f336e11262e4d555"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Combine.Subscribers.Completion&lt;Swift.Never&gt;) -&gt; () in MyInventory.InventoryListViewController.listenAppearanceViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "893A5734-F1F6-48B4-B87F-63DB2971B81E - 19127ebdcf8230bd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #5 (__C.UIColor) -&gt; () in MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "326">
+               </Location>
+               <Location
+                  uuid = "893A5734-F1F6-48B4-B87F-63DB2971B81E - 500030d446fc32be"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #6 (__C.UIColor) -&gt; () in MyInventory.InventoryListViewController.listenViewModel() -&gt; ()"
+                  moduleName = "MyInventory"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juan.carrascodelcid/Developer/git/MyInventory/MyInventory/Presentation/ViewControllers/InventoryListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "69">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

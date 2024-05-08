@@ -86,6 +86,8 @@ class TrashViewController: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDataSource
+
 extension TrashViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         deletedInventories.count
@@ -117,6 +119,8 @@ extension TrashViewController: UICollectionViewDataSource {
                                                       animated: true)
     }
 }
+
+//MARK: - UICollectionViewDelegate
 
 extension TrashViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -6,7 +6,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Properties
 
     private let mainStackView = UIStackView()
-    private let tableview = UITableView()
+    private let tableView = UITableView()
     private let textField = UITextField()
     private let hStack = UIStackView()
     private let removeInventoryButton = UIButton()
@@ -41,7 +41,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory
             self?.configureNavigationBar()
-            self?.tableview.reloadData()
+            self?.tableView.reloadData()
             self?.textField.text = ""
         }.store(in: &cancellables)
     }
@@ -53,7 +53,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             view.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
             configureFunctionsFromTrashVC()
         } else {
-            view.backgroundColor = .white
+            view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
             navigationController?.isNavigationBarHidden = false
             navigationItem.backButtonTitle = "Atrás"
             configureFunctionsFromInventoryListVC()
@@ -108,7 +108,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         ])
         mainStackView.addArrangedSubview(textField)
         mainStackView.addArrangedSubview(spacer)
-        mainStackView.addArrangedSubview(tableview)
+        mainStackView.addArrangedSubview(tableView)
         mainStackView.addArrangedSubview(spacer2)
     }
 
@@ -127,7 +127,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 24),
             view.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 100)
         ])
-        mainStackView.addArrangedSubview(tableview)
+        mainStackView.addArrangedSubview(tableView)
         mainStackView.addArrangedSubview(spacer2)
         mainStackView.addArrangedSubview(recoverInventoryButton)
         mainStackView.addArrangedSubview(spacer)
@@ -136,24 +136,38 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
 //    MARK: - ConfigureTableView
     private func configureTableView() {
-        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
-        tableview.dataSource = self
-        tableview.delegate = self
-        tableview.layer.borderWidth = 1
-        tableview.layer.borderColor = UIColor.gray.cgColor
-        tableview.layer.cornerRadius = 10
-        tableview.layer.masksToBounds = true
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.layer.borderWidth = 1
+        tableView.layer.borderColor = UIColor.gray.cgColor
+        tableView.layer.cornerRadius = 10
+        tableView.layer.masksToBounds = true
     }
+
+//    func animateTableCells() {
+//        tableView.visibleCells.forEach { cell in
+//            cell.transform = CGAffineTransform(translationX: -50, y: 0)
+//        }
+//        UIView.animate(withDuration: 0.5,
+//                       delay: 0.1,
+//                       options: .curveEaseInOut,
+//                       animations: {
+//            self.tableView.visibleCells.forEach { cell in
+//                cell.transform = .identity
+//            }
+//        })
+//    }
 
 //    MARK: - ConfigureTableViewForTrash
     private func configureTableViewForTrash() {
-        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
-        tableview.dataSource = self
-        tableview.delegate = self
-        tableview.layer.borderWidth = 1
-        tableview.layer.borderColor = UIColor.gray.cgColor
-        tableview.layer.cornerRadius = 10
-        tableview.layer.masksToBounds = true
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.layer.borderWidth = 1
+        tableView.layer.borderColor = UIColor.gray.cgColor
+        tableView.layer.cornerRadius = 10
+        tableView.layer.masksToBounds = true
     }
 
 //    MARK: - ConfigureTextField
@@ -260,8 +274,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func recoverInventoryButtonTapped() {
-        let alert = UIAlertController(title: "",
-                                      message: "El inventario se recuperará de la papelera",
+        let alert = UIAlertController(title: nil,
+                                      message: nil,
                                       preferredStyle: .actionSheet)
 
         let cancelAlert = UIAlertAction(title: "Cancelar",
