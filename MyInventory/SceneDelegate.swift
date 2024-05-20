@@ -3,12 +3,6 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let appearanceViewModel = AppearanceViewModel
-//    let appearanceViewModel = AppearanceViewModel(appearance: AppearanceModel(isDarkModeEnabled: false,
-//                                                                             boxCornerRadius: 0,
-//                                                                             backgroundColor: .init(red: 255,
-//                                                                                                    green: 255,
-//                                                                                                    blue: 255)))
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,

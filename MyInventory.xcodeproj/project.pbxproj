@@ -163,7 +163,6 @@
 			children = (
 				9827981C2B21EBBE0049D69F /* InventoryModel.swift */,
 				980AABC82B4B180F005526C5 /* CustomError.swift */,
-				9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */,
+				9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */,
 				98FEA4F02B5FB253008293EA /* Views */,
 				982798232B233B4D0049D69F /* ViewControllers */,
 			);

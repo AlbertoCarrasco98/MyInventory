@@ -1,20 +1,28 @@
 import UIKit
+import Combine
 
 class WallpaperViewController: UIViewController {
 
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let appearanceViewModel = AppearanceViewModel()
+    private var cancellables: [AnyCancellable] = []
 
 //    MARK: - LifeCycle
 
     internal override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        listenAppearanceViewModel()
     }
 
     private func setupUI() {
         configureCollectionView()
-        view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+    }
+
+    private func listenAppearanceViewModel() {
+        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
+            self.view.backgroundColor = color
+            self.collectionView.backgroundColor = color
+        }.store(in: &cancellables)
     }
 
 //    MARK: - ConfigureCollectionView
@@ -31,7 +39,7 @@ class WallpaperViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 24),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
         ])
-        collectionView.backgroundColor = UIColor(red: 0.338, green: 0.378, blue: 0.878, alpha: 0.4)
+//        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 }
 
@@ -39,7 +47,7 @@ class WallpaperViewController: UIViewController {
 
 extension WallpaperViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        Colors.allCases.count
+        AppearanceViewModel.colors.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -49,28 +57,8 @@ extension WallpaperViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        guard let colors = Colors(rawValue: indexPath.item) else { return UICollectionViewCell() }
-        switch colors {
+        cell.backgroundColor = AppearanceViewModel.colors[indexPath.item]
 
-            case .red:
-                cell.backgroundColor = .red
-            case .blue:
-                cell.backgroundColor = .blue
-            case .yellow:
-                cell.backgroundColor = .yellow
-            case .green:
-                cell.backgroundColor = .green
-            case .pink:
-                cell.backgroundColor = .systemPink
-            case .gray:
-                cell.backgroundColor = .gray
-            case .white:
-                cell.backgroundColor = .white
-            case .brown:
-                cell.backgroundColor = .brown
-            case .orange:
-                cell.backgroundColor = .orange
-        }
         cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
@@ -87,28 +75,11 @@ extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedColor = Colors(rawValue: indexPath.row) else { return }
-        switch selectedColor {
-            case .red:
-                appearanceViewModel.updatedBackgroundColor(.red)
-            case .blue:
-                appearanceViewModel.updatedBackgroundColor(.blue)
-            case .yellow:
-                appearanceViewModel.updatedBackgroundColor(.yellow)
-            case .green:
-                appearanceViewModel.updatedBackgroundColor(.green)
-            case .pink:
-                appearanceViewModel.updatedBackgroundColor(.systemPink)
-            case .gray:
-                appearanceViewModel.updatedBackgroundColor(.gray)
-            case .white:
-                appearanceViewModel.updatedBackgroundColor(.white)
-            case .brown:
-                appearanceViewModel.updatedBackgroundColor(.brown)
-            case .orange:
-                appearanceViewModel.updatedBackgroundColor(.orange)
+        let selectedColor = AppearanceViewModel.colors[indexPath.row]
+        AppearanceViewModel.shared.setBackgroundColor(color: selectedColor)
+
         }
-    }
+
 }
 
 extension WallpaperViewController {

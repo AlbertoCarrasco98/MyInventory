@@ -9,7 +9,7 @@ enum InventoryListSection: Int, CaseIterable {
 class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     private let viewModel: InventoryViewModel
-    private let appearanceViewModel: AppearanceViewModel
+    private var cancellables: [AnyCancellable] = []
 
     // MARK: - Properties
 
@@ -26,21 +26,12 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } else {
             return viewModel.inventoryList.filter { !$0.isDeleted }
         }
-        //            let filter = viewModel.inventoryList.filter { inventory in
-        //                inventory.title.lowercased().contains(text.lowercased()) && !inventory.isDeleted }
-        //
-        //            return filter
-        //        } else {
-        //            return viewModel.inventoryList.filter { !$0.isFavorite }
-        //        }
     }
 
-    var cancellables: [AnyCancellable] = []
-
     // MARK: - Initialization
-    init(viewModel: InventoryViewModel, appearanceViewModel: AppearanceViewModel) {
+    init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
-        self.appearanceViewModel = appearanceViewModel
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,17 +43,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        listenAppearanceViewModel()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        view.backgroundColor = appearanceManager.selectedWallpaper
-//    }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
     func listenViewModel() {
@@ -76,36 +57,31 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
-
-        appearanceViewModel.wallpaperSignalNew.sink { _ in
-        } receiveValue: { _ in
-            self.view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
-        }.store(in: &cancellables)
     }
 
     func listenAppearanceViewModel() {
-//        appearanceViewModel.wallpaperSignal.sink { _ in
-//            print("Appearance finished")
-//        } receiveValue: { _ in
-//            self.view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
-//        }.store(in: &cancellables)
-//
-//        appearanceViewModel.wallpaperSignalNew.sink { _ in
-//            self.view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
-//        }.store(in: &cancellables)
+        AppearanceViewModel.shared.backgroundStateSignal.sink { _ in
+        } receiveValue: { color in
+            self.view.backgroundColor = color
+            self.collectionView.backgroundColor = color
+//            self.collectionView.reloadData()
+        }.store(in: &cancellables)
+
+        AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
+            self.collectionView.reloadData()
+            self.textField.layer.cornerRadius = CGFloat(radius)
+            self.addInventoryButton.layer.cornerRadius = CGFloat(radius)
+        }.store(in: &cancellables)
 
     }
 
     // MARK: - SetupUI
 
     private func setupUI() {
-//        view.backgroundColor = AppearanceManager.shared.appearanceModel.backgroundColor
-
-//        listenAppearanceViewModel()
-
+        listenViewModel()
+        listenAppearanceViewModel()
         self.title = "Inventarios"
         viewModel.loadData()
-        listenViewModel()
         setupNavigationBar()
         configureMainStackView()
         configureCollectionView()
@@ -118,16 +94,15 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func setupNavigationBar() {
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "trash"),
+        let navigationTrashButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                         style: .plain,
                                         target: self,
-                                        action: #selector(addButtonTapped))
-        navigationItem.rightBarButtonItem = addButton
+                                        action: #selector(navigationTrashButtonAction))
+        navigationItem.rightBarButtonItem = navigationTrashButton
     }
 
-    @objc func addButtonTapped() {
-//        Navegar a la papelera
-        appearanceViewModel.updatedBackgroundColor(.blue)
+    @objc func navigationTrashButtonAction() {
+// Crear nuevo inventario
     }
 
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
@@ -167,8 +142,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // MARK: - ConfigureCollectionView
 
     private func configureCollectionView() {
-        collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
-//        collectionView.centerXAnchor.constraint(equalTo: mainStackView.centerXAnchor).isActive = true
         let layout = UICollectionViewFlowLayout()
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.dataSource = self
@@ -191,7 +164,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         addInventoryButton.setTitleColor(.black, for: .normal)
         addInventoryButton.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         addInventoryButton.layer.borderWidth = 2
-        addInventoryButton.layer.cornerRadius = 10
     }
 
     @objc func addInventoryButtonTapped() {
@@ -221,7 +193,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         textField.placeholder = "Busca un inventario"
         textField.font = .italicSystemFont(ofSize: 18)
         textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 15
         textField.layer.masksToBounds = true
         textField.layer.borderWidth = 2.5
         textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
@@ -282,11 +253,11 @@ extension InventoryListViewController: UICollectionViewDataSource {
 
         let inventory = filteredInventory[indexPath.row]
         cell.label.text = inventory.title
-        cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
-        cell.backgroundColor = UIColor(red: 255/255, green: 187/255, blue: 150/255, alpha: 0.8)
+        cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         cell.layer.borderWidth = 2.5
+        cell.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         return cell
     }
 

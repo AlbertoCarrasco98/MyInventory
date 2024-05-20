@@ -46,6 +46,20 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         }.store(in: &cancellables)
     }
 
+    func listenAppearanceViewModel() {
+        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
+            self.view.backgroundColor = color
+            self.tableView.backgroundColor = color
+        }.store(in: &cancellables)
+
+        AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
+            self.textField.layer.cornerRadius = CGFloat(radius)
+            self.recoverInventoryButton.layer.cornerRadius = CGFloat(radius)
+            self.removeInventoryButton.layer.cornerRadius = CGFloat(radius)
+            self.tableView.layer.cornerRadius = CGFloat(radius)
+        }.store(in: &cancellables)
+    }
+
     // MARK: - Setup UI
 
     func setupUI() {
@@ -65,6 +79,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         configureTableView()
         configureTextField()
         listenViewModel()
+        listenAppearanceViewModel()
         configureNavigationBar()
     }
 
@@ -73,6 +88,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         configureTableViewForTrash()
         configureRemoveInventoryButton()
         configureRecoverInventoryButton()
+        listenAppearanceViewModel()
     }
 
 //    MARK: - ConfigureNavigationBar
@@ -141,23 +157,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.delegate = self
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
-        tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
     }
-
-//    func animateTableCells() {
-//        tableView.visibleCells.forEach { cell in
-//            cell.transform = CGAffineTransform(translationX: -50, y: 0)
-//        }
-//        UIView.animate(withDuration: 0.5,
-//                       delay: 0.1,
-//                       options: .curveEaseInOut,
-//                       animations: {
-//            self.tableView.visibleCells.forEach { cell in
-//                cell.transform = .identity
-//            }
-//        })
-//    }
 
 //    MARK: - ConfigureTableViewForTrash
     private func configureTableViewForTrash() {
@@ -178,9 +179,11 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             textField.heightAnchor.constraint(equalToConstant: 35)
         ])
         textField.placeholder = "Agrega un nuevo elemento a tu inventario"
+        textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        textField.layer.borderWidth = 2.5
         textField.font = .italicSystemFont(ofSize: 15)
         textField.textAlignment = .center
-        textField.borderStyle = .roundedRect
+//        textField.borderStyle = .roundedRect
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -232,8 +235,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         removeInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         removeInventoryButton.setTitleColor(.black, for: .normal)
         removeInventoryButton.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        removeInventoryButton.layer.borderWidth = 2
-        removeInventoryButton.layer.cornerRadius = 10
+        removeInventoryButton.layer.borderWidth = 2.5
     }
 
     @objc func removeInventoryButtonTapped() {
@@ -269,8 +271,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         recoverInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         recoverInventoryButton.setTitleColor(.black, for: .normal)
         recoverInventoryButton.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        recoverInventoryButton.layer.borderWidth = 2
-        recoverInventoryButton.layer.cornerRadius = 10
+        recoverInventoryButton.layer.borderWidth = 2.5
     }
 
     @objc func recoverInventoryButtonTapped() {
@@ -314,6 +315,7 @@ extension InventoryDetailViewController: UITableViewDataSource {
         let cellTest = UITableViewCell(style: .default, reuseIdentifier: "cellTest")
         let element = inventory.elements[indexPath.row]
         cellTest.textLabel?.text = element.title
+        cellTest.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         return cellTest
     }
 

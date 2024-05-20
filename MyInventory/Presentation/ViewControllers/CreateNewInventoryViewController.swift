@@ -33,6 +33,13 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         }.store(in: &cancellables)
     }
 
+    private func listenAppearanceViewModel() {
+        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
+            self.view.backgroundColor = color
+            self.textField.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
+        }.store(in: &cancellables)
+    }
+
     // MARK: - Setup UI
 
     private func setupUI() {
@@ -41,6 +48,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         configureNavigationBar()
         configureTextField()
         listenViewModel()
+        listenAppearanceViewModel()
     }
 
     private func processInventoryCreation() {
@@ -99,8 +107,8 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         textField.placeholder = "*Ponle un título a tu inventario"
         textField.font = .italicSystemFont(ofSize: 18)
         textField.textAlignment = .center
-        textField.layer.borderColor = UIColor.gray.cgColor
-        textField.borderStyle = .roundedRect
+        textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        textField.layer.borderWidth = 2.5
         textField.backgroundColor = .systemGray6
     }
 }

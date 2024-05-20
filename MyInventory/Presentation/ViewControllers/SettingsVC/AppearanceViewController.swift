@@ -5,19 +5,10 @@ class AppearanceViewController: UIViewController {
 
     //   MARK: Properties
 
-//    let appearanceViewModel: AppearanceViewModel
     var cancellables: Set<AnyCancellable> = []
     let mainStackView = UIStackView()
     let tableView = UITableView()
 
-//    init(appearanceViewModel: AppearanceViewModel) {
-//        self.appearanceViewModel = appearanceViewModel
-//        super.init(nibName: nil, bundle: nil)
-//    }
-
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
 
     override func loadView() {
         super.loadView()
@@ -25,30 +16,19 @@ class AppearanceViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = .orange
+        listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
     }
 
-//    private func listenAppearanceViewModel() {
-//        appearanceViewModel.isDarkModeEnabledState
-//            .sink { isEnabled in
-//                
-//            }
-//            .store(in: &cancellables)
-//
-//        appearanceViewModel.boxCornerRadiusState
-//            .sink { value in
-//
-//            }
-//            .store(in: &cancellables)
-//
-//        appearanceViewModel.backgroundColorState
-//            .sink { color in
-//
-//            }
-//            .store(in: &cancellables)
-//    }
+    private func listenAppearanceViewModel() {
+        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
+            self.view.backgroundColor = color
+            self.tableView.backgroundColor = color
+            self.tableView.reloadData()
+        }.store(in: &cancellables)
+    }
+
 
     // MARK: Configure Views
 
@@ -68,10 +48,75 @@ class AppearanceViewController: UIViewController {
     }
 
     private func configureTableView() {
-        tableView.backgroundColor = .yellow
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    }
+
+    private func presentModal() {
+        let modalViewController = UIViewController()
+        modalViewController.modalPresentationStyle = .pageSheet
+        modalViewController.view.backgroundColor = .white
+
+        if let sheet = modalViewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+        }
+
+//        let closeButton = UIButton(type: .system)
+//        closeButton.setTitle("Cerrar", for: .normal)
+//        closeButton.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+//        closeButton.translatesAutoresizingMaskIntoConstraints = false
+//        modalViewController.view.addSubview(closeButton)
+//        NSLayoutConstraint.activate([
+//            closeButton.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
+//            closeButton.centerYAnchor.constraint(equalTo: modalViewController.view.centerYAnchor)
+//        ])
+
+        let slider = UISlider()
+        slider.maximumValue = 0
+        slider.maximumValue = 10
+        slider.value = AppearanceViewModel.shared.appearanceModel.boxCornerRadius
+        slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+
+        let sliderValueLabel =  UILabel()
+        sliderValueLabel.text = String(format: "%.1f", slider.value)
+        sliderValueLabel.translatesAutoresizingMaskIntoConstraints = false
+
+
+        modalViewController.view.addSubview(slider)
+        modalViewController.view.addSubview(sliderValueLabel)
+
+
+        NSLayoutConstraint.activate([
+            slider.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
+            slider.centerYAnchor.constraint(equalTo: modalViewController.view.centerYAnchor),
+            slider.leadingAnchor.constraint(equalTo: modalViewController.view.leadingAnchor, constant: 20),
+            modalViewController.view.trailingAnchor.constraint(equalTo: slider.trailingAnchor, constant: 20),
+
+            sliderValueLabel.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
+            sliderValueLabel.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: 10)
+        ])
+
+        present(modalViewController, animated: true)
+    }
+
+    @objc private func dismissModal() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc private func sliderValueChanged(_ sender: UISlider) {
+
+        let newValue = Float(sender.value)
+
+        AppearanceViewModel.shared.setCornerRadius(radius: newValue)
+
+
+        if let modalView = presentedViewController?.view,
+           let sliderValueLabel = modalView.subviews.first(where: { $0 is UILabel }) as? UILabel {
+            sliderValueLabel.text = String(format: "%.1f", sender.value)
+        }
     }
 }
 
@@ -88,8 +133,8 @@ extension AppearanceViewController: UITableViewDataSource {
         switch currentOption {
             case .dayNightMode:
                 return 3
-            case .fontType:
-                return 4
+            case .cornerRadius:
+                return 1
             case .background:
                 return 1
         }
@@ -103,15 +148,16 @@ extension AppearanceViewController: UITableViewDataSource {
                 guard let dayNightModeCell = CellDayNightMode(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = dayNightModeCell.title
 
-            case .fontType:
-                guard let fontTypeModeCell = CellFontType(rawValue: indexPath.row) else { return .init() }
-                cell.textLabel?.text = fontTypeModeCell.title
+            case .cornerRadius:
+                guard let boxCornerRadiusCell = CellCornerRadius(rawValue: indexPath.row) else { return .init() }
+                cell.textLabel?.text = boxCornerRadiusCell.title
 
             case .background:
                 guard let backgroundModeCell = CellBackground(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = backgroundModeCell.title
 
         }
+        cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         return cell
     }
 
@@ -132,14 +178,13 @@ extension AppearanceViewController: UITableViewDelegate {
 
             case .dayNightMode:
                 break
-            case .fontType:
-                break
+            case .cornerRadius:
+                presentModal()
             case .background:
                 let wallpaperVC = WallpaperViewController()
                 self.navigationController?.pushViewController(wallpaperVC, animated: true)
         }
     }
-
 }
 
 //MARK: - TableViewSection
@@ -148,13 +193,13 @@ extension AppearanceViewController {
 
     enum Section: Int, CaseIterable {
         case dayNightMode
-        case fontType
+        case cornerRadius
         case background
 
         var title: String {
             switch self {
                 case .dayNightMode: return "Aspecto"
-                case .fontType: return "Tipo de texto"
+                case .cornerRadius: return "CornerRadius"
                 case .background: return "Fondo de pantalla"
             }
         }
@@ -177,23 +222,13 @@ extension AppearanceViewController {
         }
     }
 
-    enum CellFontType: Int {
-        case tipo1
-        case tipo2
-        case tipo3
-        case tipo4
+    enum CellCornerRadius: Int {
+        case boxCornerRadius
 
         var title: String {
             switch self {
-
-                case .tipo1:
-                    return "Tipo 1"
-                case .tipo2:
-                    return "Tipo 2"
-                case .tipo3:
-                    return "Tipo 3"
-                case .tipo4:
-                    return "Tipo 4"
+                case .boxCornerRadius:
+                    return "Elige un Corner Radius"
             }
         }
     }
@@ -205,7 +240,7 @@ extension AppearanceViewController {
             switch self {
 
                 case .background:
-                    return "Elige un fondo de pantalla"
+                    return "Elige un color de fondo"
             }
         }
     }

@@ -1,9 +1,5 @@
 import UIKit
-
-enum Options: CaseIterable {
-    case appearanceSettings
-    case lenguageSetting
-}
+import Combine
 
 class SettingsViewController: UIViewController {
 
@@ -12,6 +8,7 @@ class SettingsViewController: UIViewController {
 
     let mainStackView = UIStackView()
     let tableView = UITableView()
+    var cancellables: [AnyCancellable] = []
 
 
     //MARK: - Life Cycle
@@ -20,15 +17,24 @@ class SettingsViewController: UIViewController {
         setupUI()
     }
 
-    func setupUI() {
-        view.backgroundColor = .white
+    private func setupUI() {
+        self.title = "Ajustes"
         configureMainStackView()
         configureTableView()
+        listenAppearanceViewModel()
+    }
+
+    private func listenAppearanceViewModel() {
+        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
+            self.view.backgroundColor = color
+            self.tableView.backgroundColor = color
+            self.tableView.reloadData()
+        }.store(in: &cancellables)
     }
 
     //MARK: - Configure Views
 
-    func configureMainStackView() {
+    private func configureMainStackView() {
         view.addSubview(mainStackView)
         mainStackView.addArrangedSubview(tableView)
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +46,7 @@ class SettingsViewController: UIViewController {
         ])
     }
 
-    func configureTableView() {
+    private func configureTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -57,14 +63,10 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        let cell = UITableViewCell()
         let option = Options.allCases[indexPath.row]
-
-        cell.textLabel?.text = "\(option)"
-
-        cell.backgroundColor = .yellow
+        cell.textLabel?.text = option.title
+        cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         return cell
     }
-
-
 }
 
 //MARK: - UITableViewDelegate
@@ -82,6 +84,22 @@ extension SettingsViewController: UITableViewDelegate {
 
             default:
                 break
+        }
+    }
+}
+
+extension SettingsViewController {
+    enum Options: CaseIterable {
+        case appearanceSettings
+        case lenguageSetting
+
+        var title: String {
+            switch self {
+                case .appearanceSettings:
+                    return "Ajustes de apariencia"
+                case .lenguageSetting:
+                    return "Ajustes de idioma"
+            }
         }
     }
 }

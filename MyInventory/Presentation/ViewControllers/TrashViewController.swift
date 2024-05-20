@@ -3,20 +3,17 @@ import Combine
 
 class TrashViewController: UIViewController {
 
-    private let mainStackView = UIStackView()
-    private let tableView = UITableView()
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    
-
     private let viewModel: InventoryViewModel
-
-    var cancellables: Set<AnyCancellable> = []
+    private var cancellables: Set<AnyCancellable> = []
     private var deletedInventories: [InventoryModel] {
         viewModel.inventoryList.filter { $0.isDeleted }
     }
 
-    init(viewModel: InventoryViewModel) {
+//    MARK: - Properties
+    private let mainStackView = UIStackView()
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
 
+    init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -25,11 +22,13 @@ class TrashViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+//    MARK: - LifeCycle
+
     override func viewDidLoad() {
         setupUI()
     }
 
-    func listenViewModel() {
+    private func listenViewModel() {
         viewModel.inventoryUpdatedSignal.sink { _ in
         } receiveValue: { updatedInventory in
             self.collectionView.reloadData()
@@ -41,14 +40,26 @@ class TrashViewController: UIViewController {
         }.store(in: &cancellables)
     }
 
+    private func listenAppearanceViewModel() {
+        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
+            self.view.backgroundColor = color
+        }.store(in: &cancellables)
+        
+        AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
+            self.collectionView.reloadData()
+        }.store(in: &cancellables)
+
+    }
+
     private func setupUI() {
         listenViewModel()
-//        view.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
-        view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+        listenAppearanceViewModel()
         self.title = "Papelera"
         view.addSubview(mainStackView)
         configureMainStackView()
     }
+
+//    MARK: - ConfigureMainStackView
 
     private func configureMainStackView() {
 //        mainStackView.addArrangedSubview(tableView)
@@ -63,20 +74,22 @@ class TrashViewController: UIViewController {
         ])
     }
 
-    private func configureTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.layer.borderWidth = 1
-        tableView.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
-        tableView.layer.borderColor = UIColor.gray.cgColor
-        tableView.layer.cornerRadius = 10
-        tableView.layer.masksToBounds = true
-    }
+//    private func configureTableView() {
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+//        tableView.dataSource = self
+//        tableView.delegate = self
+//        tableView.layer.borderWidth = 1
+//        tableView.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
+//        tableView.layer.borderColor = UIColor.gray.cgColor
+//        tableView.layer.cornerRadius = 10
+//        tableView.layer.masksToBounds = true
+//    }
+
+//    MARK: - ConfigureCollectionView
 
     private func configureCollectionView() {
         mainStackView.addArrangedSubview(collectionView)
-        collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+//        collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
         let layout = UICollectionViewFlowLayout()
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "CustomCollectionViewCell")
@@ -102,11 +115,11 @@ extension TrashViewController: UICollectionViewDataSource {
 
         let inventory = deletedInventories[indexPath.row]
         cell.label.text = inventory.title
-        cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true
         cell.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         cell.layer.borderWidth = 2.5
+        cell.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         return cell
     }
 
@@ -129,17 +142,6 @@ extension TrashViewController: UICollectionViewDelegate, UICollectionViewDelegat
         return CGSize(width: widht, height: height)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // MARK: - UITableViewDataSource
 
