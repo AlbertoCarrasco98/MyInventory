@@ -93,7 +93,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
 //    MARK: - ConfigureNavigationBar
     private func configureNavigationBar() {
-        let imageName = inventory.isFavorite ? "star.fill" : "star"
+        let imageName = inventory.isFavorite ? "star.fill" : "star.slash"
         let favoriteImage = UIImage(systemName: imageName)
         let trashImage = UIImage(systemName: "trash")
         let favoriteButton = UIBarButtonItem(image: favoriteImage,

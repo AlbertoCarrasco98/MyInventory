@@ -36,6 +36,7 @@
 		9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA102BAADA9200611D88 /* SettingsViewController.swift */; };
 		987DFB7C2BA6048900F9DD9C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */; };
 		987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */; };
+		98A738002BFBB68100D67FAE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A737FF2BFBB68100D67FAE /* Toast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		9875BA102BAADA9200611D88 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		98A737FF2BFBB68100D67FAE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 				987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */,
 				9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */,
 				987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */,
+				98A737FF2BFBB68100D67FAE /* Toast.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
+				98A738002BFBB68100D67FAE /* Toast.swift in Sources */,
 				9848D4ED2BE3B16C00BD21C0 /* AppearanceManager.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,

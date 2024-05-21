@@ -63,15 +63,20 @@ class AppearanceViewController: UIViewController {
             sheet.prefersGrabberVisible = true
         }
 
-//        let closeButton = UIButton(type: .system)
-//        closeButton.setTitle("Cerrar", for: .normal)
-//        closeButton.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
-//        closeButton.translatesAutoresizingMaskIntoConstraints = false
-//        modalViewController.view.addSubview(closeButton)
-//        NSLayoutConstraint.activate([
+        let closeButton = UIButton(type: .system)
+        closeButton.setTitle("Cerrar", for: .normal)
+        closeButton.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        modalViewController.view.addSubview(closeButton)
+        NSLayoutConstraint.activate([
+            closeButton.topAnchor.constraint(equalTo: modalViewController.view.topAnchor, constant: 12),
+            modalViewController.view.trailingAnchor.constraint(equalTo: closeButton.trailingAnchor, constant: 16)
+
+
+
 //            closeButton.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
 //            closeButton.centerYAnchor.constraint(equalTo: modalViewController.view.centerYAnchor)
-//        ])
+        ])
 
         let slider = UISlider()
         slider.maximumValue = 0
@@ -81,13 +86,11 @@ class AppearanceViewController: UIViewController {
         slider.translatesAutoresizingMaskIntoConstraints = false
 
         let sliderValueLabel =  UILabel()
-        sliderValueLabel.text = String(format: "%.1f", slider.value)
+        sliderValueLabel.text = String(format: "%.f", slider.value)
         sliderValueLabel.translatesAutoresizingMaskIntoConstraints = false
-
 
         modalViewController.view.addSubview(slider)
         modalViewController.view.addSubview(sliderValueLabel)
-
 
         NSLayoutConstraint.activate([
             slider.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
@@ -108,14 +111,14 @@ class AppearanceViewController: UIViewController {
 
     @objc private func sliderValueChanged(_ sender: UISlider) {
 
-        let newValue = Float(sender.value)
+        let newValue = Int(sender.value)
 
         AppearanceViewModel.shared.setCornerRadius(radius: newValue)
 
 
         if let modalView = presentedViewController?.view,
            let sliderValueLabel = modalView.subviews.first(where: { $0 is UILabel }) as? UILabel {
-            sliderValueLabel.text = String(format: "%.1f", sender.value)
+            sliderValueLabel.text = String(format: "%.f", sender.value)
         }
     }
 }
@@ -151,11 +154,12 @@ extension AppearanceViewController: UITableViewDataSource {
             case .cornerRadius:
                 guard let boxCornerRadiusCell = CellCornerRadius(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = boxCornerRadiusCell.title
+                cell.accessoryType = .disclosureIndicator
 
             case .background:
                 guard let backgroundModeCell = CellBackground(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = backgroundModeCell.title
-
+                cell.accessoryType = .disclosureIndicator
         }
         cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         return cell

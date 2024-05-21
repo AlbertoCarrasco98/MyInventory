@@ -65,6 +65,8 @@ extension SettingsViewController: UITableViewDataSource {
         let option = Options.allCases[indexPath.row]
         cell.textLabel?.text = option.title
         cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        cell.accessoryType = .disclosureIndicator
+
         return cell
     }
 }

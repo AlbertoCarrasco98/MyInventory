@@ -28,10 +28,11 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    var pendingToastMessage: String?
+
     // MARK: - Initialization
     init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
-
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -45,7 +46,20 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         setupUI()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let message = pendingToastMessage {
+            showToast(message: message)
+            pendingToastMessage = nil
+        }
+    }
+
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
+
+    private func showToast(message: String) {
+        Toast.show(message: message, inView: self.view)
+    }
+
     func listenViewModel() {
         viewModel.inventoryListUpdatedSignal.sink { _ in
             // No hacemos nada
@@ -94,15 +108,16 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func setupNavigationBar() {
-        let navigationTrashButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+        let addNewInventoryButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle.fill"),
                                         style: .plain,
                                         target: self,
-                                        action: #selector(navigationTrashButtonAction))
-        navigationItem.rightBarButtonItem = navigationTrashButton
+                                        action: #selector(createNewInventoryButtonAction))
+        navigationItem.rightBarButtonItem = addNewInventoryButton
     }
 
-    @objc func navigationTrashButtonAction() {
-// Crear nuevo inventario
+    @objc func createNewInventoryButtonAction() {
+        let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
+        navigationController?.pushViewController(createNewInventoryVC, animated: true)
     }
 
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
@@ -125,7 +140,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         mainStackView.addArrangedSubview(textField)
         mainStackView.addArrangedSubview(spacer)
         mainStackView.addArrangedSubview(collectionView)
-        mainStackView.addArrangedSubview(addInventoryButton)
+//        mainStackView.addArrangedSubview(addInventoryButton)
         mainStackView.addArrangedSubview(spacer1)
         mainStackView.axis = .vertical
         mainStackView.distribution = .fill

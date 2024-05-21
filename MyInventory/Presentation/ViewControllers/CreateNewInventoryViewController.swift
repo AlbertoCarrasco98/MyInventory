@@ -59,8 +59,9 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
             switch result {
                 case .success:
                     print("Inventario creado con exito")
+                    passToastMessageAndPop()
                 case .failure:
-                    showAlert(messaje: "Ya existe un inventario con ese título")
+                    showAlert(message: "Ya existe un inventario con ese título")
             }
         }
     }
@@ -69,9 +70,9 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Crear", style: .done, target: self, action: #selector(createInventoryAction))
     }
 
-    @objc func customBackAction() {
-        self.navigationController?.popViewController(animated: true)
-    }
+//    @objc func customBackAction() {
+//        self.navigationController?.popViewController(animated: true)
+//    }
 
     @objc func createInventoryAction() {
         processInventoryCreation()
@@ -83,13 +84,21 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    private func showAlert(messaje: String) {
-        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: messaje, preferredStyle: .alert)
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAction)
-        if let currentViewController = UIApplication.shared.keyWindow?.rootViewController {
-            currentViewController.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
+//        if let currentViewController = UIApplication.shared.keyWindow?.rootViewController {
+//            currentViewController.present(alertController, animated: true, completion: nil)
+//        }
+    }
+
+    private func passToastMessageAndPop() {
+        if let inventoryListVC = navigationController?.viewControllers.first(where: { $0 is InventoryListViewController }) as? InventoryListViewController {
+            inventoryListVC.pendingToastMessage = "Inventario creado con éxito"
         }
+        navigationController?.popViewController(animated: true)
     }
 
     // MARK: - TextField Configuration

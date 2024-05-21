@@ -54,9 +54,9 @@ class AppearanceViewModel: ObservableObject {
         appearanceModel.isDarkModeEnabled = false
     }
 
-    func setCornerRadius(radius: Float) {
-        appearanceModel.boxCornerRadius = radius
-        boxCornerRadiusChangedSignal.send(radius)
+    func setCornerRadius(radius: Int) {
+        appearanceModel.boxCornerRadius = Float(radius)
+        boxCornerRadiusChangedSignal.send(Float(radius))
     }
 
     func setBackgroundColor(color: UIColor) {
