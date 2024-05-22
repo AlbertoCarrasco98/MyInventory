@@ -57,7 +57,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
 
     private func showToast(message: String) {
-        Toast.show(message: message, inView: self.view)
+        Toast.show(message: message, inView: self.view, color: UIColor(red: 0.4, green: 0.8, blue: 0.4, alpha: 1.0))
     }
 
     func listenViewModel() {
@@ -116,8 +116,15 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func createNewInventoryButtonAction() {
+//        let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
+//        navigationController?.pushViewController(createNewInventoryVC, animated: true)
+
         let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
-        navigationController?.pushViewController(createNewInventoryVC, animated: true)
+        createNewInventoryVC.onCreateSuccess = {
+            self.showToast(message: "Inventario creado con éxito")
+        }
+        let navigationController = UINavigationController(rootViewController: createNewInventoryVC)
+        present(navigationController, animated: true)
     }
 
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {

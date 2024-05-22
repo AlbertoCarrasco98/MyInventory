@@ -9,6 +9,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
     private let textField = UITextField()
     private let viewModel: InventoryViewModel
     private var cancellables: Set<AnyCancellable> = []
+    var onCreateSuccess: (() -> Void)?
 
     init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
@@ -24,6 +25,11 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        textField.becomeFirstResponder()
     }
 
     private func listenViewModel() {
@@ -58,21 +64,22 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
             let result = viewModel.createNewInventory(title: inventoryTitle, elements: [])
             switch result {
                 case .success:
-                    print("Inventario creado con exito")
                     passToastMessageAndPop()
+                    onCreateSuccess?()
                 case .failure:
-                    showAlert(message: "Ya existe un inventario con ese título")
+                    Toast.show(message: "Ya existe un inventario con ese título",
+                               inView: self.view,
+                               color: UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0))
             }
         }
     }
 
     private func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Crear", style: .done, target: self, action: #selector(createInventoryAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Crear",
+                                                                 style: .done,
+                                                                 target: self,
+                                                                 action: #selector(createInventoryAction))
     }
-
-//    @objc func customBackAction() {
-//        self.navigationController?.popViewController(animated: true)
-//    }
 
     @objc func createInventoryAction() {
         processInventoryCreation()
@@ -84,22 +91,23 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    private func showAlert(message: String) {
-        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-//        if let currentViewController = UIApplication.shared.keyWindow?.rootViewController {
-//            currentViewController.present(alertController, animated: true, completion: nil)
-//        }
-    }
-
     private func passToastMessageAndPop() {
         if let inventoryListVC = navigationController?.viewControllers.first(where: { $0 is InventoryListViewController }) as? InventoryListViewController {
             inventoryListVC.pendingToastMessage = "Inventario creado con éxito"
         }
-        navigationController?.popViewController(animated: true)
+        self.navigationController?.dismiss(animated: true)
     }
+    
+//    private func showAlert(message: String) {
+//        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: message, preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alertController.addAction(okAction)
+//        present(alertController, animated: true, completion: nil)
+//        if let currentViewController = UIApplication.shared.keyWindow?.rootViewController {
+//            currentViewController.present(alertController, animated: true, completion: nil)
+//        }
+//    }
+
 
     // MARK: - TextField Configuration
 

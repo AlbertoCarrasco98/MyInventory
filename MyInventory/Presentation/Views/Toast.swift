@@ -2,13 +2,13 @@ import UIKit
 
 class Toast {
 
-    static func show(message: String, inView view: UIView, duration: TimeInterval = 2.0) {
+    static func show(message: String, inView view: UIView, duration: TimeInterval = 2.0, color: UIColor) {
         let toastLabel = UILabel()
         toastLabel.text = message
         toastLabel.textAlignment = .center
         toastLabel.font = UIFont.systemFont(ofSize: 14)
         toastLabel.textColor = .white
-        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.backgroundColor = color
         toastLabel.numberOfLines = 0
         toastLabel.layer.cornerRadius = 10
         toastLabel.clipsToBounds = true

@@ -27,7 +27,12 @@ class AppearanceViewController: UIViewController {
             self.tableView.backgroundColor = color
             self.tableView.reloadData()
         }.store(in: &cancellables)
+
+        AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
+
+        }
     }
+
 
 
     // MARK: Configure Views
@@ -71,12 +76,14 @@ class AppearanceViewController: UIViewController {
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: modalViewController.view.topAnchor, constant: 12),
             modalViewController.view.trailingAnchor.constraint(equalTo: closeButton.trailingAnchor, constant: 16)
-
-
-
-//            closeButton.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
-//            closeButton.centerYAnchor.constraint(equalTo: modalViewController.view.centerYAnchor)
         ])
+
+        let exampleLabel = UILabel()
+        exampleLabel.layer.borderWidth = 2.5
+        exampleLabel.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        exampleLabel.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
+        exampleLabel.translatesAutoresizingMaskIntoConstraints = false
+
 
         let slider = UISlider()
         slider.maximumValue = 0
@@ -91,6 +98,7 @@ class AppearanceViewController: UIViewController {
 
         modalViewController.view.addSubview(slider)
         modalViewController.view.addSubview(sliderValueLabel)
+        modalViewController.view.addSubview(exampleLabel)
 
         NSLayoutConstraint.activate([
             slider.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
@@ -99,7 +107,12 @@ class AppearanceViewController: UIViewController {
             modalViewController.view.trailingAnchor.constraint(equalTo: slider.trailingAnchor, constant: 20),
 
             sliderValueLabel.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
-            sliderValueLabel.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: 10)
+            sliderValueLabel.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: 10),
+
+            exampleLabel.centerXAnchor.constraint(equalTo: modalViewController.view.centerXAnchor),
+            exampleLabel.topAnchor.constraint(equalTo: modalViewController.view.topAnchor, constant: 150),
+            exampleLabel.widthAnchor.constraint(equalToConstant: 300),
+            exampleLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
 
         present(modalViewController, animated: true)
