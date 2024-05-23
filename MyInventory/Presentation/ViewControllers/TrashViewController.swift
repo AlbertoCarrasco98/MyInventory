@@ -43,6 +43,7 @@ class TrashViewController: UIViewController {
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
+            self.collectionView.backgroundColor = color
         }.store(in: &cancellables)
         
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in

@@ -17,18 +17,19 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     var inventory: InventoryModel
     var cancellables: Set<AnyCancellable> = []
 
+
+    // MARK: - Lifecycle
+
     init(inventory: InventoryModel, viewModel: InventoryViewModel) {
         self.inventory = inventory
         self.viewModel = viewModel
-//        self.isFromTrash = isFromTrash
+        //        self.isFromTrash = isFromTrash
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +106,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
                                           target: self,
                                           action: #selector(moveInventoryToTrashButtonTapped))
         navigationItem.rightBarButtonItems = [favoriteButton ,moveInventoryToTrashButton]
+    }
+
+    @objc func favoriteAction() {
+        viewModel.updateIsFavorite(in: inventory)
     }
 
 //    MARK: - ConfigureMainStackView
@@ -194,7 +199,11 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-//    MARK: -
+//    MARK: - ConfigurationMoveInventoryToTrash
+
+    func moveInventoryToTrash() {
+        viewModel.updateIsDeleted(in: inventory)
+    }
 
     @objc func moveInventoryToTrashButtonTapped() {
         let alert = UIAlertController(title: "",
@@ -204,7 +213,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         let cancelAlert = UIAlertAction(title: "Cancelar",
                                         style: .cancel,
                                         handler: nil)
-        
+
         let alertAction = UIAlertAction(title: "Eliminar",
                                         style: .destructive) { [weak self] _ in
             self?.moveInventoryToTrash()
@@ -219,12 +228,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func moveInventoryToTrash() {
-        viewModel.updateIsDeleted(in: inventory)
-    }
+//    MARK: - ConfigurationRemoveInventory
 
-    @objc func favoriteAction() {
-        viewModel.updateIsFavorite(in: inventory)
+    private func removeInventory() {
+        viewModel.removeInventory(inventory)
     }
 
     private func configureRemoveInventoryButton() {
@@ -259,8 +266,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    private func removeInventory() {
-        viewModel.removeInventory(inventory)
+//MARK: - ConfigurationRecoverInventory
+
+    private func recoverInventory() {
+        viewModel.updateIsDeleted(in: inventory)
     }
 
     private func configureRecoverInventoryButton() {
@@ -296,10 +305,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
            let rootViewController = windowScene.windows.first?.rootViewController {
             rootViewController.present(alert, animated: true)
         }
-    }
-
-    private func recoverInventory() {
-        viewModel.updateIsDeleted(in: inventory)
     }
 }
 

@@ -40,8 +40,6 @@ class AppearanceViewModel: ObservableObject {
 
     private init() {}
 
-
-
     func currentAppearance() -> AppearanceModel{
         appearanceModel
     }
@@ -49,6 +47,7 @@ class AppearanceViewModel: ObservableObject {
     func enableDarkMode() {
         appearanceModel.isDarkModeEnabled = true
     }
+
 
     func disableDarkMode() {
         appearanceModel.isDarkModeEnabled = false

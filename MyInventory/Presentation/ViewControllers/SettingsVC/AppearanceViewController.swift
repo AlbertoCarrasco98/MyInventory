@@ -3,11 +3,12 @@ import Combine
 
 class AppearanceViewController: UIViewController {
 
-    //   MARK: Properties
+    //   MARK: - Properties
 
     var cancellables: Set<AnyCancellable> = []
     let mainStackView = UIStackView()
     let tableView = UITableView()
+    let exampleLabel = UILabel()
 
 
     override func loadView() {
@@ -29,13 +30,11 @@ class AppearanceViewController: UIViewController {
         }.store(in: &cancellables)
 
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
-
-        }
+            self.exampleLabel.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
+        }.store(in: &cancellables)
     }
 
-
-
-    // MARK: Configure Views
+    // MARK: - Configure Views
 
     private func configureMainStackView() {
         view.addSubview(mainStackView)
@@ -61,7 +60,7 @@ class AppearanceViewController: UIViewController {
     private func presentModal() {
         let modalViewController = UIViewController()
         modalViewController.modalPresentationStyle = .pageSheet
-        modalViewController.view.backgroundColor = .white
+        modalViewController.view.backgroundColor = UIColor(white: 1, alpha: 0.88)
 
         if let sheet = modalViewController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
@@ -78,10 +77,8 @@ class AppearanceViewController: UIViewController {
             modalViewController.view.trailingAnchor.constraint(equalTo: closeButton.trailingAnchor, constant: 16)
         ])
 
-        let exampleLabel = UILabel()
         exampleLabel.layer.borderWidth = 2.5
         exampleLabel.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        exampleLabel.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         exampleLabel.translatesAutoresizingMaskIntoConstraints = false
 
 
@@ -127,7 +124,6 @@ class AppearanceViewController: UIViewController {
         let newValue = Int(sender.value)
 
         AppearanceViewModel.shared.setCornerRadius(radius: newValue)
-
 
         if let modalView = presentedViewController?.view,
            let sliderValueLabel = modalView.subviews.first(where: { $0 is UILabel }) as? UILabel {
@@ -216,7 +212,7 @@ extension AppearanceViewController {
         var title: String {
             switch self {
                 case .dayNightMode: return "Aspecto"
-                case .cornerRadius: return "CornerRadius"
+                case .cornerRadius: return "Estilo de borde"
                 case .background: return "Fondo de pantalla"
             }
         }
@@ -245,7 +241,7 @@ extension AppearanceViewController {
         var title: String {
             switch self {
                 case .boxCornerRadius:
-                    return "Elige un Corner Radius"
+                    return "Cambiar el estilo de borde"
             }
         }
     }
@@ -257,7 +253,7 @@ extension AppearanceViewController {
             switch self {
 
                 case .background:
-                    return "Elige un color de fondo"
+                    return "Cambiar el color de fondo"
             }
         }
     }

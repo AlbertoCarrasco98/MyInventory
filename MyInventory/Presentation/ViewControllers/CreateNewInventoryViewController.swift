@@ -41,7 +41,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
 
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
-            self.view.backgroundColor = color
+            self.view.backgroundColor = color.withAlphaComponent(0.93)
             self.textField.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         }.store(in: &cancellables)
     }
@@ -97,7 +97,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         }
         self.navigationController?.dismiss(animated: true)
     }
-    
+
 //    private func showAlert(message: String) {
 //        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: message, preferredStyle: .alert)
 //        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)

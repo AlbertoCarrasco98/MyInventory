@@ -78,7 +78,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         } receiveValue: { color in
             self.view.backgroundColor = color
             self.collectionView.backgroundColor = color
-//            self.collectionView.reloadData()
+            self.collectionView.reloadData()
         }.store(in: &cancellables)
 
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
