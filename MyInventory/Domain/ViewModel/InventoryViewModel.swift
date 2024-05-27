@@ -84,4 +84,13 @@ class InventoryViewModel: ObservableObject {
         loadData()
         inventoryUpdatedSignal.send(updatedInventory)
     }
+
+    func updateOrder(in inventory: InventoryModel) {
+        let updatedInventory = InventoryModel(title: inventory.title,
+                                              elements: inventory.elements,
+                                              isFavorite: inventory.isFavorite,
+                                              isDeleted: inventory.isDeleted)
+        databaseManager.save(updatedInventory)
+        loadData()
+    }
 }

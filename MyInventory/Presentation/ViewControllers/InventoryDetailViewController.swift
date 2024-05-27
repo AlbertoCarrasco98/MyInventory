@@ -12,6 +12,11 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     private let removeInventoryButton = UIButton()
     private let recoverInventoryButton = UIButton()
 
+    // Esto es una propiedad computada, por lo que cogera el valor, en este caso, que reciba de la propiedad isEditing de la tabla. Las propiedades computadas toman el valor de lo que devuelva el bloque de codigo que se ejecuta dentro de ella
+    private var isEditingMode: Bool {
+        return tableView.isEditing
+    }
+
     private let viewModel: InventoryViewModel
 
     var inventory: InventoryModel
@@ -41,7 +46,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory
-            self?.configureNavigationBar()
+//            self?.configureNavigationBar()
             self?.tableView.reloadData()
             self?.textField.text = ""
         }.store(in: &cancellables)
@@ -82,6 +87,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         listenViewModel()
         listenAppearanceViewModel()
         configureNavigationBar()
+        updateFavoriteButton()
     }
 
     func configureFunctionsFromTrashVC() {
@@ -93,24 +99,83 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     }
 
 //    MARK: - ConfigureNavigationBar
+
+    // Esta funcion sirve para configurar la NavigationBar con el menu de opciones y el boton de favorito
     private func configureNavigationBar() {
-        let imageName = inventory.isFavorite ? "star.fill" : "star.slash"
-        let favoriteImage = UIImage(systemName: imageName)
-        let trashImage = UIImage(systemName: "trash")
-        let favoriteButton = UIBarButtonItem(image: favoriteImage,
+        let optionsMenu = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
+                                          style: .plain,
+                                          target: self,
+                                          action:  nil)
+        optionsMenu.menu = createOptionsMenu()
+
+//        let favoriteImage = inventory.isFavorite ? "star.fill" : "star"
+//        let favoriteImage = UIImage(systemName: imageName)
+        let favoriteButton = UIBarButtonItem(image: nil,
                                              style: .plain,
                                              target: self,
                                              action: #selector(favoriteAction))
-        let moveInventoryToTrashButton = UIBarButtonItem(image: trashImage,
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(moveInventoryToTrashButtonTapped))
-        navigationItem.rightBarButtonItems = [favoriteButton ,moveInventoryToTrashButton]
+        navigationItem.rightBarButtonItems = [optionsMenu, favoriteButton]
     }
 
+    //Esta funcion se encarga de configurar el menu que se abre al pulsar el boton de opciones en la NavigationBar
+    private func createOptionsMenu() -> UIMenu {
+        let deleteAction = UIAction(title: "Eliminar inventario",
+                                    image: UIImage(systemName: "trash")) { action in
+            self.moveInventoryToTrashButtonTapped()
+        }
+
+        let editButton = UIAction(title: "Editar", image: UIImage(systemName: "pencil")) { action in
+            self.editButtonTapped()
+        }
+
+        let menu = UIMenu(children: [deleteAction, editButton])
+        return menu
+    }
+
+    // Esta funcion es para que la NavigationBar se configure unicamente con el boton OK
+    private func configureNavigationBarFromEditing() {
+        let okButton = UIBarButtonItem(title: "OK",
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(okButtonTapped))
+        navigationItem.rightBarButtonItems = [okButton]
+    }
+
+    // Esta funcion es para que al pulsar el boton Editar en la NavigationBar se configure segun la funcion configureNavigationBarFromEditing()
+    private func editButtonTapped() {
+        tableView.isEditing = true
+        if isEditingMode == true {
+            configureNavigationBarFromEditing()
+        }
+    }
+
+    // Esta funcion se encarga de lo que ocurre al pulsar el boton OK cuando el modo Editar esta activo. Se vuelve a configurar la NavigationBar con el estilo predeterminado (configureNavigationBar()) y se vuelve a añadir el boton de favorito (updateFavoriteButton())
+    @objc private func okButtonTapped() {
+        tableView.isEditing = false
+        if isEditingMode == false {
+            configureNavigationBar()
+            updateFavoriteButton()
+        }
+    }
+
+    // Esta funcion se encarga de lo que ocurre al pulsar el boton de favorito, cambia el estado de la propiedad en el inventario y se actualiza la imagen del boton de favorito
     @objc func favoriteAction() {
         viewModel.updateIsFavorite(in: inventory)
+        updateFavoriteButton()
     }
+
+    // Esta funcion se encarga de que la imagen del boton de favorito siempre refleje el estado de la propiedad isFavorite del inventario
+    func updateFavoriteButton() {
+            if let favoriteButton = navigationItem.rightBarButtonItems?.first(where: { $0.action == #selector(favoriteAction) }) {
+                favoriteButton.image = favoriteImage()
+            }
+        }
+
+    // Esta funcion se encarga de asignar la imagen del boton de favorito de la NavigationBar
+    func favoriteImage() -> UIImage? {
+        let imageName = inventory.isFavorite ? "star.fill" : "star"
+            return UIImage(systemName: imageName)
+        }
 
 //    MARK: - ConfigureMainStackView
     private func configureMainStackView() {
@@ -163,6 +228,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.masksToBounds = true
+        tableView.isEditing = false
     }
 
 //    MARK: - ConfigureTableViewForTrash
@@ -174,6 +240,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.cornerRadius = 10
         tableView.layer.masksToBounds = true
+
     }
 
 //    MARK: - ConfigureTextField
@@ -346,6 +413,16 @@ extension InventoryDetailViewController: UITableViewDataSource {
             return nil
         }
     }
+
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedElement = inventory.elements.remove(at: sourceIndexPath.row)
+        inventory.elements.insert(movedElement, at: destinationIndexPath.row)
+        viewModel.updateOrder(in: inventory)
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -353,5 +430,9 @@ extension InventoryDetailViewController: UITableViewDataSource {
 extension InventoryDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        proposedDestinationIndexPath
     }
 }
