@@ -55,6 +55,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         configureTextField()
         listenViewModel()
         listenAppearanceViewModel()
+        hideKeyboard()
     }
 
     private func processInventoryCreation() {
@@ -107,6 +108,17 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
 //            currentViewController.present(alertController, animated: true, completion: nil)
 //        }
 //    }
+
+    private func hideKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(hideKeyboardAtion))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func hideKeyboardAtion() {
+        view.endEditing(true)
+    }
 
 
     // MARK: - TextField Configuration

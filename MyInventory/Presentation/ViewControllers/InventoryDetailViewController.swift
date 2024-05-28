@@ -46,7 +46,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
             self?.inventory = updatedInventory
-//            self?.configureNavigationBar()
             self?.tableView.reloadData()
             self?.textField.text = ""
         }.store(in: &cancellables)
@@ -88,6 +87,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         listenAppearanceViewModel()
         configureNavigationBar()
         updateFavoriteButton()
+        hideKeyboard()
     }
 
     func configureFunctionsFromTrashVC() {
@@ -96,6 +96,17 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         configureRemoveInventoryButton()
         configureRecoverInventoryButton()
         listenAppearanceViewModel()
+    }
+
+    private func hideKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(hideKeyboardAction))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func hideKeyboardAction() {
+        view.endEditing(true)
     }
 
 //    MARK: - ConfigureNavigationBar
@@ -146,6 +157,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.isEditing = true
         if isEditingMode == true {
             configureNavigationBarFromEditing()
+            self.textField.isUserInteractionEnabled = false
         }
     }
 
@@ -155,24 +167,25 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         if isEditingMode == false {
             configureNavigationBar()
             updateFavoriteButton()
+            self.textField.isUserInteractionEnabled = true
         }
     }
 
     // Esta funcion se encarga de lo que ocurre al pulsar el boton de favorito, cambia el estado de la propiedad en el inventario y se actualiza la imagen del boton de favorito
-    @objc func favoriteAction() {
+    @objc private func favoriteAction() {
         viewModel.updateIsFavorite(in: inventory)
         updateFavoriteButton()
     }
 
     // Esta funcion se encarga de que la imagen del boton de favorito siempre refleje el estado de la propiedad isFavorite del inventario
-    func updateFavoriteButton() {
+    private func updateFavoriteButton() {
             if let favoriteButton = navigationItem.rightBarButtonItems?.first(where: { $0.action == #selector(favoriteAction) }) {
                 favoriteButton.image = favoriteImage()
             }
         }
 
     // Esta funcion se encarga de asignar la imagen del boton de favorito de la NavigationBar
-    func favoriteImage() -> UIImage? {
+    private func favoriteImage() -> UIImage? {
         let imageName = inventory.isFavorite ? "star.fill" : "star"
             return UIImage(systemName: imageName)
         }
@@ -262,7 +275,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         if let text = textField.text, !text.isEmpty {
             viewModel.newElement(from: inventory, elementTitle: text)
             }
-        textField.resignFirstResponder()
+//        textField.resignFirstResponder()
         return true
     }
 

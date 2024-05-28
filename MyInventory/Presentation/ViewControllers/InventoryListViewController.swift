@@ -57,7 +57,9 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
 
     private func showToast(message: String) {
-        Toast.show(message: message, inView: self.view, color: UIColor(red: 0.4, green: 0.8, blue: 0.4, alpha: 1.0))
+        Toast.show(message: message,
+                   inView: self.view,
+                   color: UIColor(red: 0.4, green: 0.8, blue: 0.4, alpha: 1.0))
     }
 
     func listenViewModel() {
@@ -274,7 +276,14 @@ extension InventoryListViewController: UICollectionViewDataSource {
         }
 
         let inventory = filteredInventory[indexPath.row]
-        cell.label.text = inventory.title
+
+        if let searchText = searchText {
+            cell.label.attributedText = inventory.title.highlighted(with: searchText,
+                                                                    font: cell.label.font)
+        } else {
+            cell.label.text = inventory.title
+        }
+
         cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
         cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
@@ -334,5 +343,20 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
         let widht = collectionView.bounds.width
         let height: CGFloat = 45
         return CGSize(width: widht, height: height)
+    }
+}
+
+extension String {
+    func highlighted(with searchText: String, font: UIFont) -> NSAttributedString {
+
+        let attributedString = NSMutableAttributedString(string: self)
+        let range = (self as NSString).range(of: searchText,
+                                             options: .caseInsensitive)
+        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 16,
+                                                                 weight: .bold),
+                                        .foregroundColor: UIColor.black],
+                                       range: range)
+
+        return attributedString
     }
 }
