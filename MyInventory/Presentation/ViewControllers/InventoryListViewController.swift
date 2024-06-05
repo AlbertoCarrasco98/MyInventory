@@ -44,6 +44,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        self.view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,9 +58,9 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
 
     private func showToast(message: String) {
-        Toast.show(message: message,
-                   inView: self.view,
-                   color: UIColor(red: 0.4, green: 0.8, blue: 0.4, alpha: 1.0))
+        view.showToast(withMessage: "Inventario creado con écito",
+                       color: .success,
+                       position: .bottom)
     }
 
     func listenViewModel() {
@@ -170,6 +171,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "CustomCollectionViewCell")
         self.collectionView.register(SectionHeader.self,
@@ -348,7 +350,6 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
 
 extension String {
     func highlighted(with searchText: String, font: UIFont) -> NSAttributedString {
-
         let attributedString = NSMutableAttributedString(string: self)
         let range = (self as NSString).range(of: searchText,
                                              options: .caseInsensitive)
@@ -356,7 +357,6 @@ extension String {
                                                                  weight: .bold),
                                         .foregroundColor: UIColor.black],
                                        range: range)
-
         return attributedString
     }
 }

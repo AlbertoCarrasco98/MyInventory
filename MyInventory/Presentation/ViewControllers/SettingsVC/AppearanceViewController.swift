@@ -10,6 +10,7 @@ class AppearanceViewController: UIViewController {
     let tableView = UITableView()
     let exampleLabel = UILabel()
 
+//     MARK: - LifeCycle
 
     override func loadView() {
         super.loadView()
@@ -20,6 +21,7 @@ class AppearanceViewController: UIViewController {
         listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     private func listenAppearanceViewModel() {
@@ -55,6 +57,7 @@ class AppearanceViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     private func presentModal() {
@@ -123,7 +126,7 @@ class AppearanceViewController: UIViewController {
 
         let newValue = Int(sender.value)
 
-        AppearanceViewModel.shared.setCornerRadius(radius: newValue)
+        AppearanceViewModel.shared.setCornerRadius(newValue)
 
         if let modalView = presentedViewController?.view,
            let sliderValueLabel = modalView.subviews.first(where: { $0 is UILabel }) as? UILabel {

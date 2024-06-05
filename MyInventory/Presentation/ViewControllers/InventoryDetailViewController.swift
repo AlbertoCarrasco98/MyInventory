@@ -157,7 +157,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.isEditing = true
         if isEditingMode == true {
             configureNavigationBarFromEditing()
-            self.textField.isUserInteractionEnabled = false
+            textField.isUserInteractionEnabled = false
         }
     }
 
@@ -167,7 +167,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         if isEditingMode == false {
             configureNavigationBar()
             updateFavoriteButton()
-            self.textField.isUserInteractionEnabled = true
+            textField.isUserInteractionEnabled = true
         }
     }
 

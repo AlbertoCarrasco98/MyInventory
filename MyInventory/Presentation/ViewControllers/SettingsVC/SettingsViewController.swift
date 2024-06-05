@@ -20,8 +20,9 @@ class SettingsViewController: UIViewController {
     private func setupUI() {
         self.title = "Ajustes"
         configureMainStackView()
-        configureTableView()
         listenAppearanceViewModel()
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        configureTableView()
     }
 
     private func listenAppearanceViewModel() {
@@ -50,6 +51,7 @@ class SettingsViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 }
 

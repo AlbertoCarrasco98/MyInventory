@@ -2,6 +2,24 @@ import RealmSwift
 
 class RealmDatabaseManager: DatabaseManagerProtocol {
 
+    // Esta funcion se encarga de guardar un inventario. Si uso el .modified solo guarda la propiedad que haya cambiado en vez de todo el inventairo
+    func save(_ inventory: InventoryModel) {
+        let realm = try! Realm()
+        let elements = List<ElementRealm>()
+        elements.append(objectsIn: RealmMapper.map(elements: inventory.elements))
+        let updatedInventory = InventoryModelRealm(title: inventory.title,
+                                                   elements: elements,
+                                                   isFavorite: inventory.isFavorite,
+                                                   isDeleted: inventory.isDeleted)
+        do {
+            try realm.write {
+                realm.add(updatedInventory, update: .modified)
+            }
+        } catch {
+            print("Error al guardar el inventario")
+        }
+    }
+
     // Esta funcion se encarga de darme todos los inventarios guardados
     func getInventoryList() -> [InventoryModel] {
         let realm = try! Realm()
@@ -21,23 +39,6 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
         return RealmMapper.map(inventory: inventoryRealm)
     }
 
-    // Esta funcion se encarga de guardar un inventario. Si uso el .modified solo guarda la propiedad que haya cambiado en vez de todo el inventairo
-    func save(_ inventory: InventoryModel) {
-        let realm = try! Realm()
-        let elements = List<ElementRealm>()
-        elements.append(objectsIn: RealmMapper.map(elements: inventory.elements))
-        let updatedInventory = InventoryModelRealm(title: inventory.title,
-                                                   elements: elements,
-                                                   isFavorite: inventory.isFavorite,
-                                                   isDeleted: inventory.isDeleted)
-        do {
-            try realm.write {
-                realm.add(updatedInventory, update: .modified)
-            }
-        } catch {
-            print("Error al guardar el inventario")
-        }
-    }
 
     // Esta funcion se encarga de borrar un inventario
     func deleteInventory(withTitle title: String) {

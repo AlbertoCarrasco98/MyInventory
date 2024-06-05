@@ -1,41 +1,38 @@
 import UIKit
 
 class Toast {
+    enum ToastColor {
+        case success
+        case failure
+        case `default`
 
-    static func show(message: String, inView view: UIView, duration: TimeInterval = 2.0, color: UIColor) {
-        let toastLabel = UILabel()
-        toastLabel.text = message
-        toastLabel.textAlignment = .center
-        toastLabel.font = UIFont.systemFont(ofSize: 14)
-        toastLabel.textColor = .white
-        toastLabel.backgroundColor = color
-        toastLabel.numberOfLines = 0
-        toastLabel.layer.cornerRadius = 10
-        toastLabel.clipsToBounds = true
+        var defaultColor: UIColor {
+            switch self {
+                case .success:
+                    return UIColor(red: 0.4, green: 0.8, blue: 0.4, alpha: 1.0)
+                case .failure:
+                    return UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0)
+                case .default:
+                    return UIColor(red: 207/255.0, green: 207/255.0, blue: 207/255.0, alpha: 1.0)
+            }
+        }
+    }
 
-        let maxSizeTitle = CGSize(width: view.bounds.size.width - 40, height: view.bounds.size.height)
-        var expectedSizeTitle = toastLabel.sizeThatFits(maxSizeTitle)
-        expectedSizeTitle.width += 20
-        expectedSizeTitle.height += 20
-        toastLabel.frame = CGRect(x: view.frame.size.width/2 - expectedSizeTitle.width/2,
-                                  y: view.frame.size.height - 130,
-                                  width: expectedSizeTitle.width,
-                                  height: expectedSizeTitle.height)
+    enum ToastPosition {
+        case top
+        case center
+        case bottom
 
-        view.addSubview(toastLabel)
-        toastLabel.alpha = 0.0
-
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
-            toastLabel.alpha = 1.0
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.5,
-                           delay: duration,
-                           options: .curveEaseOut,
-                           animations: {
-                toastLabel.alpha = 0.0
-            }, completion: { _ in
-                toastLabel.removeFromSuperview()
-            })
-        })
+        var defaultHeight: CGFloat {
+            switch self {
+                case .top:
+                    return 100
+                case .center:
+                    return UIScreen.main.bounds.height / 2
+                case .bottom:
+                    return UIScreen.main.bounds.height - 110
+            }
+        }
     }
 }
+

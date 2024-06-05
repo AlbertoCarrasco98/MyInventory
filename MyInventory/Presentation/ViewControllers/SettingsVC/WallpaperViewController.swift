@@ -6,7 +6,7 @@ class WallpaperViewController: UIViewController {
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private var cancellables: [AnyCancellable] = []
 
-//    MARK: - LifeCycle
+    //    MARK: - LifeCycle
 
     internal override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class WallpaperViewController: UIViewController {
         }.store(in: &cancellables)
     }
 
-//    MARK: - ConfigureCollectionView
+    //    MARK: - ConfigureCollectionView
 
     private func configureCollectionView() {
         collectionView.dataSource = self
@@ -39,7 +39,7 @@ class WallpaperViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 24),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
         ])
-//        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        //        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 }
 
@@ -47,9 +47,9 @@ class WallpaperViewController: UIViewController {
 
 extension WallpaperViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        AppearanceViewModel.colors.count
+        Colors.backgroundColors.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollecionViewCell", for: indexPath)
                 as? CustomCollectionViewCell
@@ -57,7 +57,7 @@ extension WallpaperViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        cell.backgroundColor = AppearanceViewModel.colors[indexPath.item]
+        cell.backgroundColor = Colors.backgroundColors[indexPath.item]
 
         cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true
@@ -75,46 +75,7 @@ extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedColor = AppearanceViewModel.colors[indexPath.row]
+        let selectedColor = Colors.backgroundColors[indexPath.row]
         AppearanceViewModel.shared.setBackgroundColor(color: selectedColor)
-
-        }
-
-}
-
-extension WallpaperViewController {
-    enum Colors: Int, CaseIterable {
-        case red
-        case blue
-        case yellow
-        case green
-        case pink
-        case gray
-        case white
-        case brown
-        case orange
-
-        var color: UIColor {
-            switch self {
-                case .red:
-                    return .red
-                case .blue:
-                    return .blue
-                case .yellow:
-                    return .yellow
-                case .green:
-                    return .green
-                case .pink:
-                    return .systemPink
-                case .gray:
-                    return .gray
-                case .white:
-                    return .white
-                case .brown:
-                    return .brown
-                case .orange:
-                    return .orange
-            }
-        }
     }
 }

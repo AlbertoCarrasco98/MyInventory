@@ -29,14 +29,15 @@
 		98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */; };
 		9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */; };
 		9848D4EB2BE0EE4200BD21C0 /* AppearanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */; };
-		9848D4ED2BE3B16C00BD21C0 /* AppearanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */; };
 		986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986646022BE9584C0031803C /* WallpaperViewController.swift */; };
 		986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */; };
-		9875BA0F2BA87E3300611D88 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */; };
 		9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA102BAADA9200611D88 /* SettingsViewController.swift */; };
 		987DFB7C2BA6048900F9DD9C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */; };
 		987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */; };
 		98A738002BFBB68100D67FAE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A737FF2BFBB68100D67FAE /* Toast.swift */; };
+		98ACAF7D2C077AFE00F62B13 /* E.UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */; };
+		98F911302C0DCFE400E87775 /* E.UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F9112F2C0DCFE400E87775 /* E.UIColor.swift */; };
+		98F911322C103BE100E87775 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911312C103BE100E87775 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,14 +63,15 @@
 		98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
 		9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModel.swift; sourceTree = "<group>"; };
 		9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceViewModel.swift; sourceTree = "<group>"; };
-		9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceManager.swift; sourceTree = "<group>"; };
 		986646022BE9584C0031803C /* WallpaperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperViewController.swift; sourceTree = "<group>"; };
 		986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataMapper.swift; sourceTree = "<group>"; };
-		9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		9875BA102BAADA9200611D88 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		98A737FF2BFBB68100D67FAE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.UIView.swift; sourceTree = "<group>"; };
+		98F9112F2C0DCFE400E87775 /* E.UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.UIColor.swift; sourceTree = "<group>"; };
+		98F911312C103BE100E87775 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,11 +189,21 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		98ACAF7B2C077AB800F62B13 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */,
+				98F9112F2C0DCFE400E87775 /* E.UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		98FEA4EF2B5FB22B008293EA /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				9848D4EC2BE3B16C00BD21C0 /* AppearanceManager.swift */,
 				9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */,
+				98F911312C103BE100E87775 /* Colors.swift */,
+				98ACAF7B2C077AB800F62B13 /* Extensions */,
 				98FEA4F02B5FB253008293EA /* Views */,
 				982798232B233B4D0049D69F /* ViewControllers */,
 			);
@@ -202,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */,
-				9875BA0E2BA87E3300611D88 /* UITableViewCell.swift */,
 				987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */,
 				98A737FF2BFBB68100D67FAE /* Toast.swift */,
 			);
@@ -287,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				980AABD62B55A8B6005526C5 /* RealmMapper.swift in Sources */,
+				98F911302C0DCFE400E87775 /* E.UIColor.swift in Sources */,
 				982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */,
 				980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */,
 				9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */,
@@ -295,15 +307,15 @@
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
 				9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */,
 				9848D4EB2BE0EE4200BD21C0 /* AppearanceViewModel.swift in Sources */,
-				9875BA0F2BA87E3300611D88 /* UITableViewCell.swift in Sources */,
+				98F911322C103BE100E87775 /* Colors.swift in Sources */,
 				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
 				98A738002BFBB68100D67FAE /* Toast.swift in Sources */,
-				9848D4ED2BE3B16C00BD21C0 /* AppearanceManager.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
+				98ACAF7D2C077AFE00F62B13 /* E.UIView.swift in Sources */,
 				986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */,
 				9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */,
 				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,

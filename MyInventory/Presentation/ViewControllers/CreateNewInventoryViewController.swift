@@ -68,9 +68,9 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
                     passToastMessageAndPop()
                     onCreateSuccess?()
                 case .failure:
-                    Toast.show(message: "Ya existe un inventario con ese título",
-                               inView: self.view,
-                               color: UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0))
+                    view.showToast(withMessage: "Ya existe un inventario con ese título",
+                                   color: .failure,
+                                   position: .center)
             }
         }
     }
