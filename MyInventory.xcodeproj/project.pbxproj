@@ -38,6 +38,9 @@
 		98ACAF7D2C077AFE00F62B13 /* E.UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */; };
 		98F911302C0DCFE400E87775 /* E.UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F9112F2C0DCFE400E87775 /* E.UIColor.swift */; };
 		98F911322C103BE100E87775 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911312C103BE100E87775 /* Colors.swift */; };
+		98F911342C103F5A00E87775 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911332C103F5A00E87775 /* UserDefaultManager.swift */; };
+		98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911352C1049FD00E87775 /* ColorMapper.swift */; };
+		98F911382C104A2B00E87775 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911372C104A2B00E87775 /* ColorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +75,9 @@
 		98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.UIView.swift; sourceTree = "<group>"; };
 		98F9112F2C0DCFE400E87775 /* E.UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.UIColor.swift; sourceTree = "<group>"; };
 		98F911312C103BE100E87775 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		98F911332C103F5A00E87775 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		98F911352C1049FD00E87775 /* ColorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapper.swift; sourceTree = "<group>"; };
+		98F911372C104A2B00E87775 /* ColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,7 @@
 			children = (
 				980AABD72B593A0E005526C5 /* DatabaseManagerProtocol.swift */,
 				980AABD12B500220005526C5 /* RealmDatabaseManager.swift */,
+				98F911332C103F5A00E87775 /* UserDefaultManager.swift */,
 				980AABD52B55A8B6005526C5 /* RealmMapper.swift */,
 				982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */,
 				986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */,
@@ -166,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				9827981C2B21EBBE0049D69F /* InventoryModel.swift */,
+				98F911372C104A2B00E87775 /* ColorModel.swift */,
 				980AABC82B4B180F005526C5 /* CustomError.swift */,
 			);
 			path = Model;
@@ -203,6 +211,7 @@
 			children = (
 				9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */,
 				98F911312C103BE100E87775 /* Colors.swift */,
+				98F911352C1049FD00E87775 /* ColorMapper.swift */,
 				98ACAF7B2C077AB800F62B13 /* Extensions */,
 				98FEA4F02B5FB253008293EA /* Views */,
 				982798232B233B4D0049D69F /* ViewControllers */,
@@ -303,6 +312,7 @@
 				980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */,
 				9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */,
 				981916EF2BDB860D003B9121 /* AppearanceViewController.swift in Sources */,
+				98F911342C103F5A00E87775 /* UserDefaultManager.swift in Sources */,
 				987DFB7C2BA6048900F9DD9C /* CustomCollectionViewCell.swift in Sources */,
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
 				9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */,
@@ -312,6 +322,7 @@
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
 				98A738002BFBB68100D67FAE /* Toast.swift in Sources */,
+				98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
@@ -324,6 +335,7 @@
 				980AABD22B500220005526C5 /* RealmDatabaseManager.swift in Sources */,
 				9827980B2B21EB4C0049D69F /* SceneDelegate.swift in Sources */,
 				980AABD42B5005C5005526C5 /* InventoryModelRealm.swift in Sources */,
+				98F911382C104A2B00E87775 /* ColorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

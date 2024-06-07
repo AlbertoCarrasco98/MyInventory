@@ -15,6 +15,7 @@ class WallpaperViewController: UIViewController {
     }
 
     private func setupUI() {
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         configureCollectionView()
     }
 
@@ -39,7 +40,7 @@ class WallpaperViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 24),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
         ])
-        //        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 }
 
@@ -77,5 +78,6 @@ extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedColor = Colors.backgroundColors[indexPath.row]
         AppearanceViewModel.shared.setBackgroundColor(color: selectedColor)
+        
     }
 }

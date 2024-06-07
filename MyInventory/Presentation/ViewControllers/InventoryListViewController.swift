@@ -44,7 +44,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        self.view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -95,6 +94,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // MARK: - SetupUI
 
     private func setupUI() {
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         listenViewModel()
         listenAppearanceViewModel()
         self.title = "Inventarios"

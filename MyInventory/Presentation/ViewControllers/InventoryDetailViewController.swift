@@ -69,10 +69,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     func setupUI() {
         if inventory.isDeleted == true {
-            view.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
+            view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
             configureFunctionsFromTrashVC()
         } else {
-            view.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+            view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
             navigationController?.isNavigationBarHidden = false
             navigationItem.backButtonTitle = "Atrás"
             configureFunctionsFromInventoryListVC()
@@ -238,6 +238,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.masksToBounds = true
@@ -249,6 +250,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.cornerRadius = 10
@@ -264,6 +266,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             textField.heightAnchor.constraint(equalToConstant: 35)
         ])
         textField.placeholder = "Agrega un nuevo elemento a tu inventario"
+        textField.backgroundColor = .systemGray6
         textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         textField.layer.borderWidth = 2.5
         textField.font = .italicSystemFont(ofSize: 15)

@@ -1,7 +1,10 @@
 import UIKit
 
 extension UIView {
-    func showToast(withMessage message: String, duration: TimeInterval = 2.0, color: Toast.ToastColor, position: Toast.ToastPosition) {
+    func showToast(withMessage message: String,
+                   duration: TimeInterval = 2.0,
+                   color: Colors.ToastColor,
+                   position: Toast.ToastPosition) {
 
         // creacion de la vista
         // añadirla como subvista y ubicarla en la vista padre

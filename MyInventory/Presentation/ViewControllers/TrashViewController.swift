@@ -53,6 +53,7 @@ class TrashViewController: UIViewController {
     }
 
     private func setupUI() {
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         listenViewModel()
         listenAppearanceViewModel()
         self.title = "Papelera"
@@ -90,7 +91,7 @@ class TrashViewController: UIViewController {
 
     private func configureCollectionView() {
         mainStackView.addArrangedSubview(collectionView)
-//        collectionView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1.0)
+        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         let layout = UICollectionViewFlowLayout()
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "CustomCollectionViewCell")
