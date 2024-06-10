@@ -5,7 +5,7 @@ class AppearanceViewModel: ObservableObject {
 
     //    MARK: - Properties
 
-    static let shared = AppearanceViewModel()
+    static var shared = AppearanceViewModel()
     private(set) var appearanceModel: AppearanceModel
 
     // MARK: - Signals
@@ -22,6 +22,16 @@ class AppearanceViewModel: ObservableObject {
     }
 
     // MARK: - Methods
+
+    func restoreApparenceSettings () {
+        let modelToSave = AppearanceModel(isDarkModeEnabled: false,
+                                          boxCornerRadius: 0,
+                                          backgroundColor: .white)
+        UserDefaultManager.restoreAppearanceSettings(modelToSave: modelToSave)
+        appearanceModel = modelToSave
+        backgroundStateSignal.send(modelToSave.backgroundColor)
+        boxCornerRadiusChangedSignal.send(modelToSave.boxCornerRadius)
+    }
 
     static private func loadSavedColor() -> UIColor {
         guard let savedColor = UserDefaultManager.loadBackgroundColor() else {

@@ -119,9 +119,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func createNewInventoryButtonAction() {
-//        let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
-//        navigationController?.pushViewController(createNewInventoryVC, animated: true)
-
         let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
         createNewInventoryVC.onCreateSuccess = {
             self.showToast(message: "Inventario creado con éxito")

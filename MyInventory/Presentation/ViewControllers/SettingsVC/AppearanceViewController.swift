@@ -9,6 +9,7 @@ class AppearanceViewController: UIViewController {
     let mainStackView = UIStackView()
     let tableView = UITableView()
     let exampleLabel = UILabel()
+    let restoreAppearanceButton = UIButton()
 
 //     MARK: - LifeCycle
 
@@ -21,6 +22,7 @@ class AppearanceViewController: UIViewController {
         listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
+        configureRestoreAppearanceButton()
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
@@ -29,10 +31,12 @@ class AppearanceViewController: UIViewController {
             self.view.backgroundColor = color
             self.tableView.backgroundColor = color
             self.tableView.reloadData()
+            self.mainStackView.backgroundColor = color
         }.store(in: &cancellables)
 
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
             self.exampleLabel.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
+            self.restoreAppearanceButton.layer.cornerRadius = CGFloat(radius)
         }.store(in: &cancellables)
     }
 
@@ -41,8 +45,9 @@ class AppearanceViewController: UIViewController {
     private func configureMainStackView() {
         view.addSubview(mainStackView)
         mainStackView.addArrangedSubview(tableView)
+        mainStackView.addArrangedSubview(restoreAppearanceButton)
         mainStackView.axis = .vertical
-        mainStackView.distribution = .fillEqually
+        mainStackView.distribution = .equalSpacing
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
@@ -50,7 +55,7 @@ class AppearanceViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 24),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
-        mainStackView.backgroundColor = .blue
+        mainStackView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     private func configureTableView() {
@@ -58,6 +63,31 @@ class AppearanceViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+    }
+
+    private func configureRestoreAppearanceButton() {
+        restoreAppearanceButton.addTarget(self,
+                                          action: #selector(restoreAppearanceButtonTapped),
+                                          for: .touchUpInside)
+        restoreAppearanceButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        restoreAppearanceButton.backgroundColor = .white
+        restoreAppearanceButton.setTitle("Restablecer ajustes de apariencia",
+                                         for: .normal)
+        restoreAppearanceButton.titleLabel?.textAlignment = .center
+        restoreAppearanceButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        restoreAppearanceButton.setTitleColor(.black,
+                                              for: .normal)
+        restoreAppearanceButton.layer.borderColor = UIColor(red: 0.549,
+                                                            green: 0.729,
+                                                            blue: 0.831,
+                                                            alpha: 1.0).cgColor
+        restoreAppearanceButton.layer.borderWidth = 2
+        restoreAppearanceButton.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
+        restoreAppearanceButton.layer.masksToBounds = true
+    }
+
+    @objc func restoreAppearanceButtonTapped() {
+        AppearanceViewModel.shared.restoreApparenceSettings()
     }
 
     private func presentModal() {
