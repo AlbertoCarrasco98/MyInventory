@@ -22,7 +22,7 @@ class AppearanceViewController: UIViewController {
         listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
-        configureRestoreAppearanceButton()
+//        setupNavigationBar()
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
@@ -86,14 +86,48 @@ class AppearanceViewController: UIViewController {
         restoreAppearanceButton.layer.masksToBounds = true
     }
 
+    private func setupNavigationBar() {
+        let restoreAppearanceSettingButton = UIBarButtonItem(title: "Restablecer",
+                                                             style: .plain,
+                                                             target: self,
+                                                             action: #selector(restoreAppearanceButtonTapped))
+        navigationItem.rightBarButtonItem = restoreAppearanceSettingButton
+    }
+
+    private func showAlertToRestoreAppearanceSettings() {
+        let alert = UIAlertController(title: "",
+                                    message: "¿Estás seguro de que deseas restablecer los ajustes de apariencia?",
+                                      preferredStyle: .alert)
+        let cancelAlert = UIAlertAction(title: "Cancelar",
+                                        style: .cancel,
+                                        handler: nil)
+        let alertAction = UIAlertAction(title: "Restablecer",
+                                        style: .destructive) { [self] _ in
+            AppearanceViewModel.shared.restoreApparenceSettings()
+            self.view.showToast(withMessage: "Ajustes de apariencia restablecidos",
+                           color: .success,
+                           position: .bottom)
+            tableView.reloadData()
+        }
+
+        alert.addAction(cancelAlert)
+        alert.addAction(alertAction)
+
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            rootViewController.present(alert,
+                                       animated: true)
+        }
+    }
+
     @objc func restoreAppearanceButtonTapped() {
-        AppearanceViewModel.shared.restoreApparenceSettings()
+        showAlertToRestoreAppearanceSettings()
     }
 
     private func presentModal() {
         let modalViewController = UIViewController()
         modalViewController.modalPresentationStyle = .pageSheet
-        modalViewController.view.backgroundColor = UIColor(white: 1, alpha: 0.88)
+        modalViewController.view.backgroundColor = UIColor(white: 1, alpha: 1)
 
         if let sheet = modalViewController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
@@ -157,6 +191,7 @@ class AppearanceViewController: UIViewController {
         let newValue = Int(sender.value)
 
         AppearanceViewModel.shared.setCornerRadius(newValue)
+        tableView.reloadData()
 
         if let modalView = presentedViewController?.view,
            let sliderValueLabel = modalView.subviews.first(where: { $0 is UILabel }) as? UILabel {
@@ -182,6 +217,8 @@ extension AppearanceViewController: UITableViewDataSource {
                 return 1
             case .background:
                 return 1
+            case .restoreAppearance:
+                return 1
         }
     }
 
@@ -202,6 +239,14 @@ extension AppearanceViewController: UITableViewDataSource {
                 guard let backgroundModeCell = CellBackground(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = backgroundModeCell.title
                 cell.accessoryType = .disclosureIndicator
+            case .restoreAppearance:
+                guard let restoreAppearanceCell = CellRestoreAppearance(rawValue: indexPath.row) else { return .init() }
+                cell.textLabel?.text = restoreAppearanceCell.title
+                cell.textLabel?.textColor = .red
+                if AppearanceViewModel.shared.appearanceModel.thisAppearanceModelHasDefaultValues {
+                    cell.isUserInteractionEnabled = false
+                    cell.textLabel?.textColor = .systemGray
+                }
         }
         cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         return cell
@@ -229,6 +274,8 @@ extension AppearanceViewController: UITableViewDelegate {
             case .background:
                 let wallpaperVC = WallpaperViewController()
                 self.navigationController?.pushViewController(wallpaperVC, animated: true)
+            case .restoreAppearance:
+                restoreAppearanceButtonTapped()
         }
     }
 }
@@ -241,12 +288,14 @@ extension AppearanceViewController {
         case dayNightMode
         case cornerRadius
         case background
+        case restoreAppearance
 
         var title: String {
             switch self {
                 case .dayNightMode: return "Aspecto"
                 case .cornerRadius: return "Estilo de borde"
                 case .background: return "Fondo de pantalla"
+                case .restoreAppearance: return " "
             }
         }
     }
@@ -287,6 +336,17 @@ extension AppearanceViewController {
 
                 case .background:
                     return "Cambiar el color de fondo"
+            }
+        }
+    }
+
+    enum CellRestoreAppearance: Int {
+        case restoreAppearance
+
+        var title: String {
+            switch self {
+                case .restoreAppearance:
+                    return "Restablecer ajustes de apariencia"
             }
         }
     }

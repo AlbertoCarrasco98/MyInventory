@@ -24,13 +24,13 @@ class AppearanceViewModel: ObservableObject {
     // MARK: - Methods
 
     func restoreApparenceSettings () {
-        let modelToSave = AppearanceModel(isDarkModeEnabled: false,
-                                          boxCornerRadius: 0,
-                                          backgroundColor: .white)
-        UserDefaultManager.restoreAppearanceSettings(modelToSave: modelToSave)
-        appearanceModel = modelToSave
-        backgroundStateSignal.send(modelToSave.backgroundColor)
-        boxCornerRadiusChangedSignal.send(modelToSave.boxCornerRadius)
+
+        let restoredModel = AppearanceModel.defaultValue
+
+        UserDefaultManager.restoreAppearanceSettings(modelToSave: restoredModel)
+        appearanceModel = restoredModel
+        backgroundStateSignal.send(restoredModel.backgroundColor)
+        boxCornerRadiusChangedSignal.send(restoredModel.boxCornerRadius)
     }
 
     static private func loadSavedColor() -> UIColor {
