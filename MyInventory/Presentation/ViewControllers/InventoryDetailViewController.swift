@@ -305,10 +305,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(alertAction)
         alert.addAction(cancelAlert)
 
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            rootViewController.present(alert, animated: true)
-        }
+        self.present(alert,
+                     animated: true)
     }
 
 //    MARK: - ConfigurationRemoveInventory
@@ -343,10 +341,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
         alert.addAction(cancelAlert)
         alert.addAction(alertAction)
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            rootViewController.present(alert, animated: true)
-        }
+        self.present(alert,
+                     animated: true)
     }
 
 //MARK: - ConfigurationRecoverInventory
@@ -380,14 +376,10 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             self?.recoverInventory()
             self?.navigationController?.popViewController(animated: true)
         }
-
         alert.addAction(cancelAlert)
         alert.addAction(alertAction)
-
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            rootViewController.present(alert, animated: true)
-        }
+        self.present(alert,
+                     animated: true)
     }
 }
 
