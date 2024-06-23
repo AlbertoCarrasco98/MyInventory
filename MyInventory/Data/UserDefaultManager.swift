@@ -1,6 +1,6 @@
 import Foundation
 
-actor UserDefaultManager {
+class UserDefaultManager {
 
     static func restoreAppearanceSettings(modelToSave: AppearanceModel) {
         let backgroundColorToSave = ColorMapper.map(color: modelToSave.backgroundColor)
@@ -9,11 +9,6 @@ actor UserDefaultManager {
         saveBoxCornerRadius(Int(modelToSave.boxCornerRadius))
 
         UserDefaults.standard.setValue(modelToSave.isDarkModeEnabled, forKey: "restoreSavedIsDarkModeEnabled")
-    }
-
-    static func saveStateDarkMode(isOn: Bool) {
-        UserDefaults.standard.setValue(isOn,
-                                       forKey: "darkModeState")
     }
 
     static func saveBoxCornerRadius(_ radius: Int) {

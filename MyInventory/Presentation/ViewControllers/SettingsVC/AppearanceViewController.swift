@@ -11,7 +11,7 @@ class AppearanceViewController: UIViewController {
     let exampleLabel = UILabel()
     let restoreAppearanceButton = UIButton()
 
-    //     MARK: - LifeCycle
+//     MARK: - LifeCycle
 
     override func loadView() {
         super.loadView()
@@ -22,7 +22,7 @@ class AppearanceViewController: UIViewController {
         listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
-        //        setupNavigationBar()
+//        setupNavigationBar()
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
@@ -50,9 +50,9 @@ class AppearanceViewController: UIViewController {
         mainStackView.distribution = .equalSpacing
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 8),
+            view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 24),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
         mainStackView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
@@ -96,7 +96,7 @@ class AppearanceViewController: UIViewController {
 
     private func showAlertToRestoreAppearanceSettings() {
         let alert = UIAlertController(title: "",
-                                      message: "¿Estás seguro de que deseas restablecer los ajustes de apariencia?",
+                                    message: "¿Estás seguro de que deseas restablecer los ajustes de apariencia?",
                                       preferredStyle: .alert)
         let cancelAlert = UIAlertAction(title: "Cancelar",
                                         style: .cancel,
@@ -105,16 +105,19 @@ class AppearanceViewController: UIViewController {
                                         style: .destructive) { [self] _ in
             AppearanceViewModel.shared.restoreApparenceSettings()
             self.view.showToast(withMessage: "Ajustes de apariencia restablecidos",
-                                color: .success,
-                                position: .bottom)
+                           color: .success,
+                           position: .bottom)
             tableView.reloadData()
         }
 
         alert.addAction(cancelAlert)
         alert.addAction(alertAction)
 
-        self.present(alert,
-                     animated: true)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            rootViewController.present(alert,
+                                       animated: true)
+        }
     }
 
     @objc func restoreAppearanceButtonTapped() {
@@ -144,6 +147,7 @@ class AppearanceViewController: UIViewController {
         exampleLabel.layer.borderWidth = 2.5
         exampleLabel.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         exampleLabel.translatesAutoresizingMaskIntoConstraints = false
+
 
         let slider = UISlider()
         slider.maximumValue = 0
@@ -222,7 +226,6 @@ extension AppearanceViewController: UITableViewDataSource {
         guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         switch section {
-
             case .dayNightMode:
                 guard let dayNightModeCell = CellDayNightMode(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = dayNightModeCell.title
@@ -236,7 +239,6 @@ extension AppearanceViewController: UITableViewDataSource {
                 guard let backgroundModeCell = CellBackground(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = backgroundModeCell.title
                 cell.accessoryType = .disclosureIndicator
-
             case .restoreAppearance:
                 guard let restoreAppearanceCell = CellRestoreAppearance(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = restoreAppearanceCell.title
@@ -257,12 +259,6 @@ extension AppearanceViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-enum DayNightOption: Int {
-    case day
-    case night
-    case automatic
-}
-
 extension AppearanceViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -272,29 +268,11 @@ extension AppearanceViewController: UITableViewDelegate {
         switch section {
 
             case .dayNightMode:
-                let dayNightOption = DayNightOption(rawValue: indexPath.row)
-
-                switch dayNightOption {
-                    case .day:
-                        if CellDayNightMode(rawValue: indexPath.row) != nil {
-                            AppearanceViewModel.shared.disableDarkMode()
-                        }
-                    case .night:
-                        if CellDayNightMode(rawValue: indexPath.row) != nil {
-                            AppearanceViewModel.shared.enableDarkMode()
-                        }
-                    case .automatic:
-                        break
-
-                    case nil:
-                        break
-                }
-
+                break
             case .cornerRadius:
                 presentModal()
             case .background:
                 let wallpaperVC = WallpaperViewController()
-                wallpaperVC.title = "Fondo de pantalla"
                 self.navigationController?.pushViewController(wallpaperVC, animated: true)
             case .restoreAppearance:
                 restoreAppearanceButtonTapped()
@@ -355,6 +333,7 @@ extension AppearanceViewController {
 
         var title: String {
             switch self {
+
                 case .background:
                     return "Cambiar el color de fondo"
             }
