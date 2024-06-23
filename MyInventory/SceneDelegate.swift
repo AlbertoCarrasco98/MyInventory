@@ -7,10 +7,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
+
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-
         let window = UIWindow(windowScene: windowScene)
+
         let realmDatabaseManager = RealmDatabaseManager()
         let swiftDataDatabaseManager = SwiftDataDatabaseManager()
 
@@ -19,13 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let inventoryListVC = InventoryListViewController(viewModel: viewModel)
         let trashVC = TrashViewController(viewModel: viewModel)
         let settingVC = SettingsViewController()
-
         let tabBarController = UITabBarController()
 
         let inventoriesImage = UIImage(systemName: "note.text")
         let trashImage = UIImage(systemName: "trash.circle")
         let settingImage = UIImage(systemName: "gear")
-
 
         inventoryListVC.tabBarItem = UITabBarItem(title: "Inventarios", image: inventoriesImage, tag: 0)
         trashVC.tabBarItem = UITabBarItem(title: "Papelera", image: trashImage, tag: 1)
@@ -43,6 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         self.window = window
         window.makeKeyAndVisible()
+        applyDarkModeSetting()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -73,5 +73,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
+    private func applyDarkModeSetting() {
+        let isDarkModeEnabled = UserDefaults.standard.bool(forKey: "darkModeState")
+        window?.overrideUserInterfaceStyle = isDarkModeEnabled ? .dark : .light
+    }
 }

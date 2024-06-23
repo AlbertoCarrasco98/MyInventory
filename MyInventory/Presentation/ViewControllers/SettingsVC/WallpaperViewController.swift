@@ -34,10 +34,11 @@ class WallpaperViewController: UIViewController {
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCollecionViewCell")
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 24),
+            view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 12),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
         ])
         collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
@@ -70,7 +71,7 @@ extension WallpaperViewController: UICollectionViewDataSource {
 
 extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widht = collectionView.bounds.width / 3 - 10
+        let widht = collectionView.bounds.width / 3 - 16
         let height: CGFloat = 120
         return CGSize(width: widht, height: height)
     }

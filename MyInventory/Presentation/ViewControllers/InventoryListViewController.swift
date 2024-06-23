@@ -51,7 +51,13 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         if let message = pendingToastMessage {
             showToast(message: message)
             pendingToastMessage = nil
+            
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print(UserDefaults.standard.bool(forKey: "darkModeState"))
     }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
@@ -88,7 +94,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
             self.textField.layer.cornerRadius = CGFloat(radius)
             self.addInventoryButton.layer.cornerRadius = CGFloat(radius)
         }.store(in: &cancellables)
-
     }
 
     // MARK: - SetupUI
@@ -283,6 +288,7 @@ extension InventoryListViewController: UICollectionViewDataSource {
             cell.label.text = inventory.title
         }
 
+        cell.label.textColor = UIColor(named: "textPrimary")
         cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
         cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
@@ -345,15 +351,3 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
     }
 }
 
-extension String {
-    func highlighted(with searchText: String, font: UIFont) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string: self)
-        let range = (self as NSString).range(of: searchText,
-                                             options: .caseInsensitive)
-        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 16,
-                                                                 weight: .bold),
-                                        .foregroundColor: UIColor.black],
-                                       range: range)
-        return attributedString
-    }
-}

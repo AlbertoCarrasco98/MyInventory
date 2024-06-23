@@ -11,7 +11,7 @@ struct AppearanceModel: Equatable {
                                                                        green: 1,
                                                                        blue: 1,
                                                                        alpha: 1))
-
+    
     var thisAppearanceModelHasDefaultValues: Bool {
 
         return self.isDarkModeEnabled == AppearanceModel.defaultValue.isDarkModeEnabled &&
@@ -19,10 +19,3 @@ struct AppearanceModel: Equatable {
         self.backgroundColor == AppearanceModel.defaultValue.backgroundColor
     }
 }
-//        let darkModeEnabledDefaultValue = self.isDarkModeEnabled == AppearanceModel.defaultValue.isDarkModeEnabled
-//        let boxCornerRadiusDefaultValue = self.boxCornerRadius == AppearanceModel.defaultValue.boxCornerRadius
-//        let backgroundColorDefaultValue = self.backgroundColor == AppearanceModel.defaultValue.backgroundColor
-//
-//        return darkModeEnabledDefaultValue &&
-//        boxCornerRadiusDefaultValue &&
-//        backgroundColorDefaultValue
