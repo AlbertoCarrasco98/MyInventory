@@ -339,7 +339,8 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: collectionView.frame.width, height: 40)
+        CGSize(width: collectionView.frame.width,
+               height: 40)
     } // Tamaño de la label de cada seccion
 
     func collectionView(_ collectionView: UICollectionView,

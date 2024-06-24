@@ -31,7 +31,11 @@ class WallpaperViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "CustomCollecionViewCell")
+        collectionView.register(CustomCollectionViewCell.self,
+                                forCellWithReuseIdentifier: "CustomCollecionViewCell")
+        collectionView.register(SectionHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "header")
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
@@ -48,18 +52,35 @@ class WallpaperViewController: UIViewController {
 //    MARK: - CollectionViewDataSource
 
 extension WallpaperViewController: UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        CollectionViewSections.allCases.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        Colors.backgroundColors.count
+        if section == 0 {
+            return Colors.lightBackgroundColors.count
+        } else {
+            return Colors.darkBackgroundColors.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollecionViewCell", for: indexPath)
-                as? CustomCollectionViewCell
-        else {
+
+        guard let section = CollectionViewSections(rawValue: indexPath.section) else { return UICollectionViewCell() }
+
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollecionViewCell",
+                                                            for: indexPath) as? CustomCollectionViewCell else {
             return UICollectionViewCell()
         }
 
-        cell.backgroundColor = Colors.backgroundColors[indexPath.item]
+        switch section {
+            case .lightColors:
+                cell.backgroundColor = Colors.lightBackgroundColors[indexPath.item]
+
+            case .darkColors:
+                cell.backgroundColor = Colors.darkBackgroundColors[indexPath.item]
+        }
 
         cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true
@@ -70,15 +91,91 @@ extension WallpaperViewController: UICollectionViewDataSource {
 }
 
 extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+
+        if kind == UICollectionView.elementKindSectionHeader {
+
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                withReuseIdentifier: "header",
+                                                                                for: indexPath) as! SectionHeader
+
+            if indexPath.section == 0 {
+                sectionHeader.label.text = "Colores para modo día"
+
+            } else if indexPath.section == 1 {
+                sectionHeader.label.text = "Colores para modo noche"
+            }
+            return sectionHeader
+        } else {
+            return UICollectionReusableView()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+
+        return CGSize(width: collectionView.frame.width,
+                      height: 80)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
         let widht = collectionView.bounds.width / 3 - 16
         let height: CGFloat = 120
         return CGSize(width: widht, height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedColor = Colors.backgroundColors[indexPath.row]
+        guard let section = CollectionViewSections(rawValue: indexPath.section) else { return }
+        var selectedColor: UIColor
+
+        switch section {
+            case .lightColors:
+                selectedColor = Colors.lightBackgroundColors[indexPath.row]
+            case .darkColors:
+                selectedColor = Colors.darkBackgroundColors[indexPath.row]
+        }
         AppearanceViewModel.shared.setBackgroundColor(color: selectedColor)
-        
     }
+}
+
+extension WallpaperViewController {
+
+    enum CollectionViewSections: Int, CaseIterable {
+        case lightColors
+        case darkColors
+
+        var colorCell: Int {
+            switch self {
+                case .lightColors:
+                    return Colors.lightBackgroundColors.count
+                case .darkColors:
+                    return Colors.darkBackgroundColors.count
+            }
+        }
+
+        var title: String {
+            switch self {
+                case .lightColors:
+                    return "Colores para modo día"
+                case .darkColors:
+                    return "Colores para modo noche"
+            }
+        }
+    }
+
+    enum CellLightColors: Int {
+        case color
+    }
+
+    enum CellDarkColors: Int {
+        case color
+    }
+
 }

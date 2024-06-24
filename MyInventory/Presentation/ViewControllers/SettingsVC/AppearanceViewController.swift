@@ -292,10 +292,12 @@ extension AppearanceViewController: UITableViewDelegate {
 
             case .cornerRadius:
                 presentModal()
+
             case .background:
                 let wallpaperVC = WallpaperViewController()
                 wallpaperVC.title = "Fondo de pantalla"
                 self.navigationController?.pushViewController(wallpaperVC, animated: true)
+
             case .restoreAppearance:
                 restoreAppearanceButtonTapped()
         }

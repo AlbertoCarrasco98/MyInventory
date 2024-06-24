@@ -21,20 +21,17 @@ class AppearanceViewModel: ObservableObject {
         print(isDarkModeEnabled)
         self.appearanceModel = AppearanceModel(isDarkModeEnabled: isDarkModeEnabled,
                                                boxCornerRadius: Float(UserDefaults.standard.integer(forKey: "SaveBoxCornerRadius")),
-                                               backgroundColor: UIColor(named: "backgroundPrimary") ?? .systemPink)
+                                               backgroundColor: AppearanceViewModel.loadSavedColor())
     }
 
     // MARK: - Methods
 
     func enableDarkMode() {
         appearanceModel.isDarkModeEnabled = true
-//        UIScreen.main.traitCollection.userInterfaceStyle
-
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .dark
         }
         UserDefaultManager.saveStateDarkMode(isOn: true)
-        //        print("El valor de isDarkModeEnabled en base de datos es: \(UserDefaults.standard.bool(forKey: "darkModeState"))")
     }
 
     func disableDarkMode() {
@@ -43,7 +40,6 @@ class AppearanceViewModel: ObservableObject {
             window.overrideUserInterfaceStyle = .light
         }
         UserDefaultManager.saveStateDarkMode(isOn: false)
-        //        print("El valor de isDarkModeEnabled en base de datos es: \(UserDefaults.standard.bool(forKey: "darkModeState"))")
     }
 
     func restoreApparenceSettings () {
@@ -73,7 +69,7 @@ class AppearanceViewModel: ObservableObject {
         appearanceModel.backgroundColor = color
         //        let colorModel = ColorMapper.map(color: color)
         UserDefaultManager.saveBackgroundColor(ColorMapper.map(color: color))
-//        backgroundStateSignal.send(color)
+        backgroundStateSignal.send(color)
     }
 }
 
