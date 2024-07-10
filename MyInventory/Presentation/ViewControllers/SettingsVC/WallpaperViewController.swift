@@ -3,7 +3,8 @@ import Combine
 
 class WallpaperViewController: UIViewController {
 
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView = UICollectionView(frame: .zero,
+                                                  collectionViewLayout: UICollectionViewFlowLayout())
     private var cancellables: [AnyCancellable] = []
 
     //    MARK: - LifeCycle
@@ -15,14 +16,13 @@ class WallpaperViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
         configureCollectionView()
     }
 
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
-            self.collectionView.backgroundColor = color
         }.store(in: &cancellables)
     }
 
@@ -45,7 +45,7 @@ class WallpaperViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: 12),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
         ])
-        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        collectionView.backgroundColor = .clear
     }
 }
 
@@ -54,33 +54,39 @@ class WallpaperViewController: UIViewController {
 extension WallpaperViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        CollectionViewSections.allCases.count
+//        CollectionViewSections.allCases.count
+        1
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return Colors.lightBackgroundColors.count
-        } else {
-            return Colors.darkBackgroundColors.count
-        }
+        UIColor.allColors.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let section = CollectionViewSections(rawValue: indexPath.section) else { return UICollectionViewCell() }
+//        guard let section = CollectionViewSections(rawValue: indexPath.section) else { return UICollectionViewCell() }
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollecionViewCell",
                                                             for: indexPath) as? CustomCollectionViewCell else {
             return UICollectionViewCell()
         }
 
-        switch section {
-            case .lightColors:
-                cell.backgroundColor = Colors.lightBackgroundColors[indexPath.item]
+//        switch section {
+//            case .lightColors:
+//                let lightColor = Colors.LightBackgroundColor.allCases[indexPath.item]
+//                cell.backgroundColor = lightColor.color
+//                let lightColors = UIColor.allColors[indexPath.item]
+//                cell.backgroundColor = lightColors
+//
+//            case .darkColors:
+//                let darkColor = Colors.DarkBackgroundColor.allCases[indexPath.item]
+//                cell.backgroundColor = darkColor.color
+//        }
 
-            case .darkColors:
-                cell.backgroundColor = Colors.darkBackgroundColors[indexPath.item]
-        }
+
+            let color = UIColor.allColors[indexPath.item]
+            cell.backgroundColor = color
+
 
         cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true
@@ -92,35 +98,35 @@ extension WallpaperViewController: UICollectionViewDataSource {
 
 extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
+//    func collectionView(_ collectionView: UICollectionView,
+//                        viewForSupplementaryElementOfKind kind: String,
+//                        at indexPath: IndexPath) -> UICollectionReusableView {
+//
+//        if kind == UICollectionView.elementKindSectionHeader {
+//
+//            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+//                                                                                withReuseIdentifier: "header",
+//                                                                                for: indexPath) as! SectionHeader
+//
+//            if indexPath.section == 0 {
+//                sectionHeader.label.text = "Colores para modo día"
+//
+//            } else if indexPath.section == 1 {
+//                sectionHeader.label.text = "Colores para modo noche"
+//            }
+//            return sectionHeader
+//        } else {
+//            return UICollectionReusableView()
+//        }
+//    }
 
-        if kind == UICollectionView.elementKindSectionHeader {
-
-            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                withReuseIdentifier: "header",
-                                                                                for: indexPath) as! SectionHeader
-
-            if indexPath.section == 0 {
-                sectionHeader.label.text = "Colores para modo día"
-
-            } else if indexPath.section == 1 {
-                sectionHeader.label.text = "Colores para modo noche"
-            }
-            return sectionHeader
-        } else {
-            return UICollectionReusableView()
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-
-        return CGSize(width: collectionView.frame.width,
-                      height: 80)
-    }
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+//
+//        return CGSize(width: collectionView.frame.width,
+//                      height: 80)
+//    }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -133,15 +139,22 @@ extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let section = CollectionViewSections(rawValue: indexPath.section) else { return }
-        var selectedColor: UIColor
+//        var selectedColor: UIColor
 
         switch section {
             case .lightColors:
-                selectedColor = Colors.lightBackgroundColors[indexPath.row]
+//                let lightColor = Colors.LightBackgroundColor.allCases[indexPath.item]
+//                selectedColor = lightColor.color
+                let color = UIColor.allColors[indexPath.item]
+                AppearanceViewModel.shared.setBackgroundColor(color: color)
             case .darkColors:
-                selectedColor = Colors.darkBackgroundColors[indexPath.row]
+//                let darkColor = Colors.DarkBackgroundColor.allCases[indexPath.item]
+//                selectedColor = darkColor.color
+                let color = UIColor.allColors[indexPath.item]
+                AppearanceViewModel.shared.setBackgroundColor(color: color)
+
         }
-        AppearanceViewModel.shared.setBackgroundColor(color: selectedColor)
+
     }
 }
 
@@ -154,18 +167,18 @@ extension WallpaperViewController {
         var colorCell: Int {
             switch self {
                 case .lightColors:
-                    return Colors.lightBackgroundColors.count
+                    return Colors.LightBackgroundColor.allCases.count
                 case .darkColors:
-                    return Colors.darkBackgroundColors.count
+                    return Colors.DarkBackgroundColor.allCases.count
             }
         }
 
         var title: String {
             switch self {
                 case .lightColors:
-                    return "Colores para modo día"
+                    return "Colores claros"
                 case .darkColors:
-                    return "Colores para modo noche"
+                    return "Colores oscuros"
             }
         }
     }

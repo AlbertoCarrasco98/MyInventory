@@ -22,16 +22,12 @@ class AppearanceViewController: UIViewController {
         listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
-        //        setupNavigationBar()
-        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+view.backgroundColor = AppearanceViewModel.shared.backgroundColor
     }
 
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
-            self.tableView.backgroundColor = color
-            self.tableView.reloadData()
-            self.mainStackView.backgroundColor = color
         }.store(in: &cancellables)
 
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
@@ -55,14 +51,14 @@ class AppearanceViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 8),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
-        mainStackView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        mainStackView.backgroundColor = .clear
     }
 
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        tableView.backgroundColor = .clear
     }
 
     private func configureRestoreAppearanceButton() {
@@ -184,9 +180,7 @@ class AppearanceViewController: UIViewController {
 
     @objc private func sliderValueChanged(_ sender: UISlider) {
 
-        let newValue = Int(sender.value)
-
-        AppearanceViewModel.shared.setCornerRadius(newValue)
+        AppearanceViewModel.shared.setCornerRadius(sender.value)
         tableView.reloadData()
 
         if let modalView = presentedViewController?.view,
@@ -227,6 +221,32 @@ extension AppearanceViewController: UITableViewDataSource {
                 guard let dayNightModeCell = CellDayNightMode(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = dayNightModeCell.title
 
+                let appearanceModeState = AppearanceViewModel.shared.appearanceModel.appearanceModeState
+
+                cell.isUserInteractionEnabled = true
+                cell.contentView.alpha = 1
+
+                switch appearanceModeState {
+                    case .automatic:
+                        if dayNightModeCell == .automatic {
+                            cell.isUserInteractionEnabled = false
+                            cell.accessoryType = .checkmark
+                            cell.contentView.alpha = 0.4
+                        }
+                    case .light:
+                        if dayNightModeCell == .day {
+                            cell.isUserInteractionEnabled = false
+                            cell.accessoryType = .checkmark
+                            cell.contentView.alpha = 0.4
+                        }
+                    case .dark:
+                        if dayNightModeCell == .night {
+                            cell.isUserInteractionEnabled = false
+                            cell.accessoryType = .checkmark
+                            cell.contentView.alpha = 0.4
+                        }
+                }
+
             case .cornerRadius:
                 guard let boxCornerRadiusCell = CellCornerRadius(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = boxCornerRadiusCell.title
@@ -246,7 +266,7 @@ extension AppearanceViewController: UITableViewDataSource {
                     cell.textLabel?.textColor = .systemGray
                 }
         }
-        cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        cell.backgroundColor = .clear
         return cell
     }
 
@@ -277,14 +297,14 @@ extension AppearanceViewController: UITableViewDelegate {
                 switch dayNightOption {
                     case .day:
                         if CellDayNightMode(rawValue: indexPath.row) != nil {
-                            AppearanceViewModel.shared.disableDarkMode()
+                            AppearanceViewModel.shared.enableLightMode()
                         }
                     case .night:
                         if CellDayNightMode(rawValue: indexPath.row) != nil {
                             AppearanceViewModel.shared.enableDarkMode()
                         }
                     case .automatic:
-                        break
+                        AppearanceViewModel.shared.enableAutomaticDarkMode()
 
                     case nil:
                         break
@@ -301,6 +321,7 @@ extension AppearanceViewController: UITableViewDelegate {
             case .restoreAppearance:
                 restoreAppearanceButtonTapped()
         }
+        tableView.reloadData()
     }
 }
 

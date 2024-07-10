@@ -41,11 +41,13 @@ class TrashViewController: UIViewController {
     }
 
     private func listenAppearanceViewModel() {
-        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
-            self.view.backgroundColor = color
-            self.collectionView.backgroundColor = color
-        }.store(in: &cancellables)
-        
+        AppearanceViewModel.shared.backgroundStateSignal
+            .receive(on: DispatchQueue.main)  // Para que el bloque de receiveValue se hagan por el hilo principal TODAS LAS SEÑALES QUE EJECUTEN COSAS DE VISTA
+            .sink { _ in
+            } receiveValue: { color in
+                self.view.backgroundColor = color
+            }.store(in: &cancellables)
+
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
@@ -53,7 +55,8 @@ class TrashViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+
         listenViewModel()
         listenAppearanceViewModel()
         self.title = "Papelera"
@@ -64,8 +67,6 @@ class TrashViewController: UIViewController {
 //    MARK: - ConfigureMainStackView
 
     private func configureMainStackView() {
-//        mainStackView.addArrangedSubview(tableView)
-//        configureTableView()
         configureCollectionView()
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -76,22 +77,10 @@ class TrashViewController: UIViewController {
         ])
     }
 
-//    private func configureTableView() {
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TableViewCell")
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        tableView.layer.borderWidth = 1
-//        tableView.backgroundColor = UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0)
-//        tableView.layer.borderColor = UIColor.gray.cgColor
-//        tableView.layer.cornerRadius = 10
-//        tableView.layer.masksToBounds = true
-//    }
-
 //    MARK: - ConfigureCollectionView
 
     private func configureCollectionView() {
         mainStackView.addArrangedSubview(collectionView)
-        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         let layout = UICollectionViewFlowLayout()
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "CustomCollectionViewCell")
@@ -146,67 +135,67 @@ extension TrashViewController: UICollectionViewDelegate, UICollectionViewDelegat
 }
 
 // MARK: - UITableViewDataSource
-
-extension TrashViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Numero de filas en la seccion: Habra tantas filas como inventarios tengan la propiedad isDeleted = TRUE
-        // Tengo que coger la lista de inventarios y mostrar solo los que tengan isDeleted = true
-        deletedInventories.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Habra un elemento por fila
-        // Tengo que mostrar el titulo del elemento que toque en cada fila
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell",
-                                                 for: indexPath)
-        let inventory = deletedInventories[indexPath.row]
-        cell.textLabel?.text = inventory.title
-        cell.backgroundColor = UIColor(red: 1.0, green: 0.75, blue: 0.75, alpha: 1.0)
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let recoverAction = UIContextualAction(style: .normal, title: "Recuperar") { [weak self] (action, view, completionHandler) in
-            guard let inventory = self?.deletedInventories[indexPath.row] else {
-                completionHandler(false)
-                return
-            }
-            self?.viewModel.updateIsDeleted(in: inventory)
-            completionHandler(true)
-        }
-
-        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { [weak self] (action, view, completionHandler) in
-            if indexPath.row < self?.deletedInventories.count ?? 0 {
-                guard let inventory = self?.deletedInventories[indexPath.row] else {
-                    completionHandler(false)
-                    return
-                }
-                self?.viewModel.removeInventory(inventory)
-            } else {
-                print("No se ha podido eliminar el inventario")
-            }
-            completionHandler(true)
-        }
-        recoverAction.backgroundColor = .systemBlue
-        deleteAction.backgroundColor = .red
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, recoverAction])
-        return configuration
-    }
-}
-
+//
+//extension TrashViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        // Numero de filas en la seccion: Habra tantas filas como inventarios tengan la propiedad isDeleted = TRUE
+//        // Tengo que coger la lista de inventarios y mostrar solo los que tengan isDeleted = true
+//        deletedInventories.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        // Habra un elemento por fila
+//        // Tengo que mostrar el titulo del elemento que toque en cada fila
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell",
+//                                                 for: indexPath)
+//        let inventory = deletedInventories[indexPath.row]
+//        cell.textLabel?.text = inventory.title
+//        cell.backgroundColor = UIColor(red: 1.0, green: 0.75, blue: 0.75, alpha: 1.0)
+//        return cell
+//    }
+//
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let recoverAction = UIContextualAction(style: .normal, title: "Recuperar") { [weak self] (action, view, completionHandler) in
+//            guard let inventory = self?.deletedInventories[indexPath.row] else {
+//                completionHandler(false)
+//                return
+//            }
+//            self?.viewModel.updateIsDeleted(in: inventory)
+//            completionHandler(true)
+//        }
+//
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { [weak self] (action, view, completionHandler) in
+//            if indexPath.row < self?.deletedInventories.count ?? 0 {
+//                guard let inventory = self?.deletedInventories[indexPath.row] else {
+//                    completionHandler(false)
+//                    return
+//                }
+//                self?.viewModel.removeInventory(inventory)
+//            } else {
+//                print("No se ha podido eliminar el inventario")
+//            }
+//            completionHandler(true)
+//        }
+//        recoverAction.backgroundColor = .systemBlue
+//        deleteAction.backgroundColor = .red
+//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, recoverAction])
+//        return configuration
+//    }
+//}
+//
 //MARK: - UITableViewDelegate
-
-extension TrashViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let selectedInventory = deletedInventories[indexPath.row]
-        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
-                                                              viewModel: viewModel)
-        navigationController?.pushViewController(inventoryDetailVC,
-                                                 animated: true)
-        inventoryDetailVC.title = selectedInventory.title
-    }
-}
+//
+//extension TrashViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        let selectedInventory = deletedInventories[indexPath.row]
+//        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
+//                                                              viewModel: viewModel)
+//        navigationController?.pushViewController(inventoryDetailVC,
+//                                                 animated: true)
+//        inventoryDetailVC.title = selectedInventory.title
+//    }
+//}
 
 
 

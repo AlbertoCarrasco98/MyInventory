@@ -34,10 +34,10 @@
 		9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA102BAADA9200611D88 /* SettingsViewController.swift */; };
 		987DFB7C2BA6048900F9DD9C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */; };
 		987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */; };
-		98A11A2B2C256CB6007BCE47 /* E.String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A11A2A2C256CB6007BCE47 /* E.String.swift */; };
+		98A11A2B2C256CB6007BCE47 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A11A2A2C256CB6007BCE47 /* StringExtension.swift */; };
 		98A738002BFBB68100D67FAE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A737FF2BFBB68100D67FAE /* Toast.swift */; };
-		98ACAF7D2C077AFE00F62B13 /* E.UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */; };
-		98F911302C0DCFE400E87775 /* E.UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F9112F2C0DCFE400E87775 /* E.UIColor.swift */; };
+		98ACAF7D2C077AFE00F62B13 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */; };
+		98F911302C0DCFE400E87775 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */; };
 		98F911322C103BE100E87775 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911312C103BE100E87775 /* Colors.swift */; };
 		98F911342C103F5A00E87775 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911332C103F5A00E87775 /* UserDefaultManager.swift */; };
 		98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911352C1049FD00E87775 /* ColorMapper.swift */; };
@@ -72,10 +72,10 @@
 		9875BA102BAADA9200611D88 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
-		98A11A2A2C256CB6007BCE47 /* E.String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.String.swift; sourceTree = "<group>"; };
+		98A11A2A2C256CB6007BCE47 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		98A737FF2BFBB68100D67FAE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.UIView.swift; sourceTree = "<group>"; };
-		98F9112F2C0DCFE400E87775 /* E.UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E.UIColor.swift; sourceTree = "<group>"; };
+		98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		98F911312C103BE100E87775 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		98F911332C103F5A00E87775 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		98F911352C1049FD00E87775 /* ColorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapper.swift; sourceTree = "<group>"; };
@@ -202,9 +202,9 @@
 		98ACAF7B2C077AB800F62B13 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				98ACAF7C2C077AFE00F62B13 /* E.UIView.swift */,
-				98F9112F2C0DCFE400E87775 /* E.UIColor.swift */,
-				98A11A2A2C256CB6007BCE47 /* E.String.swift */,
+				98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */,
+				98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */,
+				98A11A2A2C256CB6007BCE47 /* StringExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -310,10 +310,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				980AABD62B55A8B6005526C5 /* RealmMapper.swift in Sources */,
-				98F911302C0DCFE400E87775 /* E.UIColor.swift in Sources */,
+				98F911302C0DCFE400E87775 /* UIColorExtension.swift in Sources */,
 				982798222B21EDC90049D69F /* InventoryListViewController.swift in Sources */,
 				980AABD82B593A0E005526C5 /* DatabaseManagerProtocol.swift in Sources */,
-				98A11A2B2C256CB6007BCE47 /* E.String.swift in Sources */,
+				98A11A2B2C256CB6007BCE47 /* StringExtension.swift in Sources */,
 				9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */,
 				981916EF2BDB860D003B9121 /* AppearanceViewController.swift in Sources */,
 				98F911342C103F5A00E87775 /* UserDefaultManager.swift in Sources */,
@@ -330,7 +330,7 @@
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,
-				98ACAF7D2C077AFE00F62B13 /* E.UIView.swift in Sources */,
+				98ACAF7D2C077AFE00F62B13 /* UIViewExtension.swift in Sources */,
 				986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */,
 				9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */,
 				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,

@@ -99,16 +99,6 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.dismiss(animated: true)
     }
 
-//    private func showAlert(message: String) {
-//        let alertController = UIAlertController(title: "No se pudo crear el inventario", message: message, preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        alertController.addAction(okAction)
-//        present(alertController, animated: true, completion: nil)
-//        if let currentViewController = UIApplication.shared.keyWindow?.rootViewController {
-//            currentViewController.present(alertController, animated: true, completion: nil)
-//        }
-//    }
-
     private func hideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(hideKeyboardAtion))
@@ -119,7 +109,6 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
     @objc private func hideKeyboardAtion() {
         view.endEditing(true)
     }
-
 
     // MARK: - TextField Configuration
 

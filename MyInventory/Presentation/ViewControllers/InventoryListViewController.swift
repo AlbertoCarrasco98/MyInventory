@@ -57,7 +57,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print(UserDefaults.standard.bool(forKey: "darkModeState"))
     }
 
     // BIND -> Crea una conexión entre el ViewController y el ViewModel
@@ -82,24 +81,25 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     }
 
     func listenAppearanceViewModel() {
-        AppearanceViewModel.shared.backgroundStateSignal.sink { _ in
-        } receiveValue: { color in
-            self.view.backgroundColor = color
-            self.collectionView.backgroundColor = color
-            self.collectionView.reloadData()
-        }.store(in: &cancellables)
+        AppearanceViewModel.shared.backgroundStateSignal
+            .receive(on: DispatchQueue.main)  // Para que el bloque de receiveValue se hagan por el hilo principal TODAS LAS SEÑALES QUE EJECUTEN COSAS DE VISTA
+            .sink { _ in
+            } receiveValue: { color in
+                self.view.backgroundColor = color
+            }.store(in: &cancellables)
 
-        AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
-            self.collectionView.reloadData()
-            self.textField.layer.cornerRadius = CGFloat(radius)
-            self.addInventoryButton.layer.cornerRadius = CGFloat(radius)
-        }.store(in: &cancellables)
+        AppearanceViewModel.shared.boxCornerRadiusChangedSignal
+            .sink { radius in
+                self.collectionView.reloadData()
+                self.textField.layer.cornerRadius = CGFloat(radius)
+                self.addInventoryButton.layer.cornerRadius = CGFloat(radius)
+            }.store(in: &cancellables)
     }
 
     // MARK: - SetupUI
 
     private func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
         listenViewModel()
         listenAppearanceViewModel()
         self.title = "Inventarios"
@@ -152,7 +152,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         mainStackView.addArrangedSubview(textField)
         mainStackView.addArrangedSubview(spacer)
         mainStackView.addArrangedSubview(collectionView)
-//        mainStackView.addArrangedSubview(addInventoryButton)
         mainStackView.addArrangedSubview(spacer1)
         mainStackView.axis = .vertical
         mainStackView.distribution = .fill
@@ -173,7 +172,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        collectionView.backgroundColor = .clear
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "CustomCollectionViewCell")
         self.collectionView.register(SectionHeader.self,
@@ -290,7 +289,6 @@ extension InventoryListViewController: UICollectionViewDataSource {
 
         cell.label.textColor = UIColor(named: "textPrimary")
         cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
-        cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         cell.layer.borderWidth = 2.5
         cell.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
@@ -323,7 +321,9 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SectionHeader
+            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                withReuseIdentifier: "header",
+                                                                                for: indexPath) as! SectionHeader
             if indexPath.section == 0 {
                 sectionHeader.label.text = "Favoritos"
 
