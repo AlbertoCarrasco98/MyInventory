@@ -20,16 +20,14 @@ class SettingsViewController: UIViewController {
     private func setupUI() {
         self.title = "Ajustes"
         configureMainStackView()
-        listenAppearanceViewModel()
-        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         configureTableView()
+        listenAppearanceViewModel()
+        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
     }
 
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
-            self.tableView.backgroundColor = color
-            self.tableView.reloadData()
         }.store(in: &cancellables)
     }
 
@@ -51,7 +49,7 @@ class SettingsViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        tableView.backgroundColor = .clear
     }
 }
 
@@ -66,9 +64,9 @@ extension SettingsViewController: UITableViewDataSource {
        let cell = UITableViewCell()
         let option = Options.allCases[indexPath.row]
         cell.textLabel?.text = option.title
-        cell.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         cell.accessoryType = .disclosureIndicator
 
+        cell.backgroundColor = .clear
         return cell
     }
 }

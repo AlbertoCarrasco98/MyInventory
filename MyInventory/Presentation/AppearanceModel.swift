@@ -1,21 +1,29 @@
 import UIKit
 
 struct AppearanceModel: Equatable {
-    var isDarkModeEnabled: Bool
+    var appearanceModeState: AppearanceModeState
     var boxCornerRadius: Float
-    var backgroundColor: UIColor
+    var lightModeBackgroundColor: UIColor
+    var darkModeBackgroundColor: UIColor
 
-    static let defaultValue = AppearanceModel(isDarkModeEnabled: false,
+    static let defaultValue = AppearanceModel(appearanceModeState: .automatic,
                                               boxCornerRadius: 0,
-                                              backgroundColor: UIColor(red: 1,
-                                                                       green: 1,
-                                                                       blue: 1,
-                                                                       alpha: 1))
-    
-    var thisAppearanceModelHasDefaultValues: Bool {
+                                              lightModeBackgroundColor: .white,
+                                              darkModeBackgroundColor: .systemPink)
 
-        return self.isDarkModeEnabled == AppearanceModel.defaultValue.isDarkModeEnabled &&
+    var thisAppearanceModelHasDefaultValues: Bool {
+        return self.appearanceModeState == AppearanceModel.defaultValue.appearanceModeState &&
         self.boxCornerRadius == AppearanceModel.defaultValue.boxCornerRadius &&
-        self.backgroundColor == AppearanceModel.defaultValue.backgroundColor
+        self.lightModeBackgroundColor == AppearanceModel.defaultValue.lightModeBackgroundColor &&
+        self.darkModeBackgroundColor == AppearanceModel.defaultValue.darkModeBackgroundColor
+    }
+}
+
+extension AppearanceModel {
+
+    enum AppearanceModeState: Int {
+        case automatic
+        case light
+        case dark
     }
 }

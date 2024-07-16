@@ -54,7 +54,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
-            self.tableView.backgroundColor = color
         }.store(in: &cancellables)
 
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
@@ -68,16 +67,12 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Setup UI
 
     func setupUI() {
-        if inventory.isDeleted == true {
-            view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
-            configureFunctionsFromTrashVC()
-        } else {
-            view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
             navigationController?.isNavigationBarHidden = false
             navigationItem.backButtonTitle = "Atrás"
             configureFunctionsFromInventoryListVC()
         }
-    }
+    
 
     func configureFunctionsFromInventoryListVC() {
         configureMainStackView()
@@ -238,7 +233,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        tableView.backgroundColor = .clear
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.masksToBounds = true
@@ -250,7 +245,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        tableView.backgroundColor = .clear
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.cornerRadius = 10
@@ -395,7 +390,7 @@ extension InventoryDetailViewController: UITableViewDataSource {
         let cellTest = UITableViewCell(style: .default, reuseIdentifier: "cellTest")
         let element = inventory.elements[indexPath.row]
         cellTest.textLabel?.text = element.title
-        cellTest.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
+        cellTest.backgroundColor = .clear
         return cellTest
     }
 
