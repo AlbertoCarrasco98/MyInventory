@@ -55,7 +55,7 @@ class TrashViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
 
         listenViewModel()
         listenAppearanceViewModel()

@@ -11,6 +11,10 @@ class AppearanceViewController: UIViewController {
     let exampleLabel = UILabel()
     let restoreAppearanceButton = UIButton()
 
+    var userInterfaceStyle: UIUserInterfaceStyle {
+        traitCollection.userInterfaceStyle
+    }
+
     //     MARK: - LifeCycle
 
     override func loadView() {
@@ -22,18 +26,32 @@ class AppearanceViewController: UIViewController {
         listenAppearanceViewModel()
         configureMainStackView()
         configureTableView()
-view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     private func listenAppearanceViewModel() {
-        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
-            self.view.backgroundColor = color
-        }.store(in: &cancellables)
 
-        AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
-            self.exampleLabel.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
-            self.restoreAppearanceButton.layer.cornerRadius = CGFloat(radius)
-        }.store(in: &cancellables)
+        AppearanceViewModel.shared.backgroundStateSignal
+            .sink { [weak self] color in
+                guard let self else { return }
+                self.view.backgroundColor = color
+            }
+            .store(in: &cancellables)
+
+        AppearanceViewModel.shared.boxCornerRadiusChangedSignal
+            .sink { [weak self] radius in
+                guard let self else { return }
+                self.exampleLabel.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
+                self.restoreAppearanceButton.layer.cornerRadius = CGFloat(radius)
+            }
+            .store(in: &cancellables)
+
+        AppearanceViewModel.shared.interfaceStyleSignal
+            .sink { [weak self] appearanceStyle in
+                guard let self else { return }
+                tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Configure Views
@@ -51,13 +69,12 @@ view.backgroundColor = AppearanceViewModel.shared.backgroundColor
             view.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: 8),
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
-        mainStackView.backgroundColor = .clear
     }
 
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ListTableCell.reuseIdentifier)
         tableView.backgroundColor = .clear
     }
 
@@ -99,7 +116,7 @@ view.backgroundColor = AppearanceViewModel.shared.backgroundColor
                                         handler: nil)
         let alertAction = UIAlertAction(title: "Restablecer",
                                         style: .destructive) { [self] _ in
-            AppearanceViewModel.shared.restoreApparenceSettings()
+            AppearanceViewModel.shared.restoreAppearanceSettings()
             self.view.showToast(withMessage: "Ajustes de apariencia restablecidos",
                                 color: .success,
                                 position: .bottom)
@@ -221,7 +238,7 @@ extension AppearanceViewController: UITableViewDataSource {
                 guard let dayNightModeCell = CellDayNightMode(rawValue: indexPath.row) else { return .init() }
                 cell.textLabel?.text = dayNightModeCell.title
 
-                let appearanceModeState = AppearanceViewModel.shared.appearanceModel.appearanceModeState
+                let appearanceModeState = AppearanceViewModel.shared.appearanceModel.interfaceStyle
 
                 cell.isUserInteractionEnabled = true
                 cell.contentView.alpha = 1
@@ -297,14 +314,14 @@ extension AppearanceViewController: UITableViewDelegate {
                 switch dayNightOption {
                     case .day:
                         if CellDayNightMode(rawValue: indexPath.row) != nil {
-                            AppearanceViewModel.shared.enableLightMode()
+                            AppearanceViewModel.shared.disableDarkMode()
                         }
                     case .night:
                         if CellDayNightMode(rawValue: indexPath.row) != nil {
                             AppearanceViewModel.shared.enableDarkMode()
                         }
                     case .automatic:
-                        AppearanceViewModel.shared.enableAutomaticDarkMode()
+                        AppearanceViewModel.shared.restoreAppearanceStyle()
 
                     case nil:
                         break

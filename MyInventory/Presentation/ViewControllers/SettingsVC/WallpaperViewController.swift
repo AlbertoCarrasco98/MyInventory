@@ -16,14 +16,17 @@ class WallpaperViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         configureCollectionView()
     }
 
     private func listenAppearanceViewModel() {
-        AppearanceViewModel.shared.backgroundStateSignal.sink { color in
-            self.view.backgroundColor = color
-        }.store(in: &cancellables)
+        AppearanceViewModel.shared.backgroundStateSignal
+            .sink { [weak self] color in
+                guard let self else { return }
+                view.backgroundColor = color
+                collectionView.reloadData()
+            }.store(in: &cancellables)
     }
 
     //    MARK: - ConfigureCollectionView
@@ -59,32 +62,17 @@ extension WallpaperViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        UIColor.allColors.count
+        UIColor.backgroundColors.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-//        guard let section = CollectionViewSections(rawValue: indexPath.section) else { return UICollectionViewCell() }
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollecionViewCell",
                                                             for: indexPath) as? CustomCollectionViewCell else {
             return UICollectionViewCell()
         }
 
-//        switch section {
-//            case .lightColors:
-//                let lightColor = Colors.LightBackgroundColor.allCases[indexPath.item]
-//                cell.backgroundColor = lightColor.color
-//                let lightColors = UIColor.allColors[indexPath.item]
-//                cell.backgroundColor = lightColors
-//
-//            case .darkColors:
-//                let darkColor = Colors.DarkBackgroundColor.allCases[indexPath.item]
-//                cell.backgroundColor = darkColor.color
-//        }
-
-
-            let color = UIColor.allColors[indexPath.item]
+            let color = UIColor.backgroundColors[indexPath.item]
             cell.backgroundColor = color
 
 
@@ -98,36 +86,6 @@ extension WallpaperViewController: UICollectionViewDataSource {
 
 extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
-//    func collectionView(_ collectionView: UICollectionView,
-//                        viewForSupplementaryElementOfKind kind: String,
-//                        at indexPath: IndexPath) -> UICollectionReusableView {
-//
-//        if kind == UICollectionView.elementKindSectionHeader {
-//
-//            let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-//                                                                                withReuseIdentifier: "header",
-//                                                                                for: indexPath) as! SectionHeader
-//
-//            if indexPath.section == 0 {
-//                sectionHeader.label.text = "Colores para modo día"
-//
-//            } else if indexPath.section == 1 {
-//                sectionHeader.label.text = "Colores para modo noche"
-//            }
-//            return sectionHeader
-//        } else {
-//            return UICollectionReusableView()
-//        }
-//    }
-
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-//
-//        return CGSize(width: collectionView.frame.width,
-//                      height: 80)
-//    }
-
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -138,57 +96,43 @@ extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let section = CollectionViewSections(rawValue: indexPath.section) else { return }
-//        var selectedColor: UIColor
 
-        switch section {
-            case .lightColors:
-//                let lightColor = Colors.LightBackgroundColor.allCases[indexPath.item]
-//                selectedColor = lightColor.color
-                let color = UIColor.allColors[indexPath.item]
-                AppearanceViewModel.shared.setBackgroundColor(color: color)
-            case .darkColors:
-//                let darkColor = Colors.DarkBackgroundColor.allCases[indexPath.item]
-//                selectedColor = darkColor.color
-                let color = UIColor.allColors[indexPath.item]
-                AppearanceViewModel.shared.setBackgroundColor(color: color)
-
-        }
-
+        let selectedColor = UIColor.backgroundColors[indexPath.row]
+        AppearanceViewModel.shared.setBackgroundColor(color: selectedColor)
     }
 }
 
-extension WallpaperViewController {
-
-    enum CollectionViewSections: Int, CaseIterable {
-        case lightColors
-        case darkColors
-
-        var colorCell: Int {
-            switch self {
-                case .lightColors:
-                    return Colors.LightBackgroundColor.allCases.count
-                case .darkColors:
-                    return Colors.DarkBackgroundColor.allCases.count
-            }
-        }
-
-        var title: String {
-            switch self {
-                case .lightColors:
-                    return "Colores claros"
-                case .darkColors:
-                    return "Colores oscuros"
-            }
-        }
-    }
-
-    enum CellLightColors: Int {
-        case color
-    }
-
-    enum CellDarkColors: Int {
-        case color
-    }
-
-}
+//extension WallpaperViewController {
+//
+//    enum CollectionViewSections: Int, CaseIterable {
+//        case lightColors
+//        case darkColors
+//
+//        var colorCell: Int {
+//            switch self {
+//                case .lightColors:
+//                    return Colors.LightBackgroundColor.allCases.count
+//                case .darkColors:
+//                    return Colors.DarkBackgroundColor.allCases.count
+//            }
+//        }
+//
+//        var title: String {
+//            switch self {
+//                case .lightColors:
+//                    return "Colores claros"
+//                case .darkColors:
+//                    return "Colores oscuros"
+//            }
+//        }
+//    }
+//
+//    enum CellLightColors: Int {
+//        case color
+//    }
+//
+//    enum CellDarkColors: Int {
+//        case color
+//    }
+//
+//}

@@ -26,9 +26,11 @@
 		9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */; };
 		9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */; };
 		982798312B279D120049D69F /* InventoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982798302B279D120049D69F /* InventoryViewModel.swift */; };
+		983EC6692C47E9110086E20C /* InterfaceStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983EC6682C47E9110086E20C /* InterfaceStyle.swift */; };
 		98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */; };
 		9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */; };
 		9848D4EB2BE0EE4200BD21C0 /* AppearanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */; };
+		98527EA62C49188500075490 /* ListTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98527EA52C49188500075490 /* ListTableCell.swift */; };
 		986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986646022BE9584C0031803C /* WallpaperViewController.swift */; };
 		986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */; };
 		9875BA112BAADA9200611D88 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9875BA102BAADA9200611D88 /* SettingsViewController.swift */; };
@@ -64,9 +66,11 @@
 		982798292B24F4020049D69F /* SwiftDataDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataDatabaseManager.swift; sourceTree = "<group>"; };
 		9827982D2B279BFF0049D69F /* InventoryModelSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryModelSwiftData.swift; sourceTree = "<group>"; };
 		982798302B279D120049D69F /* InventoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryViewModel.swift; sourceTree = "<group>"; };
+		983EC6682C47E9110086E20C /* InterfaceStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceStyle.swift; sourceTree = "<group>"; };
 		98486D9E2BA1A5D100B5DFBF /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
 		9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceModel.swift; sourceTree = "<group>"; };
 		9848D4EA2BE0EE4200BD21C0 /* AppearanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceViewModel.swift; sourceTree = "<group>"; };
+		98527EA52C49188500075490 /* ListTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableCell.swift; sourceTree = "<group>"; };
 		986646022BE9584C0031803C /* WallpaperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperViewController.swift; sourceTree = "<group>"; };
 		986BB0FB2B2A0D0D007DAB02 /* SwiftDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataMapper.swift; sourceTree = "<group>"; };
 		9875BA102BAADA9200611D88 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 				9827981C2B21EBBE0049D69F /* InventoryModel.swift */,
 				98F911372C104A2B00E87775 /* ColorModel.swift */,
 				980AABC82B4B180F005526C5 /* CustomError.swift */,
+				983EC6682C47E9110086E20C /* InterfaceStyle.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 				987DFB7B2BA6048900F9DD9C /* CustomCollectionViewCell.swift */,
 				987DFB7D2BA6058200F9DD9C /* SectionHeader.swift */,
 				98A737FF2BFBB68100D67FAE /* Toast.swift */,
+				98527EA52C49188500075490 /* ListTableCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -326,6 +332,7 @@
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
 				98A738002BFBB68100D67FAE /* Toast.swift in Sources */,
+				983EC6692C47E9110086E20C /* InterfaceStyle.swift in Sources */,
 				98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
@@ -333,6 +340,7 @@
 				98ACAF7D2C077AFE00F62B13 /* UIViewExtension.swift in Sources */,
 				986646032BE9584C0031803C /* WallpaperViewController.swift in Sources */,
 				9827982A2B24F4020049D69F /* SwiftDataDatabaseManager.swift in Sources */,
+				98527EA62C49188500075490 /* ListTableCell.swift in Sources */,
 				982798272B238CBB0049D69F /* InventoryDetailViewController.swift in Sources */,
 				9827982E2B279BFF0049D69F /* InventoryModelSwiftData.swift in Sources */,
 				987DFB7E2BA6058200F9DD9C /* SectionHeader.swift in Sources */,

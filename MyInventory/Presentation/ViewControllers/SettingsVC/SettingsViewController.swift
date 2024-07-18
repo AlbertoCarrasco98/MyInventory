@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController {
         configureMainStackView()
         configureTableView()
         listenAppearanceViewModel()
-        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
 
     private func listenAppearanceViewModel() {

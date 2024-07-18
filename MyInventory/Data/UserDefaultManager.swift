@@ -2,103 +2,79 @@ import Foundation
 
 actor UserDefaultManager {
 
-//    static func restoreAppearanceSettings(modelToSave: AppearanceModel) {
-//        let backgroundColorToSave = ColorMapper.map(color: modelToSave.backgroundColor)
-//
-//
-//
-//        saveBoxCornerRadius(Int(modelToSave.boxCornerRadius))
-//
-//        UserDefaults.standard.setValue(modelToSave.isDarkModeEnabled, forKey: "restoreSavedIsDarkModeEnabled")
-//    }
+    // BackgroundColor
 
-    static func saveBoxCornerRadius(_ radius: Float) {
-        UserDefaults.standard.setValue(radius,
-                                       forKey: Keys.boxCornerRadius)
-    }
-
-    static func loadBoxCornerRadius() -> Float {
-        UserDefaults.standard.float(forKey: Keys.boxCornerRadius)
-    }
-
-    static func saveAppearanceModeState(_ appearanceModeState: AppearanceModel.AppearanceModeState) {
-        UserDefaults.standard.setValue(appearanceModeState.rawValue, forKey: Keys.appearanceModeState)
-    }
-
-    static func loadAppearanceModeState() -> AppearanceModel.AppearanceModeState? {
-        let appearanceModeState = UserDefaults.standard.integer(forKey: Keys.appearanceModeState)
-        return AppearanceModel.AppearanceModeState(rawValue: appearanceModeState)
-    }
-
-
-//MARK: - Guardado de colores modo dia/noche
-
-    static func saveLightModeBackgroundcolor(_ lightColor: ColorModel) {
+    static func saveBackgroundColor(lightColor: ColorModel, darkColor: ColorModel) {
         let enconder = JSONEncoder()
         do {
-            let data = try enconder.encode(lightColor)
-            UserDefaults.standard.setValue(data, forKey: Keys.saveDayModeBackgroundColor)
+            let lightColorData = try enconder.encode(lightColor)
+            UserDefaults.standard.setValue(lightColorData, forKey: Key.lightBackgroundColor)
+
+            let darkColorData = try enconder.encode(darkColor)
+            UserDefaults.standard.setValue(darkColorData, forKey: Key.darkBackgroundColor)
         } catch let error {
-            print("UserDefaultManager.saveDayBackgroundColor ha fallado")
-            print(error)
+            print("UserDefaultManager.saveBackgroundColor ha fallado.\n\(error)")
         }
     }
 
-    static func saveDarkModeBackgroundcolor(_ darkColor: ColorModel) {
-        let encoder = JSONEncoder()
-        do {
-            let data = try encoder.encode(darkColor)
-            UserDefaults.standard.setValue(data, forKey: Keys.saveNightModeBackgroundColor)
-        } catch let error {
-            print("UserDefaultManager.saveNightBackgroundColor ha fallado")
-            print(error)
-        }
-    }
-
-    //MARK: - Cargado de colores modo dia/noche
-
-    static func loadLightBackgroundColor() -> ColorModel? {
+    static func loadBackgroundColor() -> (lightColor: ColorModel, darkColor: ColorModel)? {
         let decoder = JSONDecoder()
         do {
-            guard let data = UserDefaults.standard.data(forKey: Keys.saveDayModeBackgroundColor) else {
-                print("La funcion UserDefaultsManager.loadLightBackgroundColor ha fallado")
+            guard let lightBackgroundColorData = UserDefaults.standard.data(forKey: Key.lightBackgroundColor),
+                  let darkBackgroundColorData = UserDefaults.standard.data(forKey: Key.darkBackgroundColor)
+            else {
                 return nil
             }
-            let color = try decoder.decode(ColorModel.self,
-                                           from: data)
-            return color
-        } catch {
-            print("UserDefaultsManager.loadLightBackgroundColor ha fallado")
+            let lightColor = try decoder.decode(ColorModel.self, from: lightBackgroundColorData)
+            let darkColor = try decoder.decode(ColorModel.self, from: darkBackgroundColorData)
+            return (lightColor, darkColor)
+        } catch let error {
+            print("UserDefaultManager.loadBackgroundColor ha fallado")
             print(error)
             return nil
         }
     }
 
-    static func loadDarkBackgroundColor() -> ColorModel? {
-        let decoder = JSONDecoder()
+    // BoxCornerRadius
 
-        do {
-            guard let data = UserDefaults.standard.data(forKey: Keys.saveNightModeBackgroundColor) else {
-                print("La funcion UserDefaultsManager.loadDarkBackgroundColor( ha fallado")
-                return nil
-            }
-            let color = try decoder.decode(ColorModel.self,
-                                           from: data)
-            return color
-        } catch {
-            print("UserDefaultsManager.loadDarkBackgroundColor( ha fallado")
-            print(error)
-            return nil
+    static func saveBoxCornerRadius(_ radius: Float) {
+        UserDefaults.standard.float(forKey: Key.boxCornerRadius)
+    }
+
+    static func boxCornerRadius() -> Float {
+        UserDefaults.standard.float(forKey: Key.boxCornerRadius)
+    }
+
+    //    InterfaceStyle
+
+    static func saveInterfaceStyle(_ interfaceStyle: InterfaceStyle) {
+        UserDefaults.standard.setValue(interfaceStyle.rawValue,
+                                       forKey: Key.interfaceStyle)
+    }
+
+    static func interfaceStyle() -> InterfaceStyle {
+        let interfaceStyleInt = UserDefaults.standard.integer(forKey: Key.interfaceStyle)
+        guard let interfaceStyle = InterfaceStyle(rawValue: interfaceStyleInt) else {
+            return .automatic
         }
+        return interfaceStyle
+    }
+
+    //    Restore Appearance
+
+    static func restoreAppearanceSettings() {
+        saveBackgroundColor(lightColor: ColorModel(red: 1, green: 1, blue: 1),
+                            darkColor: ColorModel(red: 0, green: 0, blue: 0))
+        saveInterfaceStyle(.automatic)
+        saveBoxCornerRadius(0)
     }
 }
 
 private extension UserDefaultManager {
-
-    enum Keys {
-        static let appearanceModeState = "appearanceModeState"
+    enum Key {
+        static let lightBackgroundColor = "SaveDayBackgroundColor"
+        static let darkBackgroundColor = "SaveNightBackgroundColor"
         static let boxCornerRadius = "boxCornerRadius"
-        static let saveNightModeBackgroundColor = "SaveNightBackgroundColor"
-        static let saveDayModeBackgroundColor = "SaveDayBackgroundColor"
+        static let interfaceStyle = "interfaceStyle"
     }
 }

@@ -2,14 +2,113 @@ import UIKit
 
 extension UIColor {
 
-    func toData() -> Data? {
-        return try? NSKeyedArchiver.archivedData(withRootObject: self,
-                                                 requiringSecureCoding: false)
+    var lightModeColor: UIColor {
+        resolvedColor(with: .init(userInterfaceStyle: .light))
     }
 
-    static func fromData(_ data: Data) -> UIColor? {
-        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: self,
-                                                       from: data)
+    var darkModeColor: UIColor {
+        resolvedColor(with: .init(userInterfaceStyle: .dark))
+    }
+
+    static func make(fromLightColorModel lightColor: ColorModel, darkColorModel darkColor: ColorModel) -> UIColor {
+        UIColor {
+            $0.userInterfaceStyle == .dark
+            ? UIColor(red: darkColor.red,
+                      green: darkColor.green,
+                      blue: darkColor.blue,
+                      alpha: 1)
+            : UIColor(red: lightColor.red,
+                      green: lightColor.green,
+                      blue: lightColor.blue,
+                      alpha: 1)
+        }
+    }
+
+    func mapToColorModel() -> (lightColor: ColorModel, darkColor: ColorModel) {
+        let lightColorModel: ColorModel = {
+            guard let components = lightModeColor.getRGBComponents() else {
+                return ColorModel(red: 0, green: 0, blue: 0)
+            }
+            return ColorModel(red: components.red,
+                              green: components.green,
+                              blue: components.blue)
+        }()
+
+        let darkColorModel: ColorModel = {
+            guard let components = darkModeColor.getRGBComponents() else {
+                return ColorModel(red: 0, green: 0, blue: 0)
+            }
+            return ColorModel(red: components.red,
+                              green: components.green,
+                              blue: components.blue)
+        }()
+        return (lightColorModel, darkColorModel)
+    }
+
+    static let backgroundColors: [UIColor] = [
+        .systemBackground,
+        .neonGreen,
+        .electricBlue,
+        .hotPink,
+        .lemonYellow,
+        .acidOrange
+    ]
+
+    static var neonGreen: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.08, green: 0.80, blue: 0.00, alpha: 1.00)
+            : UIColor(red: 0.33, green: 1.00, blue: 0.12, alpha: 1.00)
+        }
+    }
+
+    static var electricBlue: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.11, green: 0.55, blue: 1.00, alpha: 1.00)
+            : UIColor(red: 0.40, green: 0.75, blue: 1.00, alpha: 1.00)
+        }
+    }
+
+    static var hotPink: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 1.00, green: 0.00, blue: 0.50, alpha: 1.00)
+            : UIColor(red: 1.00, green: 0.33, blue: 0.64, alpha: 1.00)
+        }
+    }
+
+    static var lemonYellow: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 1.00, green: 1.00, blue: 0.00, alpha: 1.00)
+            : UIColor(red: 1.00, green: 1.00, blue: 0.50, alpha: 1.00)
+        }
+    }
+
+    static var acidOrange: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 1.00, green: 0.40, blue: 0.00, alpha: 1.00)
+            : UIColor(red: 1.00, green: 0.60, blue: 0.20, alpha: 1.00)
+        }
+    }
+
+    enum ToastColor {
+        case success
+        case failure
+        case `default`
+
+        var defaultColor: UIColor {
+            switch self {
+                case .success:
+                    return UIColor(red: 0.4, green: 0.8, blue: 0.4, alpha: 1.0)
+                case .failure:
+                    return UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0)
+                case .default:
+                    return UIColor(red: 207/255.0, green: 207/255.0, blue: 207/255.0, alpha: 1.0)
+            }
+        }
     }
 
     func getRGBComponents() -> (red: CGFloat,
@@ -36,302 +135,13 @@ extension UIColor {
         return nil
     }
 
-        public static var allColors: [UIColor] = [
-            whiteBlack,
-            pink,
-            yellow,
-            green,
-            blue,
-            lavender,
-            peach,
-            beige,
-            aquaGreen,
-            lila,
-            oliveGreen,
-            cream,
-            blue2,
-            coral,
-            lila2
-        ]
+    func toData() -> Data? {
+        return try? NSKeyedArchiver.archivedData(withRootObject: self,
+                                                 requiringSecureCoding: false)
+    }
 
-    public static var whiteBlack: UIColor = {
-        return UIColor { (trait: UITraitCollection) -> UIColor in
-            if trait.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.blancoPuroOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.blancoPuro.color
-            }
-        }
-    }()
-
-    public static var pink: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.rosaPastelOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.rosaPastel.color
-            }
-        }
-    }()
-
-    public static var yellow: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.amarilloDorado.color
-            } else {
-                return Colors.LightBackgroundColor.amarilloPalido.color
-            }
-        }
-    }()
-
-    public static var green: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.verdeEsmeralda.color
-            } else {
-                return Colors.LightBackgroundColor.verdeMenta.color
-            }
-        }
-    }()
-
-    public static var blue: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.azulProfundo.color
-            } else {
-                return Colors.LightBackgroundColor.azulCielo.color
-            }
-        }
-    }()
-
-    public static var lavender: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.lavandaOscura.color
-            } else {
-                return Colors.LightBackgroundColor.lavanda.color
-            }
-        }
-    }()
-
-    public static var peach: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.melocotonOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.melocotonSuave.color
-            }
-        }
-    }()
-
-    public static var beige: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.beigeOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.beigeClaro.color
-            }
-        }
-    }()
-
-    public static var aquaGreen: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.verdeAguaOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.verdeAgua.color
-            }
-        }
-    }()
-
-    public static var lila: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.lilaOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.lilaSuave.color
-            }
-        }
-    }()
-
-    public static var oliveGreen: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.verdeOliva.color
-            } else {
-                return Colors.LightBackgroundColor.salvia.color
-            }
-        }
-    }()
-
-    public static var cream: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.cremaOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.crema.color
-            }
-        }
-    }()
-
-    public static var blue2: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.azulOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.azulCeleste.color
-            }
-        }
-    }()
-
-    public static var coral: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.coralOscuro.color
-            } else {
-                return Colors.LightBackgroundColor.coralClaro.color
-            }
-        }
-    }()
-
-    public static var lila2: UIColor = {
-        return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-            if UITraitCollection.userInterfaceStyle == .dark {
-                return Colors.DarkBackgroundColor.lilaOscuro2.color
-            } else {
-                return Colors.LightBackgroundColor.lilaClaro.color
-            }
-        }
-    }()
-
-
-
-//    public static var dayColors: [UIColor] = [
-//        whiteBlack().dayColor,
-//        pink().dayColor,
-//        yellow().dayColor,
-//        green().dayColor,
-//        blue().dayColor,
-//        lavender().dayColor,
-//        peach().dayColor,
-//        beige().dayColor,
-//        aquaGreen().dayColor,
-//        lila().dayColor,
-//        oliveGreen().dayColor,
-//        cream().dayColor,
-//        blue2().dayColor,
-//        coral().dayColor,
-//        lila2().dayColor
-//    ]
-//
-//    public static var nightColors: [UIColor] = [
-//        whiteBlack().nightColor,
-//        pink().nightColor,
-//        yellow().nightColor,
-//        green().nightColor,
-//        blue().nightColor,
-//        lavender().nightColor,
-//        peach().nightColor,
-//        beige().nightColor,
-//        aquaGreen().nightColor,
-//        lila().nightColor,
-//        oliveGreen().nightColor,
-//        cream().nightColor,
-//        blue2().nightColor,
-//        coral().nightColor,
-//        lila2().nightColor
-//    ]
-
-
-
-
-//    public static func whiteBlack() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.blancoPuro.color
-//        let nightColor = Colors.DarkBackgroundColor.blancoPuroOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func pink() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.rosaPastel.color
-//        let nightColor = Colors.DarkBackgroundColor.rosaPastelOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func yellow() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.amarilloPalido.color
-//        let nightColor = Colors.DarkBackgroundColor.amarilloDorado.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func green() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.verdeMenta.color
-//        let nightColor = Colors.DarkBackgroundColor.verdeEsmeralda.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func blue() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.azulCielo.color
-//        let nightColor = Colors.DarkBackgroundColor.azulProfundo.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func lavender() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.lavanda.color
-//        let nightColor = Colors.DarkBackgroundColor.lavandaOscura.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func peach() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.melocotonSuave.color
-//        let nightColor = Colors.DarkBackgroundColor.melocotonOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func beige() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.beigeClaro.color
-//        let nightColor = Colors.DarkBackgroundColor.beigeOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func aquaGreen() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.verdeAgua.color
-//        let nightColor = Colors.DarkBackgroundColor.verdeAguaOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func lila() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.lilaSuave.color
-//        let nightColor = Colors.DarkBackgroundColor.lilaOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func oliveGreen() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.salvia.color
-//        let nightColor = Colors.DarkBackgroundColor.verdeOliva.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func cream() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.crema.color
-//        let nightColor = Colors.DarkBackgroundColor.cremaOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func blue2() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.azulCeleste.color
-//        let nightColor = Colors.DarkBackgroundColor.azulOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func coral() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.coralClaro.color
-//        let nightColor = Colors.DarkBackgroundColor.coralOscuro.color
-//        return (dayColor, nightColor)
-//    }
-//
-//    public static func lila2() -> (dayColor: UIColor, nightColor: UIColor) {
-//        let dayColor = Colors.LightBackgroundColor.lilaClaro.color
-//        let nightColor = Colors.DarkBackgroundColor.lilaOscuro2.color
-//        return (dayColor, nightColor)
-//    }
+    static func fromData(_ data: Data) -> UIColor? {
+        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: self,
+                                                       from: data)
+    }
 }

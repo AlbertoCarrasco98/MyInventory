@@ -67,7 +67,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Setup UI
 
     func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
             navigationController?.isNavigationBarHidden = false
             navigationItem.backButtonTitle = "Atrás"
             configureFunctionsFromInventoryListVC()

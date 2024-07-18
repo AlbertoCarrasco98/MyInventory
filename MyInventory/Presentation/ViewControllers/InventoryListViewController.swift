@@ -99,7 +99,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
     // MARK: - SetupUI
 
     private func setupUI() {
-        view.backgroundColor = AppearanceViewModel.shared.backgroundColor
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         listenViewModel()
         listenAppearanceViewModel()
         self.title = "Inventarios"
