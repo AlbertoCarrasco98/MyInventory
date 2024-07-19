@@ -196,7 +196,6 @@ class AppearanceViewController: UIViewController {
     }
 
     @objc private func sliderValueChanged(_ sender: UISlider) {
-
         AppearanceViewModel.shared.setCornerRadius(sender.value)
         tableView.reloadData()
 

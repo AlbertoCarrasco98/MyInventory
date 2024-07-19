@@ -38,7 +38,7 @@ actor UserDefaultManager {
     // BoxCornerRadius
 
     static func saveBoxCornerRadius(_ radius: Float) {
-        UserDefaults.standard.float(forKey: Key.boxCornerRadius)
+        UserDefaults.standard.setValue(radius, forKey: Key.boxCornerRadius)
     }
 
     static func boxCornerRadius() -> Float {

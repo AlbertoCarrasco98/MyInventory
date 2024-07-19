@@ -51,7 +51,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         if let message = pendingToastMessage {
             showToast(message: message)
             pendingToastMessage = nil
-            
         }
     }
 
@@ -225,6 +224,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftViewMode = .always
+        textField.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
