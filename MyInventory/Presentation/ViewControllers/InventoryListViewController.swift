@@ -324,6 +324,7 @@ extension InventoryListViewController: UICollectionViewDelegate, UICollectionVie
             let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                 withReuseIdentifier: "header",
                                                                                 for: indexPath) as! SectionHeader
+            sectionHeader.label.textColor = .sectionHeaderTitleColor
             if indexPath.section == 0 {
                 sectionHeader.label.text = "Favoritos"
 

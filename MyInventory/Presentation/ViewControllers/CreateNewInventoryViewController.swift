@@ -50,7 +50,7 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
 
     private func setupUI() {
         self.title = "Nuevo inventario"
-        view.backgroundColor = .white
+        view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         configureNavigationBar()
         configureTextField()
         listenViewModel()

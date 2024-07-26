@@ -39,10 +39,10 @@ class TrashViewController: UIViewController {
             self.collectionView.reloadData()
         }.store(in: &cancellables)
     }
+    //            .receive(on: DispatchQueue.main)  // Para que el bloque de receiveValue se hagan por el hilo principal TODAS LAS SEÑALES QUE EJECUTEN COSAS DE VISTA
 
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal
-            .receive(on: DispatchQueue.main)  // Para que el bloque de receiveValue se hagan por el hilo principal TODAS LAS SEÑALES QUE EJECUTEN COSAS DE VISTA
             .sink { _ in
             } receiveValue: { color in
                 self.view.backgroundColor = color
@@ -85,6 +85,7 @@ class TrashViewController: UIViewController {
         collectionView.register(CustomCollectionViewCell.self,
                                 forCellWithReuseIdentifier: "CustomCollectionViewCell")
         collectionView.setCollectionViewLayout(layout, animated: false)
+        collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -107,7 +108,6 @@ extension TrashViewController: UICollectionViewDataSource {
         let inventory = deletedInventories[indexPath.row]
         cell.label.text = inventory.title
         cell.layer.masksToBounds = true
-        cell.backgroundColor = UIColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
         cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         cell.layer.borderWidth = 2.5
         cell.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)

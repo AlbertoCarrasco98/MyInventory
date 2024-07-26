@@ -137,7 +137,7 @@ class AppearanceViewController: UIViewController {
     private func presentModal() {
         let modalViewController = UIViewController()
         modalViewController.modalPresentationStyle = .pageSheet
-        modalViewController.view.backgroundColor = UIColor(white: 1, alpha: 1)
+        modalViewController.view.backgroundColor = .systemGray6
 
         if let sheet = modalViewController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
@@ -167,6 +167,7 @@ class AppearanceViewController: UIViewController {
 
         let sliderValueLabel =  UILabel()
         sliderValueLabel.text = String(format: "%.f", slider.value)
+        sliderValueLabel.textColor = .sectionHeaderTitleColor
         sliderValueLabel.translatesAutoresizingMaskIntoConstraints = false
 
         modalViewController.view.addSubview(slider)

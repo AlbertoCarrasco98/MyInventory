@@ -46,53 +46,22 @@ extension UIColor {
     }
 
     static let backgroundColors: [UIColor] = [
-        .systemBackground,
-        .neonGreen,
-        .electricBlue,
-        .hotPink,
-        .lemonYellow,
-        .acidOrange
+        .pastelPeach,
+        .pastelCantaloupe,
+        .pastelBlush,
+        .pastelRose,
+        .pastelBeige,
+        .pastelYellow,
+        .pastelLemon,
+        .pastelMint,
+        .pastelTurquoise,
+        .pastelAqua,
+        .pastelCyan,
+        .pastelPeriwinkle,
+        .pastelLavender,
+        .pastelCharcoal,
+        .pastelBerry
     ]
-
-    static var neonGreen: UIColor {
-        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-            traitCollection.userInterfaceStyle == .dark
-            ? UIColor(red: 0.08, green: 0.80, blue: 0.00, alpha: 1.00)
-            : UIColor(red: 0.33, green: 1.00, blue: 0.12, alpha: 1.00)
-        }
-    }
-
-    static var electricBlue: UIColor {
-        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-            traitCollection.userInterfaceStyle == .dark
-            ? UIColor(red: 0.11, green: 0.55, blue: 1.00, alpha: 1.00)
-            : UIColor(red: 0.40, green: 0.75, blue: 1.00, alpha: 1.00)
-        }
-    }
-
-    static var hotPink: UIColor {
-        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-            traitCollection.userInterfaceStyle == .dark
-            ? UIColor(red: 1.00, green: 0.00, blue: 0.50, alpha: 1.00)
-            : UIColor(red: 1.00, green: 0.33, blue: 0.64, alpha: 1.00)
-        }
-    }
-
-    static var lemonYellow: UIColor {
-        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-            traitCollection.userInterfaceStyle == .dark
-            ? UIColor(red: 1.00, green: 1.00, blue: 0.00, alpha: 1.00)
-            : UIColor(red: 1.00, green: 1.00, blue: 0.50, alpha: 1.00)
-        }
-    }
-
-    static var acidOrange: UIColor {
-        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-            traitCollection.userInterfaceStyle == .dark
-            ? UIColor(red: 1.00, green: 0.40, blue: 0.00, alpha: 1.00)
-            : UIColor(red: 1.00, green: 0.60, blue: 0.20, alpha: 1.00)
-        }
-    }
 
     enum ToastColor {
         case success
@@ -143,5 +112,136 @@ extension UIColor {
     static func fromData(_ data: Data) -> UIColor? {
         return try? NSKeyedUnarchiver.unarchivedObject(ofClass: self,
                                                        from: data)
+    }
+}
+
+extension UIColor {
+    static var pastelPeach: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.8, green: 0.5, blue: 0.4, alpha: 1.0) // Dark Peach
+            : UIColor(red: 1.0, green: 0.8, blue: 0.7, alpha: 1.0) // Light Peach
+        }
+    }
+
+    static var pastelCantaloupe: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.9, green: 0.6, blue: 0.3, alpha: 1.0) // Dark Cantaloupe
+            : UIColor(red: 1.0, green: 0.9, blue: 0.6, alpha: 1.0) // Light Cantaloupe
+        }
+    }
+
+    static var pastelBlush: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.7, green: 0.5, blue: 0.7, alpha: 1.0) // Dark Blush
+            : UIColor(red: 1.0, green: 0.9, blue: 0.9, alpha: 1.0) // Light Blush
+        }
+    }
+
+    static var pastelRose: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.9, green: 0.6, blue: 0.7, alpha: 1.0) // Dark Rose
+            : UIColor(red: 1.0, green: 0.9, blue: 0.9, alpha: 1.0) // Light Rose
+        }
+    }
+
+    static var pastelBeige: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.8, green: 0.7, blue: 0.6, alpha: 1.0) // Dark Beige
+            : UIColor(red: 1.0, green: 0.9, blue: 0.8, alpha: 1.0) // Light Beige
+        }
+    }
+
+    static var pastelYellow: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.8, green: 0.8, blue: 0.4, alpha: 1.0) // Dark Yellow
+            : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0) // Light Yellow
+        }
+    }
+
+    static var pastelLemon: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.9, green: 0.9, blue: 0.3, alpha: 1.0) // Dark Lemon
+            : UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0) // Light Lemon
+        }
+    }
+
+    static var pastelMint: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.4, green: 0.8, blue: 0.7, alpha: 1.0) // Dark Mint
+            : UIColor(red: 0.8, green: 1.0, blue: 0.9, alpha: 1.0) // Light Mint
+        }
+    }
+
+    static var pastelTurquoise: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.3, green: 0.7, blue: 0.7, alpha: 1.0) // Dark Turquoise
+            : UIColor(red: 0.7, green: 1.0, blue: 1.0, alpha: 1.0) // Light Turquoise
+        }
+    }
+
+    static var pastelAqua: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.4, green: 0.7, blue: 0.8, alpha: 1.0)
+            : UIColor(red: 0.7, green: 0.9, blue: 0.9, alpha: 1.0)
+        }
+    }
+
+    static var pastelCyan: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.3, green: 0.6, blue: 0.6, alpha: 1.0)
+            : UIColor(red: 0.8, green: 1.0, blue: 1.0, alpha: 1.0)
+        }
+    }
+
+
+    static var pastelPeriwinkle: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.6, green: 0.5, blue: 0.9, alpha: 1.0) // Dark Periwinkle
+            : UIColor(red: 0.8, green: 0.8, blue: 1.0, alpha: 1.0) // Light Periwinkle
+        }
+    }
+
+    static var pastelLavender: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.6, green: 0.4, blue: 0.8, alpha: 1.0) // Dark Lavender
+            : UIColor(red: 0.9, green: 0.8, blue: 1.0, alpha: 1.0) // Light Lavender
+        }
+    }
+
+    static var pastelCharcoal: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0) // Dark Charcoal
+            : UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0) // Light Charcoal
+        }
+    }
+
+    static var pastelBerry: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.6, green: 0.4, blue: 0.6, alpha: 1.0) // Dark Berry
+            : UIColor(red: 0.9, green: 0.7, blue: 0.9, alpha: 1.0) // Light Berry
+        }
+    }
+
+    static var sectionHeaderTitleColor: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? .white
+            : .black
+        }
     }
 }

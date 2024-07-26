@@ -40,7 +40,6 @@
 		98A738002BFBB68100D67FAE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A737FF2BFBB68100D67FAE /* Toast.swift */; };
 		98ACAF7D2C077AFE00F62B13 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */; };
 		98F911302C0DCFE400E87775 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */; };
-		98F911322C103BE100E87775 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911312C103BE100E87775 /* Colors.swift */; };
 		98F911342C103F5A00E87775 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911332C103F5A00E87775 /* UserDefaultManager.swift */; };
 		98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911352C1049FD00E87775 /* ColorMapper.swift */; };
 		98F911382C104A2B00E87775 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911372C104A2B00E87775 /* ColorModel.swift */; };
@@ -80,7 +79,6 @@
 		98A737FF2BFBB68100D67FAE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		98F911312C103BE100E87775 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		98F911332C103F5A00E87775 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		98F911352C1049FD00E87775 /* ColorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapper.swift; sourceTree = "<group>"; };
 		98F911372C104A2B00E87775 /* ColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
@@ -218,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				9848D4E82BE0EBC900BD21C0 /* AppearanceModel.swift */,
-				98F911312C103BE100E87775 /* Colors.swift */,
 				98F911352C1049FD00E87775 /* ColorMapper.swift */,
 				98ACAF7B2C077AB800F62B13 /* Extensions */,
 				98FEA4F02B5FB253008293EA /* Views */,
@@ -327,7 +324,6 @@
 				982798312B279D120049D69F /* InventoryViewModel.swift in Sources */,
 				9848D4E92BE0EBC900BD21C0 /* AppearanceModel.swift in Sources */,
 				9848D4EB2BE0EE4200BD21C0 /* AppearanceViewModel.swift in Sources */,
-				98F911322C103BE100E87775 /* Colors.swift in Sources */,
 				980AABC92B4B180F005526C5 /* CustomError.swift in Sources */,
 				98486D9F2BA1A5D100B5DFBF /* TrashViewController.swift in Sources */,
 				982798252B238C170049D69F /* CreateNewInventoryViewController.swift in Sources */,
