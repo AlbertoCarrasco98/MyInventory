@@ -68,21 +68,27 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     func setupUI() {
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
-            navigationController?.isNavigationBarHidden = false
-            navigationItem.backButtonTitle = "Atrás"
+        navigationController?.isNavigationBarHidden = false
+        navigationItem.backButtonTitle = "Atrás"
+        listenAppearanceViewModel()
+
+        if inventory.isDeleted == true {
+            configureFunctionsFromTrashVC()
+        } else {
             configureFunctionsFromInventoryListVC()
         }
+    }
     
 
     func configureFunctionsFromInventoryListVC() {
         configureMainStackView()
         configureTableView()
         configureTextField()
-        listenViewModel()
-        listenAppearanceViewModel()
         configureNavigationBar()
         updateFavoriteButton()
         hideKeyboard()
+        listenViewModel()
+//        listenAppearanceViewModel()
     }
 
     func configureFunctionsFromTrashVC() {
@@ -90,7 +96,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         configureTableViewForTrash()
         configureRemoveInventoryButton()
         configureRecoverInventoryButton()
-        listenAppearanceViewModel()
+//        listenAppearanceViewModel()
     }
 
     private func hideKeyboard() {
@@ -237,6 +243,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.masksToBounds = true
+        tableView.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         tableView.isEditing = false
     }
 
@@ -248,9 +255,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.backgroundColor = .clear
         tableView.layer.borderWidth = 1
         tableView.layer.borderColor = UIColor.gray.cgColor
-        tableView.layer.cornerRadius = 10
+        tableView.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         tableView.layer.masksToBounds = true
-
     }
 
 //    MARK: - ConfigureTextField
@@ -317,8 +323,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         removeInventoryButton.titleLabel?.textAlignment = .center
         removeInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         removeInventoryButton.setTitleColor(.black, for: .normal)
-        removeInventoryButton.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        removeInventoryButton.layer.borderWidth = 2.5
+        removeInventoryButton.layer.borderColor = UIColor.gray.cgColor
+        removeInventoryButton.layer.borderWidth = 1
+        removeInventoryButton.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
     }
 
     @objc func removeInventoryButtonTapped() {
@@ -353,8 +360,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         recoverInventoryButton.titleLabel?.textAlignment = .center
         recoverInventoryButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         recoverInventoryButton.setTitleColor(.black, for: .normal)
-        recoverInventoryButton.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        recoverInventoryButton.layer.borderWidth = 2.5
+        recoverInventoryButton.layer.borderColor = UIColor.gray.cgColor
+        recoverInventoryButton.layer.borderWidth = 1
+        recoverInventoryButton.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
     }
 
     @objc func recoverInventoryButtonTapped() {
