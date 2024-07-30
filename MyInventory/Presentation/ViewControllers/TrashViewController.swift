@@ -55,15 +55,33 @@ class TrashViewController: UIViewController {
     }
 
     private func setupUI() {
+        self.title = "Papelera"
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
-
         listenViewModel()
         listenAppearanceViewModel()
-        self.title = "Papelera"
+        notifications()
         view.addSubview(mainStackView)
         configureMainStackView()
     }
 
+    private func notifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(internalShowToast(notification:)),
+                                               name: .removeInventoryNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(internalShowToast(notification:)),
+                                               name: .recoverInventoryNotification,
+                                               object: nil)
+    }
+
+    @objc private func internalShowToast(notification: Notification) {
+        if let message = notification.userInfo?["message"] as? String {
+            view.showToast(withMessage: message,
+                           color: .success,
+                           position: .bottom)
+        }
+    }
 //    MARK: - ConfigureMainStackView
 
     private func configureMainStackView() {
@@ -133,69 +151,3 @@ extension TrashViewController: UICollectionViewDelegate, UICollectionViewDelegat
         return CGSize(width: widht, height: height)
     }
 }
-
-// MARK: - UITableViewDataSource
-//
-//extension TrashViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // Numero de filas en la seccion: Habra tantas filas como inventarios tengan la propiedad isDeleted = TRUE
-//        // Tengo que coger la lista de inventarios y mostrar solo los que tengan isDeleted = true
-//        deletedInventories.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        // Habra un elemento por fila
-//        // Tengo que mostrar el titulo del elemento que toque en cada fila
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell",
-//                                                 for: indexPath)
-//        let inventory = deletedInventories[indexPath.row]
-//        cell.textLabel?.text = inventory.title
-//        cell.backgroundColor = UIColor(red: 1.0, green: 0.75, blue: 0.75, alpha: 1.0)
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let recoverAction = UIContextualAction(style: .normal, title: "Recuperar") { [weak self] (action, view, completionHandler) in
-//            guard let inventory = self?.deletedInventories[indexPath.row] else {
-//                completionHandler(false)
-//                return
-//            }
-//            self?.viewModel.updateIsDeleted(in: inventory)
-//            completionHandler(true)
-//        }
-//
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Eliminar") { [weak self] (action, view, completionHandler) in
-//            if indexPath.row < self?.deletedInventories.count ?? 0 {
-//                guard let inventory = self?.deletedInventories[indexPath.row] else {
-//                    completionHandler(false)
-//                    return
-//                }
-//                self?.viewModel.removeInventory(inventory)
-//            } else {
-//                print("No se ha podido eliminar el inventario")
-//            }
-//            completionHandler(true)
-//        }
-//        recoverAction.backgroundColor = .systemBlue
-//        deleteAction.backgroundColor = .red
-//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, recoverAction])
-//        return configuration
-//    }
-//}
-//
-//MARK: - UITableViewDelegate
-//
-//extension TrashViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        let selectedInventory = deletedInventories[indexPath.row]
-//        let inventoryDetailVC = InventoryDetailViewController(inventory: selectedInventory,
-//                                                              viewModel: viewModel)
-//        navigationController?.pushViewController(inventoryDetailVC,
-//                                                 animated: true)
-//        inventoryDetailVC.title = selectedInventory.title
-//    }
-//}
-
-
-

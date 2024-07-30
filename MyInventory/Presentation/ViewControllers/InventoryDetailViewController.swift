@@ -22,7 +22,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     var inventory: InventoryModel
     var cancellables: Set<AnyCancellable> = []
 
-
     // MARK: - Lifecycle
 
     init(inventory: InventoryModel, viewModel: InventoryViewModel) {
@@ -78,7 +77,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
             configureFunctionsFromInventoryListVC()
         }
     }
-    
 
     func configureFunctionsFromInventoryListVC() {
         configureMainStackView()
@@ -120,8 +118,6 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
                                           action:  nil)
         optionsMenu.menu = createOptionsMenu()
 
-//        let favoriteImage = inventory.isFavorite ? "star.fill" : "star"
-//        let favoriteImage = UIImage(systemName: imageName)
         let favoriteButton = UIBarButtonItem(image: nil,
                                              style: .plain,
                                              target: self,
@@ -176,6 +172,15 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
     @objc private func favoriteAction() {
         viewModel.updateIsFavorite(in: inventory)
         updateFavoriteButton()
+        if inventory.isFavorite == true {
+            view.showToast(withMessage: "El inventario se ha marcado como favorito",
+                           color: .default,
+                           position: .center)
+        } else {
+            view.showToast(withMessage: "El inventario ya no es favorito",
+                           color: .default,
+                           position: .center)
+        }
     }
 
     // Esta funcion se encarga de que la imagen del boton de favorito siempre refleje el estado de la propiedad isFavorite del inventario
@@ -301,6 +306,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         let alertAction = UIAlertAction(title: "Eliminar",
                                         style: .destructive) { [weak self] _ in
             self?.moveInventoryToTrash()
+            NotificationCenter.default.post(name: .moveInventoryToTrashNotification,
+                                            object: nil,
+                                            userInfo: ["message": "El inventario se ha trasladado a la papelera"])
             self?.navigationController?.popViewController(animated: true)
         }
         alert.addAction(alertAction)
@@ -338,6 +346,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         let alertAction = UIAlertAction(title: "Eliminar",
                                         style: .destructive) { [weak self] _ in
             self?.removeInventory()
+            NotificationCenter.default.post(name: .removeInventoryNotification,
+                                            object: nil,
+                                            userInfo: ["message": "Inventario eliminado permanentemente"])
             self?.navigationController?.popViewController(animated: true)
         }
 
@@ -377,6 +388,9 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         let alertAction = UIAlertAction(title: "Recuperar",
                                         style: .default) { [weak self] _ in
             self?.recoverInventory()
+            NotificationCenter.default.post(name: .recoverInventoryNotification,
+                                            object: nil,
+                                            userInfo: ["message": "El inventario se ha recuperado"])
             self?.navigationController?.popViewController(animated: true)
         }
         alert.addAction(cancelAlert)

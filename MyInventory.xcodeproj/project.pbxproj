@@ -39,6 +39,7 @@
 		98A11A2B2C256CB6007BCE47 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A11A2A2C256CB6007BCE47 /* StringExtension.swift */; };
 		98A738002BFBB68100D67FAE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A737FF2BFBB68100D67FAE /* Toast.swift */; };
 		98ACAF7D2C077AFE00F62B13 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */; };
+		98B2B1EA2C57BC3200D100D6 /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B2B1E92C57BC3200D100D6 /* NotificationNameExtension.swift */; };
 		98F911302C0DCFE400E87775 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */; };
 		98F911342C103F5A00E87775 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911332C103F5A00E87775 /* UserDefaultManager.swift */; };
 		98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F911352C1049FD00E87775 /* ColorMapper.swift */; };
@@ -78,6 +79,7 @@
 		98A11A2A2C256CB6007BCE47 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		98A737FF2BFBB68100D67FAE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		98B2B1E92C57BC3200D100D6 /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
 		98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		98F911332C103F5A00E87775 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		98F911352C1049FD00E87775 /* ColorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapper.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				98ACAF7C2C077AFE00F62B13 /* UIViewExtension.swift */,
 				98F9112F2C0DCFE400E87775 /* UIColorExtension.swift */,
 				98A11A2A2C256CB6007BCE47 /* StringExtension.swift */,
+				98B2B1E92C57BC3200D100D6 /* NotificationNameExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				98A738002BFBB68100D67FAE /* Toast.swift in Sources */,
 				983EC6692C47E9110086E20C /* InterfaceStyle.swift in Sources */,
 				98F911362C1049FD00E87775 /* ColorMapper.swift in Sources */,
+				98B2B1EA2C57BC3200D100D6 /* NotificationNameExtension.swift in Sources */,
 				982798092B21EB4C0049D69F /* AppDelegate.swift in Sources */,
 				986BB0FC2B2A0D0D007DAB02 /* SwiftDataMapper.swift in Sources */,
 				9827981D2B21EBBE0049D69F /* InventoryModel.swift in Sources */,

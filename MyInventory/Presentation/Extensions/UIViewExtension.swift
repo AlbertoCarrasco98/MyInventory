@@ -1,6 +1,7 @@
 import UIKit
 
 extension UIView {
+
     func showToast(withMessage message: String,
                    duration: TimeInterval = 2.0,
                    color: UIColor.ToastColor,

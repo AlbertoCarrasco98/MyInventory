@@ -28,8 +28,6 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    var pendingToastMessage: String?
-
     // MARK: - Initialization
     init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
@@ -46,27 +44,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         setupUI()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let message = pendingToastMessage {
-            showToast(message: message)
-            pendingToastMessage = nil
-        }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    // BIND -> Crea una conexión entre el ViewController y el ViewModel
-
-    private func showToast(message: String) {
-        view.showToast(withMessage: "Inventario creado con écito",
-                       color: .success,
-                       position: .bottom)
-    }
-
-    func listenViewModel() {
+    private func listenViewModel() {
         viewModel.inventoryListUpdatedSignal.sink { _ in
             // No hacemos nada
         } receiveValue: { _ in
@@ -79,7 +57,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         }.store(in: &cancellables)
     }
 
-    func listenAppearanceViewModel() {
+   private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal
             .receive(on: DispatchQueue.main)  // Para que el bloque de receiveValue se hagan por el hilo principal TODAS LAS SEÑALES QUE EJECUTEN COSAS DE VISTA
             .sink { _ in
@@ -108,6 +86,7 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         configureCollectionView()
         configureTextField()
         configureAddInventoryButton()
+        notifications()
         navigationItem.backButtonTitle = "Atrás"
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -116,27 +95,40 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
 
     private func setupNavigationBar() {
         let addNewInventoryButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle.fill"),
-                                        style: .plain,
-                                        target: self,
-                                        action: #selector(createNewInventoryButtonAction))
+                                                    style: .plain,
+                                                    target: self,
+                                                    action: #selector(createNewInventoryButtonAction))
         navigationItem.rightBarButtonItem = addNewInventoryButton
+    }
+
+    private func notifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(internalShowToast(notification:)),
+                                               name: .createInventoryNotification,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(internalShowToast(notification:)),
+                                               name: .moveInventoryToTrashNotification,
+                                               object: nil)
     }
 
     @objc func createNewInventoryButtonAction() {
         let createNewInventoryVC = CreateNewInventoryViewController(viewModel: viewModel)
-        createNewInventoryVC.onCreateSuccess = {
-            self.showToast(message: "Inventario creado con éxito")
-        }
         let navigationController = UINavigationController(rootViewController: createNewInventoryVC)
         present(navigationController, animated: true)
     }
 
     @objc func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-//        let location = sender.location(in: collectionView)
-//        if collectionView.bounds.contains(location) {
-//            return
-//        }
         view.endEditing(true)
+    }
+
+    @objc func internalShowToast(notification: Notification) {
+        if let message = notification.userInfo?["message"] as? String {
+            view.showToast(withMessage: message,
+                           color: .success,
+                           position: .bottom)
+        }
     }
 
     // MARK: - ConfigureMainStackView

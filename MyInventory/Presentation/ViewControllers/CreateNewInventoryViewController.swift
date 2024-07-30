@@ -9,7 +9,6 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
     private let textField = UITextField()
     private let viewModel: InventoryViewModel
     private var cancellables: Set<AnyCancellable> = []
-    var onCreateSuccess: (() -> Void)?
 
     init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
@@ -65,8 +64,10 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
             let result = viewModel.createNewInventory(title: inventoryTitle, elements: [])
             switch result {
                 case .success:
-                    passToastMessageAndPop()
-                    onCreateSuccess?()
+                    NotificationCenter.default.post(name: .createInventoryNotification,
+                                                    object: nil,
+                                                    userInfo: ["message": "Inventario creado con éxito"])
+                    self.navigationController?.dismiss(animated: true)
                 case .failure:
                     view.showToast(withMessage: "Ya existe un inventario con ese título",
                                    color: .failure,
@@ -90,13 +91,6 @@ class CreateNewInventoryViewController: UIViewController, UITextFieldDelegate {
         processInventoryCreation()
         textField.resignFirstResponder()
         return true
-    }
-
-    private func passToastMessageAndPop() {
-        if let inventoryListVC = navigationController?.viewControllers.first(where: { $0 is InventoryListViewController }) as? InventoryListViewController {
-            inventoryListVC.pendingToastMessage = "Inventario creado con éxito"
-        }
-        self.navigationController?.dismiss(animated: true)
     }
 
     private func hideKeyboard() {
