@@ -6,9 +6,9 @@ class SettingsViewController: UIViewController {
 
     //MARK: - Properties
 
-    let mainStackView = UIStackView()
-    let tableView = UITableView()
-    var cancellables: [AnyCancellable] = []
+    private let mainStackView = UIStackView()
+    private let tableView = UITableView()
+    private var cancellables: [AnyCancellable] = []
 
 
     //MARK: - Life Cycle
@@ -56,6 +56,7 @@ class SettingsViewController: UIViewController {
 //MARK: - UITableViewDataSource
 
 extension SettingsViewController: UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Options.allCases.count
     }
@@ -65,7 +66,6 @@ extension SettingsViewController: UITableViewDataSource {
         let option = Options.allCases[indexPath.row]
         cell.textLabel?.text = option.title
         cell.accessoryType = .disclosureIndicator
-
         cell.backgroundColor = .clear
         return cell
     }
@@ -74,6 +74,7 @@ extension SettingsViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 
 extension SettingsViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
@@ -81,9 +82,6 @@ extension SettingsViewController: UITableViewDelegate {
                 let appearanceVC = AppearanceViewController()
                 appearanceVC.title = "Apariencia"
                 navigationController?.pushViewController(appearanceVC, animated: true)
-
-                // case 1:
-
             default:
                 break
         }
@@ -93,14 +91,11 @@ extension SettingsViewController: UITableViewDelegate {
 extension SettingsViewController {
     enum Options: CaseIterable {
         case appearanceSettings
-        case lenguageSetting
 
         var title: String {
             switch self {
                 case .appearanceSettings:
                     return "Ajustes de apariencia"
-                case .lenguageSetting:
-                    return "Ajustes de idioma"
             }
         }
     }
