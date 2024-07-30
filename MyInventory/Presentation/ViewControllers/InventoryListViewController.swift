@@ -212,8 +212,9 @@ class InventoryListViewController: UIViewController, UITextFieldDelegate {
         textField.font = .italicSystemFont(ofSize: 18)
         textField.backgroundColor = .systemGray6
         textField.layer.masksToBounds = true
-        textField.layer.borderWidth = 2.5
-        textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.gray.cgColor
+//        textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftViewMode = .always
         textField.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
@@ -281,8 +282,9 @@ extension InventoryListViewController: UICollectionViewDataSource {
 
         cell.label.textColor = UIColor(named: "textPrimary")
         cell.layer.masksToBounds = true // Esto asegura que cualquier subvista dentro del "layer" se vean afectadas por las esquinas redondeadas y se recortaran                                            segun la forma del layer
-        cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        cell.layer.borderWidth = 2.5
+        cell.layer.borderColor = UIColor.gray.cgColor
+//        cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
+        cell.layer.borderWidth = 1
         cell.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         return cell
     }

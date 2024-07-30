@@ -2,21 +2,21 @@ import UIKit
 import Combine
 
 class SettingsViewController: UIViewController {
-
-
+    
+    
     //MARK: - Properties
-
+    
     private let mainStackView = UIStackView()
     private let tableView = UITableView()
     private var cancellables: [AnyCancellable] = []
-
-
+    
+    
     //MARK: - Life Cycle
-
+    
     override func viewDidLoad() {
         setupUI()
     }
-
+    
     private func setupUI() {
         self.title = "Ajustes"
         configureMainStackView()
@@ -24,15 +24,15 @@ class SettingsViewController: UIViewController {
         listenAppearanceViewModel()
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
     }
-
+    
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
         }.store(in: &cancellables)
     }
-
+    
     //MARK: - Configure Views
-
+    
     private func configureMainStackView() {
         view.addSubview(mainStackView)
         mainStackView.addArrangedSubview(tableView)
@@ -44,7 +44,7 @@ class SettingsViewController: UIViewController {
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
     }
-
+    
     private func configureTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.dataSource = self
@@ -56,13 +56,13 @@ class SettingsViewController: UIViewController {
 //MARK: - UITableViewDataSource
 
 extension SettingsViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Options.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       let cell = UITableViewCell()
+        let cell = UITableViewCell()
         let option = Options.allCases[indexPath.row]
         cell.textLabel?.text = option.title
         cell.accessoryType = .disclosureIndicator
@@ -91,7 +91,7 @@ extension SettingsViewController: UITableViewDelegate {
 extension SettingsViewController {
     enum Options: CaseIterable {
         case appearanceSettings
-
+        
         var title: String {
             switch self {
                 case .appearanceSettings:

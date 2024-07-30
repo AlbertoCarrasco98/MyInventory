@@ -46,13 +46,13 @@ extension UIColor {
     }
 
     static let backgroundColors: [UIColor] = [
+        .whiteBlack,
         .pastelPeach,
         .pastelCantaloupe,
         .pastelBlush,
         .pastelRose,
         .pastelBeige,
         .pastelYellow,
-        .pastelLemon,
         .pastelMint,
         .pastelTurquoise,
         .pastelAqua,
@@ -116,6 +116,15 @@ extension UIColor {
 }
 
 extension UIColor {
+
+    static var whiteBlack: UIColor {
+        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            traitCollection.userInterfaceStyle == .dark
+            ? UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 1.00) // Black
+            : UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00) // White
+        }
+    }
+
     static var pastelPeach: UIColor {
         return UIColor { (traitCollection: UITraitCollection) -> UIColor in
             traitCollection.userInterfaceStyle == .dark
@@ -128,7 +137,7 @@ extension UIColor {
         return UIColor { (traitCollection: UITraitCollection) -> UIColor in
             traitCollection.userInterfaceStyle == .dark
             ? UIColor(red: 0.9, green: 0.6, blue: 0.3, alpha: 1.0) // Dark Cantaloupe
-            : UIColor(red: 1.0, green: 0.9, blue: 0.6, alpha: 1.0) // Light Cantaloupe
+            : UIColor(red: 1.0, green: 0.8, blue: 0.5, alpha: 1.0) // Light Cantaloupe
         }
     }
 
@@ -136,7 +145,7 @@ extension UIColor {
         return UIColor { (traitCollection: UITraitCollection) -> UIColor in
             traitCollection.userInterfaceStyle == .dark
             ? UIColor(red: 0.7, green: 0.5, blue: 0.7, alpha: 1.0) // Dark Blush
-            : UIColor(red: 1.0, green: 0.9, blue: 0.9, alpha: 1.0) // Light Blush
+            : UIColor(red: 1.0, green: 0.8, blue: 0.8, alpha: 1.0) // Light Blush
         }
     }
 
@@ -161,14 +170,6 @@ extension UIColor {
             traitCollection.userInterfaceStyle == .dark
             ? UIColor(red: 0.8, green: 0.8, blue: 0.4, alpha: 1.0) // Dark Yellow
             : UIColor(red: 1.0, green: 1.0, blue: 0.8, alpha: 1.0) // Light Yellow
-        }
-    }
-
-    static var pastelLemon: UIColor {
-        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-            traitCollection.userInterfaceStyle == .dark
-            ? UIColor(red: 0.9, green: 0.9, blue: 0.3, alpha: 1.0) // Dark Lemon
-            : UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0) // Light Lemon
         }
     }
 

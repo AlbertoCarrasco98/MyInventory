@@ -2,58 +2,58 @@ import UIKit
 import Combine
 
 class TrashViewController: UIViewController {
-
+    
     private let viewModel: InventoryViewModel
     private var cancellables: Set<AnyCancellable> = []
     private var deletedInventories: [InventoryModel] {
         viewModel.inventoryList.filter { $0.isDeleted }
     }
-
-//    MARK: - Properties
+    
+    //    MARK: - Properties
     private let mainStackView = UIStackView()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-
+    
     init(viewModel: InventoryViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-//    MARK: - LifeCycle
-
+    
+    //    MARK: - LifeCycle
+    
     override func viewDidLoad() {
         setupUI()
     }
-
+    
     private func listenViewModel() {
         viewModel.inventoryUpdatedSignal.sink { _ in
         } receiveValue: { updatedInventory in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
-
+        
         viewModel.inventoryListUpdatedSignal.sink { _ in
         } receiveValue: { _ in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
     }
     //            .receive(on: DispatchQueue.main)  // Para que el bloque de receiveValue se hagan por el hilo principal TODAS LAS SEÑALES QUE EJECUTEN COSAS DE VISTA
-
+    
     private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal
             .sink { _ in
             } receiveValue: { color in
                 self.view.backgroundColor = color
             }.store(in: &cancellables)
-
+        
         AppearanceViewModel.shared.boxCornerRadiusChangedSignal.sink { radius in
             self.collectionView.reloadData()
         }.store(in: &cancellables)
-
+        
     }
-
+    
     private func setupUI() {
         self.title = "Papelera"
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
@@ -63,7 +63,7 @@ class TrashViewController: UIViewController {
         view.addSubview(mainStackView)
         configureMainStackView()
     }
-
+    
     private func notifications() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(internalShowToast(notification:)),
@@ -74,7 +74,7 @@ class TrashViewController: UIViewController {
                                                name: .recoverInventoryNotification,
                                                object: nil)
     }
-
+    
     @objc private func internalShowToast(notification: Notification) {
         if let message = notification.userInfo?["message"] as? String {
             view.showToast(withMessage: message,
@@ -82,8 +82,8 @@ class TrashViewController: UIViewController {
                            position: .bottom)
         }
     }
-//    MARK: - ConfigureMainStackView
-
+    //    MARK: - ConfigureMainStackView
+    
     private func configureMainStackView() {
         configureCollectionView()
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,9 +94,9 @@ class TrashViewController: UIViewController {
             view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 32)
         ])
     }
-
-//    MARK: - ConfigureCollectionView
-
+    
+    //    MARK: - ConfigureCollectionView
+    
     private func configureCollectionView() {
         mainStackView.addArrangedSubview(collectionView)
         let layout = UICollectionViewFlowLayout()
@@ -122,7 +122,7 @@ extension TrashViewController: UICollectionViewDataSource {
         else {
             return UICollectionViewCell()
         }
-
+        
         let inventory = deletedInventories[indexPath.row]
         cell.label.text = inventory.title
         cell.layer.masksToBounds = true
@@ -131,7 +131,7 @@ extension TrashViewController: UICollectionViewDataSource {
         cell.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedInventory = deletedInventories[indexPath.row]
         let inventoryDetailVCFromTrash = InventoryDetailViewController(inventory: selectedInventory,

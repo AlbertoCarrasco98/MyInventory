@@ -7,10 +7,6 @@ extension UIView {
                    color: UIColor.ToastColor,
                    position: Toast.ToastPosition) {
 
-        // creacion de la vista
-        // añadirla como subvista y ubicarla en la vista padre
-        // mostrarla y ocultarla con animaciones
-
         let toastLabel = UILabel()
         toastLabel.text = message
         toastLabel.textAlignment = .center

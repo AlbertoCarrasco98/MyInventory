@@ -19,8 +19,8 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     private let viewModel: InventoryViewModel
 
-    var inventory: InventoryModel
-    var cancellables: Set<AnyCancellable> = []
+    private var inventory: InventoryModel
+    private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Lifecycle
 
@@ -40,7 +40,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         setupUI()
     }
 
-    func listenViewModel() {
+    private func listenViewModel() {
         viewModel.inventoryUpdatedSignal.sink { _ in
             // No hacemos nada
         } receiveValue: { [weak self] updatedInventory in
@@ -50,7 +50,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         }.store(in: &cancellables)
     }
 
-    func listenAppearanceViewModel() {
+    private func listenAppearanceViewModel() {
         AppearanceViewModel.shared.backgroundStateSignal.sink { color in
             self.view.backgroundColor = color
         }.store(in: &cancellables)
@@ -65,7 +65,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: - Setup UI
 
-    func setupUI() {
+    private func setupUI() {
         view.backgroundColor = AppearanceViewModel.shared.appearanceModel.backgroundColor
         navigationController?.isNavigationBarHidden = false
         navigationItem.backButtonTitle = "Atrás"
@@ -78,7 +78,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func configureFunctionsFromInventoryListVC() {
+    private func configureFunctionsFromInventoryListVC() {
         configureMainStackView()
         configureTableView()
         configureTextField()
@@ -86,15 +86,15 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         updateFavoriteButton()
         hideKeyboard()
         listenViewModel()
-//        listenAppearanceViewModel()
+        //        listenAppearanceViewModel()
     }
 
-    func configureFunctionsFromTrashVC() {
+    private func configureFunctionsFromTrashVC() {
         configureMainStackViewForTrash()
         configureTableViewForTrash()
         configureRemoveInventoryButton()
         configureRecoverInventoryButton()
-//        listenAppearanceViewModel()
+        //        listenAppearanceViewModel()
     }
 
     private func hideKeyboard() {
@@ -108,7 +108,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
 
-//    MARK: - ConfigureNavigationBar
+    //    MARK: - ConfigureNavigationBar
 
     // Esta funcion sirve para configurar la NavigationBar con el menu de opciones y el boton de favorito
     private func configureNavigationBar() {
@@ -185,18 +185,18 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
 
     // Esta funcion se encarga de que la imagen del boton de favorito siempre refleje el estado de la propiedad isFavorite del inventario
     private func updateFavoriteButton() {
-            if let favoriteButton = navigationItem.rightBarButtonItems?.first(where: { $0.action == #selector(favoriteAction) }) {
-                favoriteButton.image = favoriteImage()
-            }
+        if let favoriteButton = navigationItem.rightBarButtonItems?.first(where: { $0.action == #selector(favoriteAction) }) {
+            favoriteButton.image = favoriteImage()
         }
+    }
 
     // Esta funcion se encarga de asignar la imagen del boton de favorito de la NavigationBar
     private func favoriteImage() -> UIImage? {
         let imageName = inventory.isFavorite ? "star.fill" : "star"
-            return UIImage(systemName: imageName)
-        }
+        return UIImage(systemName: imageName)
+    }
 
-//    MARK: - ConfigureMainStackView
+    //    MARK: - ConfigureMainStackView
     private func configureMainStackView() {
         let spacer = UIView()
         let spacer2 = UIView()
@@ -217,7 +217,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         mainStackView.addArrangedSubview(spacer2)
     }
 
-//    MARK: - ConfigureMainStackViewForTrash
+    //    MARK: - ConfigureMainStackViewForTrash
     private func configureMainStackViewForTrash() {
         let spacer = UIView()
         let spacer2 = UIView()
@@ -239,7 +239,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         mainStackView.addArrangedSubview(removeInventoryButton)
     }
 
-//    MARK: - ConfigureTableView
+    //    MARK: - ConfigureTableView
     private func configureTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableView.dataSource = self
@@ -252,7 +252,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.isEditing = false
     }
 
-//    MARK: - ConfigureTableViewForTrash
+    //    MARK: - ConfigureTableViewForTrash
     private func configureTableViewForTrash() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellTest")
         tableView.dataSource = self
@@ -264,7 +264,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         tableView.layer.masksToBounds = true
     }
 
-//    MARK: - ConfigureTextField
+    //    MARK: - ConfigureTextField
     private func configureTextField() {
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -273,24 +273,23 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
         ])
         textField.placeholder = "Agrega un nuevo elemento a tu inventario"
         textField.backgroundColor = .systemGray6
-        textField.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        textField.layer.borderWidth = 2.5
+        textField.layer.borderColor = UIColor.gray.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = CGFloat(AppearanceViewModel.shared.appearanceModel.boxCornerRadius)
         textField.font = .italicSystemFont(ofSize: 15)
         textField.textAlignment = .center
-//        textField.borderStyle = .roundedRect
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text, !text.isEmpty {
             viewModel.newElement(from: inventory, elementTitle: text)
-            }
-//        textField.resignFirstResponder()
+        }
         return true
     }
 
-//    MARK: - ConfigurationMoveInventoryToTrash
+    //    MARK: - ConfigurationMoveInventoryToTrash
 
-    func moveInventoryToTrash() {
+    private func moveInventoryToTrash() {
         viewModel.updateIsDeleted(in: inventory)
     }
 
@@ -318,7 +317,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
                      animated: true)
     }
 
-//    MARK: - ConfigurationRemoveInventory
+    //    MARK: - ConfigurationRemoveInventory
 
     private func removeInventory() {
         viewModel.removeInventory(inventory)
@@ -358,7 +357,7 @@ class InventoryDetailViewController: UIViewController, UITextFieldDelegate {
                      animated: true)
     }
 
-//MARK: - ConfigurationRecoverInventory
+    //MARK: - ConfigurationRecoverInventory
 
     private func recoverInventory() {
         viewModel.updateIsDeleted(in: inventory)

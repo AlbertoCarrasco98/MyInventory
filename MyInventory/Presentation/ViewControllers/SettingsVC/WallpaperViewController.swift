@@ -57,7 +57,6 @@ class WallpaperViewController: UIViewController {
 extension WallpaperViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        CollectionViewSections.allCases.count
         1
     }
 
@@ -72,14 +71,12 @@ extension WallpaperViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-            let color = UIColor.backgroundColors[indexPath.item]
-            cell.backgroundColor = color
-
-
+        let color = UIColor.backgroundColors[indexPath.item]
+        cell.backgroundColor = color
         cell.layer.cornerRadius = 18
         cell.layer.masksToBounds = true
-        cell.layer.borderColor = UIColor(red: 0.549, green: 0.729, blue: 0.831, alpha: 1.0).cgColor
-        cell.layer.borderWidth = 2.5
+        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderWidth = 1.8
         return cell
     }
 }
@@ -102,37 +99,3 @@ extension WallpaperViewController: UICollectionViewDelegate, UICollectionViewDel
     }
 }
 
-//extension WallpaperViewController {
-//
-//    enum CollectionViewSections: Int, CaseIterable {
-//        case lightColors
-//        case darkColors
-//
-//        var colorCell: Int {
-//            switch self {
-//                case .lightColors:
-//                    return Colors.LightBackgroundColor.allCases.count
-//                case .darkColors:
-//                    return Colors.DarkBackgroundColor.allCases.count
-//            }
-//        }
-//
-//        var title: String {
-//            switch self {
-//                case .lightColors:
-//                    return "Colores claros"
-//                case .darkColors:
-//                    return "Colores oscuros"
-//            }
-//        }
-//    }
-//
-//    enum CellLightColors: Int {
-//        case color
-//    }
-//
-//    enum CellDarkColors: Int {
-//        case color
-//    }
-//
-//}

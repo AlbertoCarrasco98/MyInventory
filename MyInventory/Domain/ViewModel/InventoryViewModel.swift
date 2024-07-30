@@ -11,12 +11,11 @@ class InventoryViewModel: ObservableObject {
     }
 
     // MARK: - Signals
-    // Sirven para avisar que hay cambios en el inventario, por lo que la vista se actualiza
     let inventoryListUpdatedSignal: PassthroughSubject<Void, Error> = PassthroughSubject()
     let inventoryUpdatedSignal: PassthroughSubject<InventoryModel, Error> = PassthroughSubject()
 
     // MARK: - Functions
-    
+
     func loadData() {
         inventoryList = databaseManager.getInventoryList()
     }

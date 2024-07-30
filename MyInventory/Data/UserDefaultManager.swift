@@ -1,22 +1,22 @@
 import Foundation
 
 actor UserDefaultManager {
-
+    
     // BackgroundColor
-
+    
     static func saveBackgroundColor(lightColor: ColorModel, darkColor: ColorModel) {
         let enconder = JSONEncoder()
         do {
             let lightColorData = try enconder.encode(lightColor)
             UserDefaults.standard.setValue(lightColorData, forKey: Key.lightBackgroundColor)
-
+            
             let darkColorData = try enconder.encode(darkColor)
             UserDefaults.standard.setValue(darkColorData, forKey: Key.darkBackgroundColor)
         } catch let error {
             print("UserDefaultManager.saveBackgroundColor ha fallado.\n\(error)")
         }
     }
-
+    
     static func loadBackgroundColor() -> (lightColor: ColorModel, darkColor: ColorModel)? {
         let decoder = JSONDecoder()
         do {
@@ -34,24 +34,24 @@ actor UserDefaultManager {
             return nil
         }
     }
-
+    
     // BoxCornerRadius
-
+    
     static func saveBoxCornerRadius(_ radius: Float) {
         UserDefaults.standard.setValue(radius, forKey: Key.boxCornerRadius)
     }
-
+    
     static func boxCornerRadius() -> Float {
         UserDefaults.standard.float(forKey: Key.boxCornerRadius)
     }
-
+    
     //    InterfaceStyle
-
+    
     static func saveInterfaceStyle(_ interfaceStyle: InterfaceStyle) {
         UserDefaults.standard.setValue(interfaceStyle.rawValue,
                                        forKey: Key.interfaceStyle)
     }
-
+    
     static func interfaceStyle() -> InterfaceStyle {
         let interfaceStyleInt = UserDefaults.standard.integer(forKey: Key.interfaceStyle)
         guard let interfaceStyle = InterfaceStyle(rawValue: interfaceStyleInt) else {
@@ -59,9 +59,9 @@ actor UserDefaultManager {
         }
         return interfaceStyle
     }
-
+    
     //    Restore Appearance
-
+    
     static func restoreAppearanceSettings() {
         saveBackgroundColor(lightColor: ColorModel(red: 1, green: 1, blue: 1),
                             darkColor: ColorModel(red: 0, green: 0, blue: 0))

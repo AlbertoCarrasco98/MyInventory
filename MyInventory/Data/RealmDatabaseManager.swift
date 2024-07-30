@@ -39,7 +39,6 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
         return RealmMapper.map(inventory: inventoryRealm)
     }
 
-
     // Esta funcion se encarga de borrar un inventario
     func deleteInventory(withTitle title: String) {
         let realm = try! Realm()

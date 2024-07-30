@@ -13,7 +13,7 @@ class SwiftDataDatabaseManager {
     }
 
     // MARK: - Functions
-
+    
     func getInventoryList() -> [InventoryModel] {   // Dame los inventarios de base de datos
         fatalError(" NO")
         let fetchDescriptor = FetchDescriptor<InventoryModelSwiftData>()
@@ -65,14 +65,14 @@ class SwiftDataDatabaseManager {
 
     func removeInventory(inventory: InventoryModel) {
         let previousInventoryList = getInventoryList()
-//        print(previousInventoryList)
+        //        print(previousInventoryList)
         do {
             guard let inventoryToDelete = try getInventory(withTitle: inventory.title) else { return }
             context.delete(inventoryToDelete)
             try context.save()
             let currentInventoryList = getInventoryList()
-//            print("----")
-//            print(currentInventoryList)
+            //            print("----")
+            //            print(currentInventoryList)
         } catch {
             print("No se ha podido borrar el inventario")
         }
@@ -115,32 +115,3 @@ class SwiftDataDatabaseManager {
         return nil
     }
 }
-
-//extension SwiftDataDatabaseManager: DatabaseManagerProtocol {
-//    func setFavorite(_ isFavorite: Bool, inventoryTitle: String) -> InventoryModel? {
-//        nil
-//    }
-//    
-//    func createInventory(_ inventory: InventoryModel) {
-//
-//    }
-//    
-//    func addElementToInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
-//        nil
-//    }
-//    
-//    func getInventoryByTitle(title: String) -> InventoryModel? {
-//        nil
-//    }
-//    
-//    func deleteInventory(withTitle title: String) {
-//
-//    }
-//    
-//    func deleteElementFromInventory(inventoryTitle: String, elementTitle: String) -> InventoryModel? {
-//        nil
-//    }
-//
-//    
-//}
-
